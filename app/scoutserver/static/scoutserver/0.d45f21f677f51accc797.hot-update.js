@@ -1,0 +1,1 @@
+webpackHotUpdate(0,{10:function(e,o,t){"use strict";var p=t(4),r=t(13);console.log("hello world");var c=(new p.MDCRipple(document.querySelector("button")),document.querySelector(".mdc-top-app-bar"));new r.MDCTopAppBar(c)}});

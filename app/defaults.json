@@ -1,0 +1,149 @@
+[    
+    {
+        "model": "scoutserver.MatchStartStatus",
+        "pk": 1,
+        "fields": {
+            "status": "Level 1"
+        }
+    },
+    {
+        "model": "scoutserver.MatchStartStatus",
+        "pk": 2,
+        "fields": {
+            "status": "Level 2"
+        }
+    },    
+    {
+        "model": "scoutserver.MatchEndStatus",
+        "pk": 3,
+        "fields": {
+            "status": "Level 1"
+        }        
+    },
+    {
+        "model": "scoutserver.MatchEndStatus",
+        "pk": 4,
+        "fields": {
+            "status": "Level 2"
+        }
+    },
+    {
+        "model": "scoutserver.MatchEndStatus",
+        "pk": 5,
+        "fields": {
+            "status": "Level 3"
+        }        
+    },    {
+        "model": "scoutserver.MatchEndStatus",
+        "pk": 6,
+        "fields": {
+            "status": "Missed End Game"
+        }
+    }, 
+    {
+        "model": "scoutserver.MatchEndStatus",
+        "pk": 7,
+        "fields": {
+            "status": "Disabled"
+        }
+    },    
+    {
+        "model": "scoutserver.MatchEndStatus",
+        "pk": 8,
+        "fields": {
+            "status": "Incapacitated"
+        }
+    },    
+    {
+        "model": "scoutserver.GameTime",
+        "pk": 9,
+        "fields": {
+            "time": "Sandstorm"
+        }
+    },
+    {
+        "model": "scoutserver.GameTime",
+        "pk": 10,
+        "fields": {
+            "time": "Teleop"
+        }
+    },
+    {
+        "model": "scoutserver.CargoFrom",
+        "pk": 11,
+        "fields": {
+            "location": "Prepopulated"
+        }
+    },
+    {
+        "model": "scoutserver.CargoFrom",
+        "pk": 12,
+        "fields": {
+            "location" : "Ground"
+        }
+    },
+    {
+        "model": "scoutserver.HatchFrom",
+        "pk": 13,
+        "fields": {
+            "location": "Prepopulated"
+        }
+    },
+    {
+        "model": "scoutserver.HatchFrom",
+        "pk": 14,
+        "fields": {
+            "location": "Ground"
+        }
+    },
+    {
+        "model": "scoutserver.HatchFrom",
+        "pk": 15,
+        "fields": {
+            "location": "Loading Station"
+        }
+    },
+    {
+        "model": "scoutserver.ScoreLocation",
+        "pk": 16,
+        "fields": {
+            "location": "Cargo Ship"
+        }
+    },    
+    {
+        "model": "scoutserver.ScoreLocation",
+        "pk": 17,
+        "fields": {
+            "location": "Rocket Level 1"
+        }
+    },
+    {
+        "model": "scoutserver.ScoreLocation",
+        "pk": 18,
+        "fields": {
+            "location": "Rocket Level 2"
+        }
+    },
+    {
+        "model": "scoutserver.ScoreLocation",
+        "pk": 19,
+        "fields": {
+            "location": "Rocket Level 3"
+        }
+    },
+    {
+        "model": "scoutserver.ScoreLocation",
+        "pk": 20,
+        "fields": {
+            "location": "Dropped"
+        }
+    },
+    {
+        "model": "scoutserver.Tournament",
+        "pk": 1,
+        "fields": {
+            "name": "NONE",
+            "event_code": "NONE"
+        }
+    }
+]

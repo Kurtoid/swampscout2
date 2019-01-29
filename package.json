@@ -1,0 +1,36 @@
+{
+  "name": "swampscout",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack --mode development ./app/scoutserver/src/index.js --output ./app/scoutserver/static/scoutserver/main.js",
+    "watch": "webpack --mode development --watch ./app/scoutserver/src/index.js --output ./app/scoutserver/static/scoutserver/main.js",
+    "build": "webpack --mode production ./app/scoutserver/src/index.js --output ./app/scoutserver/static/scoutserver/main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kurtoid/swampscout2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kurtoid/swampscout2/issues"
+  },
+  "homepage": "https://github.com/Kurtoid/swampscout2#readme",
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.3.1",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.5",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "prop-types": "^15.6.2",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "weak-key": "^1.0.1",
+    "webpack": "^4.29.0",
+    "webpack-cli": "^3.2.1"
+  }
+}
