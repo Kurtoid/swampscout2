@@ -1,4 +1,4 @@
-from django.urls import path, include
+from django.urls import path, include, re_path
 from rest_framework import routers, serializers, viewsets
 
 from . import views
@@ -19,8 +19,9 @@ router.register(r'tournament', views.TournamentViewSet)
 
 
 urlpatterns = [
-    path('', views.Index.as_view()),
     path('api/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace="rest_framework")),
-    path('api-token-auth/', rfviews.obtain_auth_token)
+    path('api-token-auth/', rfviews.obtain_auth_token),
+    re_path('', views.Index.as_view()),
+
 ]

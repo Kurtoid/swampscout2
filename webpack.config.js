@@ -1,3 +1,5 @@
+var LiveReloadPlugin = require('webpack-livereload-plugin');
+
 module.exports = {
     module: {
         rules: [
@@ -9,5 +11,8 @@ module.exports = {
                 }
             }
         ]
-    }
+    },
+    plugins: [
+        new LiveReloadPlugin()
+    ]
 };

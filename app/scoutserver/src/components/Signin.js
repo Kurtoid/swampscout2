@@ -12,6 +12,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { withCookies, Cookies } from 'react-cookie';
+import { instanceOf } from 'prop-types';
 const styles = theme => ({
     main: {
         width: 'auto',
@@ -44,12 +47,15 @@ const styles = theme => ({
     },
 });
 class SignIn extends React.Component {
-
+    static propTypes = {
+        cookies: instanceOf(Cookies).isRequired
+    };
     constructor(props) {
         super(props);
         this.state = {
             email: "",
-            password: ""
+            password: "",
+            waiting: false,
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -66,7 +72,29 @@ class SignIn extends React.Component {
         });
     }
     handleSubmit(event) {
-        alert('Your are: ' + this.state.email);
+        // alert('Your are: ' + this.state.email);
+        this.setState({ waiting: true });
+        console.log("sending request");
+        const { cookies } = this.props;
+        fetch('/api-token-auth/', {
+            method: 'POST',
+            body: JSON.stringify({
+                username: this.state.email,
+                password: this.state.password
+            }),
+            headers: {
+                "Content-Type": "application/json",
+                // "Content-Type": "application/x-www-form-urlencoded",
+            },
+        })
+            .then(function (response) {
+                return response.json();
+            })
+            .then(myJson =>{
+                cookies.set('token', myJson['token'], { path: '/' });
+                console.log(JSON.stringify(myJson));
+                this.props.history.push("/");
+            }).catch(error=>console.log(error));
         event.preventDefault();
     }
 
@@ -76,9 +104,10 @@ class SignIn extends React.Component {
             <main className={classes.main}>
                 <CssBaseline />
                 <Paper className={classes.paper}>
-                    <Avatar className={classes.avatar}>
-                        <LockOutlinedIcon />
-                    </Avatar>
+
+                    {this.state.waiting ? <CircularProgress /> : <Avatar className={classes.avatar}><LockOutlinedIcon /> </Avatar>}
+
+
                     <Typography component="h1" variant="h5">
                         Sign in
                 </Typography>
@@ -112,4 +141,4 @@ class SignIn extends React.Component {
 }
 
 
-export default withStyles(styles)(SignIn);
+export default withStyles(styles)(withCookies(SignIn));

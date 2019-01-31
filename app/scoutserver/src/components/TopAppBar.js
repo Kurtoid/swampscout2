@@ -19,7 +19,7 @@ function SimpleAppBar(props) {
       <AppBar position="static" color="default">
         <Toolbar>
           <Typography variant="h6" color="inherit">
-            Photos
+            SwampScout V2
           </Typography>
         </Toolbar>
       </AppBar>
