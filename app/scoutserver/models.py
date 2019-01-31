@@ -2,6 +2,11 @@ from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
+from rest_framework.authtoken.models import Token
+from django.dispatch import receiver
+from django.db.models.signals import post_save
+from django.conf import settings
+from rest_framework.authtoken.models import Token
 class Team(models.Model):
     number = models.IntegerField()
     name = models.CharField(max_length = 255)
@@ -96,6 +101,7 @@ class MyUserManager(BaseUserManager):
         user = self.model(
             email=self.normalize_email(email),
         )
+        Token.objects.create(user=user)
 
         user.set_password(password)
         user.save(using=self._db)
@@ -112,6 +118,8 @@ class MyUserManager(BaseUserManager):
         )
         user.is_admin = True
         user.save(using=self._db)
+        Token.objects.create(user=user)
+
         return user
 
 
@@ -151,3 +159,11 @@ class MyUser(AbstractBaseUser):
         "Is the user a member of staff?"
         # Simplest possible answer: All admins are staff
         return self.is_admin
+
+    @receiver(post_save, sender=settings.AUTH_USER_MODEL)
+    def create_auth_token(sender, instance=None, created=False, **kwargs):
+        if created:
+            Token.objects.create(user=instance)
+
+# for user in MyUser.objects.all():
+    # Token.objects.get_or_create(user=user)

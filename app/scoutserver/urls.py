@@ -2,7 +2,7 @@ from django.urls import path, include
 from rest_framework import routers, serializers, viewsets
 
 from . import views
-
+from rest_framework.authtoken import views as rfviews
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 router.register(r'teams', views.TeamViewSet)
@@ -21,5 +21,6 @@ router.register(r'tournament', views.TournamentViewSet)
 urlpatterns = [
     path('', views.Index.as_view()),
     path('api/', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls', namespace="rest_framework"))
+    path('api-auth/', include('rest_framework.urls', namespace="rest_framework")),
+    path('api-token-auth/', rfviews.obtain_auth_token)
 ]
