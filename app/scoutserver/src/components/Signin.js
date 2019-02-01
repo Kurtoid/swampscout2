@@ -90,11 +90,11 @@ class SignIn extends React.Component {
             .then(function (response) {
                 return response.json();
             })
-            .then(myJson =>{
+            .then(myJson => {
                 cookies.set('token', myJson['token'], { path: '/' });
                 console.log(JSON.stringify(myJson));
                 this.props.history.push("/");
-            }).catch(error=>console.log(error));
+            }).catch(error => console.log(error));
         event.preventDefault();
     }
 
