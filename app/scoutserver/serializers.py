@@ -16,7 +16,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 class TeamSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Team
-        fields = ('url', 'name', 'number')
+        fields = ('url', 'name', 'number', 'in_event')
 
 class MatchStartStatusSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

@@ -10,7 +10,7 @@ from rest_framework.authtoken.models import Token
 class Team(models.Model):
     number = models.IntegerField()
     name = models.CharField(max_length = 255)
-
+    in_event = models.ForeignKey('Tournament', on_delete=models.SET_NULL, null=True)
     def __str__(self):
         return str(self.number) + ": " + str(self.name)
 class MatchStartStatus(models.Model):

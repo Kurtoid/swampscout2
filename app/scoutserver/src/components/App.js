@@ -1,24 +1,29 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import DataProvider from "./DataProvider";
-import Table from "./Table";
 import SignIn from "./Signin";
 import SimpleAppBar from "./TopAppBar"
-import Drawer from '@material-ui/core/Drawer'
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 import MainMenu from "./MainMenu";
 import { createMuiTheme } from '@material-ui/core/styles';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import green from '@material-ui/core/colors/green';
+import red from '@material-ui/core/colors/red';
+import purple from '@material-ui/core/colors/purple';
+
 const theme = createMuiTheme({
     palette: {
         primary: green,
+        secondary: red,
+        error: purple,
+        // Used by `getContrastText()` to maximize the contrast between the background and
+        // the text.
+        contrastThreshold: 3,
+        // Used to shift a color's luminance by approximately
+        // two indexes within its tonal palette.
+        // E.g., shift from Red 500 to Red 300 or Red 700.
+        tonalOffset: 0.2,
     },
-    typography: {
-        useNextVariants: true,
-    },
-});
-
+}); 
 const App = () => (
     <React.Fragment>
         <MuiThemeProvider theme={theme}>

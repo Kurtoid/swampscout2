@@ -92,8 +92,12 @@ class SignIn extends React.Component {
             })
             .then(myJson => {
                 cookies.set('token', myJson['token'], { path: '/' });
-                console.log(JSON.stringify(myJson));
-                this.props.history.push("/");
+                if(myJson['token']!=null){
+                    console.log(JSON.stringify(myJson));
+                    this.props.history.push("/");
+                }else{
+                    this.setState({waiting: false});
+                }
             }).catch(error => console.log(error));
         event.preventDefault();
     }

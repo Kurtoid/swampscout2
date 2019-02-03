@@ -8,7 +8,7 @@ from rest_framework import generics, permissions
 from .serializers import UserSerializer, TeamSerializer, ScoutedMatchSerializer, GameTimeSerializer, CargoFromSerializer, HatchFromSerializer, HatchScoredSerializer, ScoreLocationSerializer, CargoScoredSerializer, MatchEndStatusSerializer, MatchStartStatusSerializer, TournamentSerializer
 from .models import Team, MyUser, ScoutedMatch, GameTime, CargoFrom, CargoScored, HatchScored, HatchFrom, MatchStartStatus, MatchEndStatus, ScoreLocation, Tournament
 # Create your views here.
-
+import requests
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = MyUser.objects.all().order_by('team__number')
@@ -77,3 +77,25 @@ class TournamentViewSet(viewsets.ModelViewSet):
 class Index(View):
     def get(self, request):
         return render(request, 'scoutserver/index.html')
+
+class AddTournament(View):
+    def get(self, request, event_code=None):
+        key = 'ptxL3AMaCfhTGWVX7nbTYp0wfBqYFIu2HkjSr7hu2zxqWfk3B0uCAdALaVohrrxi'
+
+        url = 'https://www.thebluealliance.com/api/v3/event/' + event_code + "/simple"
+        headers = {'X-TBA-Auth-Key': key}
+        result = requests.get(url, headers=headers)
+        event, _ = Tournament.objects.get_or_create(event_code=event_code)
+        # print(result.json())
+        event.name = result.json()['name']
+        event.save()
+        url = 'https://www.thebluealliance.com/api/v3/event/' + event_code + '/teams'
+        result = requests.get(url, headers=headers)
+        result = result.json()
+        for entry in result:
+            # print(entry['team_number'])
+            t, _ = Team.objects.get_or_create(number=entry['team_number'], name=entry['nickname'])
+            print(t)
+            t.in_event = event
+            t.save()
+        return HttpResponse('hi')

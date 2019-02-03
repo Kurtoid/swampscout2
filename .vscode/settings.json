@@ -1,2 +1,11 @@
 {
+    "files.autoSave": "onWindowChange",
+    "editor.renderWhitespace": "none",
+    "editor.cursorBlinking": "smooth",
+    "editor.cursorStyle": "block-outline",
+    "editor.cursorSmoothCaretAnimation": true,
+    "editor.formatOnType": true,
+    "editor.roundedSelection": true,
+    "editor.smoothScrolling": true,
+    "editor.tabCompletion": "on",
 }
