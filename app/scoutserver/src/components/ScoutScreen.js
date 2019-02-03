@@ -6,6 +6,7 @@ import { instanceOf } from 'prop-types';
 import Card from '@material-ui/core/Card';
 import { withStyles, FormControl } from '@material-ui/core';
 import DropDownByEndPoint from './DropDownByEndPoint'
+import TextField from '@material-ui/core/TextField'
 const styles = theme => ({
     TextField: {
         margin: theme.spacing.unit,
@@ -57,7 +58,8 @@ class ScoutScreen extends React.Component {
         else return (
             <div>
                 <form className={classes.container} autoComplete="off">
-                    {/* <TextField
+                    
+                    <TextField
                         id="match-number"
                         label="Match Number"
                         className={classes.textField}
@@ -67,8 +69,10 @@ class ScoutScreen extends React.Component {
                         required={true}
                         autoFocus={true}
                     />
-                    <div className={classes.divider} /> */}
-                    <DropDownByEndPoint endpoint="/api/teams/" show="name" token={this.props.cookies.get('token')} classes={classes}/>
+                    <div className={classes.divider} />
+                    <DropDownByEndPoint endpoint="/api/teams/" showpk={true} labellabel="name" valuelabel="number" show="name" token={this.props.cookies.get('token')} classes={classes} />
+                    <DropDownByEndPoint endpoint="/api/match-start-status/" labellabel="status" valuelabel="pk" showpk={false} show="status" token={this.props.cookies.get('token')} classes={classes}/>
+
                 </form>
             </div >
         );

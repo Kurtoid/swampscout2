@@ -14,6 +14,7 @@ export default class DropDownByEndPoint extends React.Component {
         this.state = {
             list: [],
             labelWidth: 0,
+            team: 0,
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -33,8 +34,8 @@ export default class DropDownByEndPoint extends React.Component {
             .then(myJson => {
                 this.setState({
                     list: myJson.map(result => ({
-                        value: result.number,
-                        label: result.name,
+                        value: result[this.props.valuelabel],
+                        label: result[this.props.labellabel],
                     }))
                 });
                 console.log(this.state.list);
@@ -71,24 +72,26 @@ export default class DropDownByEndPoint extends React.Component {
                         ref={ref => {
                             this.InputLabelRef = ref;
                         }}
-                        htmlFor="outlined-age-native-simple"
+                        htmlFor="team-select"
                     >
-                        Age
+                        Team
             </InputLabel>
                     <Select
                         native
-                        value={this.state.age}
+                        value={this.state.team}
                         onChange={this.handleChange}
                         input={
                             <OutlinedInput
                                 name="something"
                                 labelWidth={this.state.labelWidth}
-                                id="outlined-age-native-simple"
+                                id="team-select"
                             />
                         }
                     >
+                        <option key={0} value={0}>None</option>
+
                         {this.state.list.map((element) => {
-                            return <option key={element.value} value={element.value}>{element.label}</option>
+                            return <option key={element.value} value={element.value}>{(this.props.showpk?element.value+ ": " :"")+ element.label}</option>
                         })}
                     </Select>
                 </FormControl>

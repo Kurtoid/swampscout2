@@ -21,7 +21,7 @@ class TeamSerializer(serializers.HyperlinkedModelSerializer):
 class MatchStartStatusSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = MatchStartStatus
-        fields = ('url', 'status')
+        fields = ('pk', 'url', 'status')
 
 
 class GameTimeSerializer(serializers.HyperlinkedModelSerializer):
