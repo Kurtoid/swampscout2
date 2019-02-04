@@ -55,7 +55,7 @@ export default class DropDownByEndPoint extends React.Component {
                 <FormControl component="fieldset" className={classes.formControl}>
                     <FormLabel component="legend">{""+this.props.label}</FormLabel>
                     <RadioGroup
-                        name={this.props.name}
+                        name={this.props.id}
                         className={classes.group}
                         value={this.state.value}
                         onChange={this.handleInputChange}

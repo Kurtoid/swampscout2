@@ -85,7 +85,6 @@ class ScoutScreen extends React.Component {
                         <RadioByEndPoint endpoint="/api/match-start-status/" onChange={this.handleInputChange} labellabel="status" valuelabel="pk" showpk={false} label="Match Start Location" id="matchstartstatus" show="status" token={this.props.cookies.get('token')} classes={classes} />
                         <div className={classes.divider} />
                         <RadioByEndPoint endpoint="/api/preload/" onChange={this.handleInputChange} labellabel="status" valuelabel="pk" showpk={false} label="Preloaded" id="preload" show="status" token={this.props.cookies.get('token')} classes={classes} />
-
                     </Card>
                     <div className={classes.divider}/>
                     <Button

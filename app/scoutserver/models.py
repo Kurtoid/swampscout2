@@ -7,79 +7,117 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.conf import settings
 from rest_framework.authtoken.models import Token
+
+
 class Team(models.Model):
     number = models.IntegerField()
-    name = models.CharField(max_length = 255)
-    in_event = models.ForeignKey('Tournament', on_delete=models.SET_NULL, null=True)
+    name = models.CharField(max_length=255)
+    in_event = models.ForeignKey(
+        'Tournament', on_delete=models.SET_NULL, null=True)
+
     def __str__(self):
         return str(self.number) + ": " + str(self.name)
+
+
 class MatchStartStatus(models.Model):
-    status = models.CharField(max_length = 255) 
-    
+    status = models.CharField(max_length=255)
+
     @property
     @classmethod
     def defaults(cls):
         return ("Level 1", "Level 2")
 
+
 class PreloadStatus(models.Model):
-    status = models.CharField(max_length = 255) 
-    
+    status = models.CharField(max_length=255)
+
+    def __str__(self):
+        return str(self.status)
+
     @property
     @classmethod
     def defaults(cls):
         return ("None", "Cargo", "Hatch")
 
+
 class MatchEndStatus(models.Model):
-    status = models.CharField(max_length = 255) 
-    
+    status = models.CharField(max_length=255)
+
+    def __str__(self):
+        return str(self.status)
+
     @property
     @classmethod
     def defaults(cls):
         return ("Level 1", "Level 2", "Level 3", "Missed End Game", "Disabled", "Incapacitated")
 
+
 class GameTime(models.Model):
-    time = models.CharField(max_length = 255)
+    time = models.CharField(max_length=255)
+
+    def __str__(self):
+        return str(self.time)
 
     @property
     @classmethod
     def defaults(cls):
         return ("Sandstorm", "Teleop")
 
+
 class CargoFrom(models.Model):
-    location = models.CharField(max_length = 255)
+    location = models.CharField(max_length=255)
+
+    def __str__(self):
+        return str(self.location)
 
     @property
     @classmethod
     def defaults(cls):
         return ('Prepopulated', 'Ground')
 
+
 class HatchFrom(models.Model):
-    location = models.CharField(max_length = 255)
+    location = models.CharField(max_length=255)
+
+    def __str__(self):
+        return str(self.location)
 
     @property
     @classmethod
     def defaults(cls):
         return ('Prepopulated', 'Ground', 'Loading Station')
 
+
 class ScoreLocation(models.Model):
-    location = models.CharField(max_length = 255)
+    location = models.CharField(max_length=255)
+    def __str__(self):
+        return str(self.location)
 
     @property
     @classmethod
     def defaults(cls):
         return ('Cargo Ship', 'Rocket Level 1', 'Rocket Level 2', 'Rocket Level 3', 'Dropped')
 
+
 class CargoScored(models.Model):
     when = models.ForeignKey('GameTime', on_delete=models.CASCADE)
     got_from = models.ForeignKey('CargoFrom', on_delete=models.CASCADE)
     scored_where = models.ForeignKey('ScoreLocation', on_delete=models.CASCADE)
-    match = models.ForeignKey('ScoutedMatch', on_delete=models.CASCADE, null=True)
+    match = models.ForeignKey(
+        'ScoutedMatch', on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return str(self.when)+" "+str(self.got_from)+" "+str(self.scored_where)+" "+str(self.match)
 
 class HatchScored(models.Model):
     when = models.ForeignKey('GameTime', on_delete=models.CASCADE)
     got_from = models.ForeignKey('HatchFrom', on_delete=models.CASCADE)
     scored_where = models.ForeignKey('ScoreLocation', on_delete=models.CASCADE)
-    match = models.ForeignKey('ScoutedMatch', on_delete=models.CASCADE, null=True)
+    match = models.ForeignKey(
+        'ScoutedMatch', on_delete=models.CASCADE, null=True)
+    def __str__(self):
+        return str(self.when)+" "+str(self.got_from)+" "+str(self.scored_where)+" "+str(self.match)
+
 
 class Tournament(models.Model):
     name = models.CharField(max_length=200, default="UNAMED")
@@ -93,9 +131,13 @@ class ScoutedMatch(models.Model):
     number = models.IntegerField()
     tournament = models.ForeignKey('Tournament', on_delete=models.CASCADE)
     team = models.ForeignKey('Team', on_delete=models.CASCADE)
-    start_status = models.ForeignKey('MatchStartStatus', on_delete=models.CASCADE)
+    start_status = models.ForeignKey(
+        'MatchStartStatus', on_delete=models.CASCADE)
     end_status = models.ForeignKey('MatchEndStatus', on_delete=models.CASCADE)
     scouted_by = models.ForeignKey('MyUser', on_delete=models.CASCADE)
+    def __str__(self):
+        return str(self.tournament)+" "+str(self.number)+" "+str(self.team)+" "+str(self.scouted_by)
+
 
 class MyUserManager(BaseUserManager):
     def create_user(self, email, password=None):
