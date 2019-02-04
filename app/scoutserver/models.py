@@ -90,6 +90,7 @@ class HatchFrom(models.Model):
 
 class ScoreLocation(models.Model):
     location = models.CharField(max_length=255)
+
     def __str__(self):
         return str(self.location)
 
@@ -109,12 +110,14 @@ class CargoScored(models.Model):
     def __str__(self):
         return str(self.when)+" "+str(self.got_from)+" "+str(self.scored_where)+" "+str(self.match)
 
+
 class HatchScored(models.Model):
     when = models.ForeignKey('GameTime', on_delete=models.CASCADE)
     got_from = models.ForeignKey('HatchFrom', on_delete=models.CASCADE)
     scored_where = models.ForeignKey('ScoreLocation', on_delete=models.CASCADE)
     match = models.ForeignKey(
         'ScoutedMatch', on_delete=models.CASCADE, null=True)
+
     def __str__(self):
         return str(self.when)+" "+str(self.got_from)+" "+str(self.scored_where)+" "+str(self.match)
 
@@ -135,6 +138,7 @@ class ScoutedMatch(models.Model):
         'MatchStartStatus', on_delete=models.CASCADE)
     end_status = models.ForeignKey('MatchEndStatus', on_delete=models.CASCADE)
     scouted_by = models.ForeignKey('MyUser', on_delete=models.CASCADE)
+
     def __str__(self):
         return str(self.tournament)+" "+str(self.number)+" "+str(self.team)+" "+str(self.scouted_by)
 
@@ -151,10 +155,9 @@ class MyUserManager(BaseUserManager):
         user = self.model(
             email=self.normalize_email(email),
         )
-        Token.objects.create(user=user)
-
         user.set_password(password)
         user.save(using=self._db)
+
         return user
 
     def create_superuser(self, email, password):
@@ -168,7 +171,6 @@ class MyUserManager(BaseUserManager):
         )
         user.is_admin = True
         user.save(using=self._db)
-        Token.objects.create(user=user)
 
         return user
 
