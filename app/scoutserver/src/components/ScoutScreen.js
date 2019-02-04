@@ -36,9 +36,13 @@ class ScoutScreen extends React.Component {
         this.state = {
             something: false,
             labelWidth: 0,
+            match_number_error: false,
+            match_number: 0,
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleMatchNumber = this.handleMatchNumber.bind(this);
+
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     handleInputChange(event) {
@@ -49,6 +53,24 @@ class ScoutScreen extends React.Component {
         this.setState({
             [name]: value
         });
+    }
+    handleMatchNumber(event) {
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
+        console.log(value)
+        this.setState({
+            [name]: value,
+        });
+        if (!(value < 0)) {
+            this.setState({
+                match_number_error: false
+            });
+        } else {
+            this.setState({ match_number_error: true })
+            // alert("problem")
+        }
+
     }
     handleSubmit(event) {
 
@@ -75,7 +97,9 @@ class ScoutScreen extends React.Component {
                             variant="outlined"
                             required={true}
                             autoFocus={true}
-                            onChange={this.handleInputChange}
+                            default={0}
+                            onChange={this.handleMatchNumber}
+                            error={this.state.match_number_error}
                         />
                         <div className={classes.divider} />
                         <DropDownByEndPoint endpoint="/api/teams/" onChange={this.handleInputChange} showpk={true} labellabel="name" valuelabel="number" show="name" token={this.props.cookies.get('token')} classes={classes} label="Team" id="team" />
@@ -86,7 +110,7 @@ class ScoutScreen extends React.Component {
                         <div className={classes.divider} />
                         <RadioByEndPoint endpoint="/api/preload/" onChange={this.handleInputChange} labellabel="status" valuelabel="pk" showpk={false} label="Preloaded" id="preload" show="status" token={this.props.cookies.get('token')} classes={classes} />
                     </Card>
-                    <div className={classes.divider}/>
+                    <div className={classes.divider} />
                     <Button
                         type="submit"
                         fullWidth
