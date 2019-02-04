@@ -6,7 +6,10 @@ import { instanceOf } from 'prop-types';
 import Card from '@material-ui/core/Card';
 import { withStyles, FormControl } from '@material-ui/core';
 import DropDownByEndPoint from './DropDownByEndPoint'
+import RadioByEndPoint from './RadioByEndpoint'
+
 import TextField from '@material-ui/core/TextField'
+import Button from "@material-ui/core/Button"
 const styles = theme => ({
     TextField: {
         margin: theme.spacing.unit,
@@ -18,6 +21,9 @@ const styles = theme => ({
         paddingTop: theme.spacing.unit * 2,
         paddingBottom: theme.spacing.unit * 2,
         ...theme.mixins.gutters(),
+    },
+    divider: {
+        margin: theme.spacing.unit * 2,
     }
 });
 
@@ -58,20 +64,37 @@ class ScoutScreen extends React.Component {
         else return (
             <div>
                 <form className={classes.container} autoComplete="off">
-                    
-                    <TextField
-                        id="match-number"
-                        label="Match Number"
-                        className={classes.textField}
-                        margin="normal"
-                        type="number"
-                        variant="outlined"
-                        required={true}
-                        autoFocus={true}
-                    />
+                    <Card className={classes.card}>
+                        <TextField
+                            id="match-number"
+                            name="match-number"
+                            label="Match Number"
+                            className={classes.textField}
+                            margin="normal"
+                            type="number"
+                            variant="outlined"
+                            required={true}
+                            autoFocus={true}
+                            onChange={this.handleInputChange}
+                        />
+                        <div className={classes.divider} />
+                        <DropDownByEndPoint endpoint="/api/teams/" onChange={this.handleInputChange} showpk={true} labellabel="name" valuelabel="number" show="name" token={this.props.cookies.get('token')} classes={classes} label="Team" id="team" />
+                    </Card>
                     <div className={classes.divider} />
-                    <DropDownByEndPoint endpoint="/api/teams/" showpk={true} labellabel="name" valuelabel="number" show="name" token={this.props.cookies.get('token')} classes={classes} />
-                    <DropDownByEndPoint endpoint="/api/match-start-status/" labellabel="status" valuelabel="pk" showpk={false} show="status" token={this.props.cookies.get('token')} classes={classes}/>
+                    <Card className={classes.card}>
+                        <RadioByEndPoint endpoint="/api/match-start-status/" onChange={this.handleInputChange} labellabel="status" valuelabel="pk" showpk={false} label="Match Start Location" id="matchstartstatus" show="status" token={this.props.cookies.get('token')} classes={classes} />
+                        <div className={classes.divider} />
+                        <RadioByEndPoint endpoint="/api/preload/" onChange={this.handleInputChange} labellabel="status" valuelabel="pk" showpk={false} label="Preloaded" id="preload" show="status" token={this.props.cookies.get('token')} classes={classes} />
+
+                    </Card>
+                    <div className={classes.divider}/>
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        className={classes.submit}
+                    >Submit</Button>
 
                 </form>
             </div >

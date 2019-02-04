@@ -21,6 +21,14 @@ class MatchStartStatus(models.Model):
     def defaults(cls):
         return ("Level 1", "Level 2")
 
+class PreloadStatus(models.Model):
+    status = models.CharField(max_length = 255) 
+    
+    @property
+    @classmethod
+    def defaults(cls):
+        return ("None", "Cargo", "Hatch")
+
 class MatchEndStatus(models.Model):
     status = models.CharField(max_length = 255) 
     

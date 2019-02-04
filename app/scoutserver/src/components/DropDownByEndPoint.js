@@ -14,11 +14,9 @@ export default class DropDownByEndPoint extends React.Component {
         this.state = {
             list: [],
             labelWidth: 0,
-            team: 0,
         };
 
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleInputChange = this.props.onChange;
 
         fetch(props.endpoint, {
             method: 'GET',
@@ -50,18 +48,6 @@ export default class DropDownByEndPoint extends React.Component {
         });
     }
 
-    handleInputChange(event) {
-        const target = event.target;
-        const value = target.value;
-        const name = target.name;
-
-        this.setState({
-            [name]: value
-        });
-    }
-    handleSubmit(event) {
-
-    }
     render() {
         const { classes } = this.props;
 
@@ -72,19 +58,19 @@ export default class DropDownByEndPoint extends React.Component {
                         ref={ref => {
                             this.InputLabelRef = ref;
                         }}
-                        htmlFor="team-select"
+                        htmlFor={this.props.id}
                     >
-                        Team
+                        {this.props.label}
             </InputLabel>
                     <Select
                         native
                         value={this.state.team}
-                        onChange={this.handleChange}
+                        onChange={this.handleInputChange}
                         input={
                             <OutlinedInput
-                                name="something"
+                                name={this.props.id}
                                 labelWidth={this.state.labelWidth}
-                                id="team-select"
+                                id={this.props.id}
                             />
                         }
                     >
@@ -95,9 +81,6 @@ export default class DropDownByEndPoint extends React.Component {
                         })}
                     </Select>
                 </FormControl>
-                {this.state.list.map((label, i) => {
-                   <div>{label}</div>
-                })}
 
             </div>
 

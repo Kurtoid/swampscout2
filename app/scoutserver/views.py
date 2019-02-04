@@ -5,8 +5,8 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
 from rest_framework import generics, permissions
-from .serializers import UserSerializer, TeamSerializer, ScoutedMatchSerializer, GameTimeSerializer, CargoFromSerializer, HatchFromSerializer, HatchScoredSerializer, ScoreLocationSerializer, CargoScoredSerializer, MatchEndStatusSerializer, MatchStartStatusSerializer, TournamentSerializer
-from .models import Team, MyUser, ScoutedMatch, GameTime, CargoFrom, CargoScored, HatchScored, HatchFrom, MatchStartStatus, MatchEndStatus, ScoreLocation, Tournament
+from .serializers import UserSerializer, TeamSerializer, ScoutedMatchSerializer, GameTimeSerializer, CargoFromSerializer, HatchFromSerializer, HatchScoredSerializer, ScoreLocationSerializer, CargoScoredSerializer, MatchEndStatusSerializer, MatchStartStatusSerializer, TournamentSerializer, PreloadSerializer
+from .models import Team, MyUser, ScoutedMatch, GameTime, CargoFrom, CargoScored, HatchScored, HatchFrom, MatchStartStatus, MatchEndStatus, ScoreLocation, Tournament, PreloadStatus
 # Create your views here.
 import requests
 
@@ -27,6 +27,11 @@ class MatchViewSet(viewsets.ModelViewSet):
 class MatchStartStatusViewSet(viewsets.ModelViewSet):
     queryset = MatchStartStatus.objects.all()
     serializer_class = MatchStartStatusSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+
+class PreloadViewSet(viewsets.ModelViewSet):
+    queryset = PreloadStatus.objects.all()
+    serializer_class = PreloadSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
 
 class GameTimeViewSet(viewsets.ModelViewSet):

@@ -145,5 +145,26 @@
             "name": "NONE",
             "event_code": "NONE"
         }
+    },
+    {
+        "model": "scoutserver.PreloadStatus",
+        "pk": 1,
+        "fields":{
+            "status": "None"
+        }
+    },
+    {
+        "model": "scoutserver.PreloadStatus",
+        "pk": 2,
+        "fields":{
+            "status": "Cargo"
+        }
+    },
+    {
+        "model": "scoutserver.PreloadStatus",
+        "pk": 3,
+        "fields":{
+            "status": "Hatch"
+        }
     }
 ]
