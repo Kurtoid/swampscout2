@@ -44,16 +44,18 @@ export default class DropDownByEndPoint extends React.Component {
 
         console.log();
     }
-    
-    
+
+
 
     render() {
         const { classes } = this.props;
-
+//Match number = 1234567890-e.+E
+        // wtf
+        //went down my keyboard
         return (
             <div>
                 <FormControl component="fieldset" className={classes.formControl}>
-                    <FormLabel component="legend">{""+this.props.label}</FormLabel>
+                    <FormLabel component="legend">{"" + this.props.label}</FormLabel>
                     <RadioGroup
                         name={this.props.id}
                         className={classes.group}
@@ -61,7 +63,7 @@ export default class DropDownByEndPoint extends React.Component {
                         onChange={this.handleInputChange}
                     >
                         {this.state.list.map((element) => {
-                            return <FormControlLabel key={""+element.value} value={""+element.value} control={<Radio />} label={(this.props.showpk ? element.value + ": " : "") + element.label}  />
+                            return <FormControlLabel key={"" + element.value} value={"" + element.value} control={<Radio />} label={(this.props.showpk ? element.value + ": " : "") + element.label} />
                         })}
 
 
