@@ -146,6 +146,14 @@ class ScoutedMatch(models.Model):
     def __str__(self):
         return str(self.tournament)+" "+str(self.number)+" "+str(self.team)+" "+str(self.scouted_by)
 
+class ScheduledMatch(models.Model):
+    team = models.ForeignKey('Team', on_delete = models.CASCADE)
+    event = models.ForeignKey('Tournament', on_delete = models.CASCADE)
+    match_number = models.DecimalField(max_digits=3, decimal_places=0)
+
+    def __str__(self):
+        return str(self.team.team_number) + " " + str(self.match_number) + ' ' + str(self.event.event_code)
+
 
 class MyUserManager(BaseUserManager):
     def create_user(self, email, password=None):
