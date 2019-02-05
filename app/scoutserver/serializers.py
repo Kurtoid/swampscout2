@@ -61,10 +61,17 @@ class HatchScoredSerializer(serializers.HyperlinkedModelSerializer):
         model = HatchScored
         fields = ('url',  'when', 'got_from', 'scored_where', 'match')
 
-class ScheduledMatchSerializer(serializers.HyperlinkedModelSerializer):
+class ScheduledMatchSerializer(serializers.ModelSerializer):
+    display_name = serializers.SerializerMethodField()
+    number = serializers.SerializerMethodField()
     class Meta:
         model = ScheduledMatch
-        fields = ('__all__')
+        fields = ("match_number", "team", "display_name", "alliance", "number")
+        depth = 1
+    def get_display_name(self, obj):
+        return str(obj.team.number) + ": " + str(obj.team.name)
+    def get_number(self, obj):
+        return str(obj.team.number)
 
 class ScoutedMatchSerializer(serializers.HyperlinkedModelSerializer):
     tournament = TournamentSerializer(many = False, read_only = True)

@@ -112,11 +112,23 @@ class AddTournament(View):
         url = 'https://www.thebluealliance.com/api/v3/event/' + event_code + '/matches/simple'
         result = requests.get(url, headers=headers)
         result = result.json()
-        for entry in result: # for result
-            for alliance in entry['alliances']: # for alliance
-                print(entry['alliances'][alliance]) # for team
-                for team in entry['alliances'][alliance]['team_keys']: 
-                    t = Team.objects.get(number=team[3:])
-                    sm, _ = ScheduledMatch.objects.get_or_create(event=event, team=t, match_number=entry['match_number'])
-                    sm.save()
+        for entry in result:  # for result
+            if(entry['comp_level']=='qm'):
+                for alliance in entry['alliances']: # for alliance
+                    # print(entry['alliances'][alliance]) # for team
+                    for team in entry['alliances'][alliance]['team_keys']: 
+                        t = Team.objects.get(number=team[3:])
+                        sm, _ = ScheduledMatch.objects.get_or_create(event=event, team=t, match_number=entry['match_number'], alliance=alliance)
         return HttpResponse('hi')
+
+class ScheduledMatchList(generics.ListAPIView):
+    serializer_class = ScheduledMatchSerializer
+
+    def get_queryset(self):
+        """
+        This view should return a list of all the purchases for
+        the user as determined by the username portion of the URL.
+        """
+        event = self.kwargs['event_code']
+        number = self.kwargs['number']
+        return ScheduledMatch.objects.filter(match_number=number, event=event)

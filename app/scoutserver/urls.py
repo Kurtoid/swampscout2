@@ -22,6 +22,7 @@ router.register(r'scheduled-match', views.ScheduledMatchViewSet)
 
 urlpatterns = [
     path('api/import-event/<str:event_code>', views.AddTournament.as_view()),
+    path('api/get-teams-by-match/<str:event_code>/<int:number>', views.ScheduledMatchList.as_view()),
     path('api/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace="rest_framework")),
     path('api-token-auth/', rfviews.obtain_auth_token),

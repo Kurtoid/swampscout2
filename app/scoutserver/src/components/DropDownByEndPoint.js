@@ -15,14 +15,20 @@ export default class DropDownByEndPoint extends React.Component {
             list: [],
             labelWidth: 0,
         };
-
+        // console.log(this.props.updateOnChange)
         this.handleInputChange = this.props.onChange;
 
-        fetch(props.endpoint, {
+        // this.parentChangeFunc = this.props.callOnChange.bind(this);
+
+        this.updateSource()
+    }
+    updateSource() {
+        console.log("updating input source for " + this.props.endpoint)
+        fetch(this.props.endpoint, {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
-                'Authorization': "Token " + props.token,
+                'Authorization': "Token " + this.props.token,
 
             },
         })
@@ -30,6 +36,7 @@ export default class DropDownByEndPoint extends React.Component {
                 return response.json();
             })
             .then(myJson => {
+                console.log(myJson)
                 this.setState({
                     list: myJson.map(result => ({
                         value: result[this.props.valuelabel],
@@ -39,8 +46,6 @@ export default class DropDownByEndPoint extends React.Component {
                 console.log(this.state.list);
 
             }).catch(error => console.log(error));
-
-        console.log();
     }
     componentDidMount() {
         this.setState({
@@ -61,11 +66,11 @@ export default class DropDownByEndPoint extends React.Component {
                         htmlFor={this.props.id}
                     >
                         {this.props.label}
-            </InputLabel>
+                    </InputLabel>
                     <Select
                         native
-                        value={this.state.team}
                         onChange={this.handleInputChange}
+                        value={this.state.team}
                         input={
                             <OutlinedInput
                                 name={this.props.id}
@@ -77,7 +82,7 @@ export default class DropDownByEndPoint extends React.Component {
                         <option key={0} value={0}>None</option>
 
                         {this.state.list.map((element) => {
-                            return <option key={element.value} value={element.value}>{(this.props.showpk?element.value+ ": " :"")+ element.label}</option>
+                            return <option key={element.value} value={element.value}>{(this.props.showpk ? element.value + ": " : "") + element.label}</option>
                         })}
                     </Select>
                 </FormControl>

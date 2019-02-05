@@ -92,6 +92,7 @@ admin.site.register(models.ScoreLocation)
 admin.site.register(models.ScoutedMatch)
 admin.site.register(models.Team)
 admin.site.register(models.Tournament)
+admin.site.register(models.ScheduledMatch)
 
 
 # ... and, since we're not using Django's built-in permissions,

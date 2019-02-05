@@ -129,11 +129,6 @@ class Tournament(models.Model):
     def __str__(self):
         return self.name
 
-class ScheduledMatch(models.Model):
-    match_number = models.DecimalField(max_digits=3, decimal_places=0)
-    event = models.ForeignKey('Tournament', on_delete=models.CASCADE)
-    team = models.ForeignKey('Team', on_delete=models.CASCADE)
-
 class ScoutedMatch(models.Model):
     number = models.IntegerField()
     tournament = models.ForeignKey('Tournament', on_delete=models.CASCADE)
@@ -150,9 +145,12 @@ class ScheduledMatch(models.Model):
     team = models.ForeignKey('Team', on_delete = models.CASCADE)
     event = models.ForeignKey('Tournament', on_delete = models.CASCADE)
     match_number = models.DecimalField(max_digits=3, decimal_places=0)
-
+    alliance = models.CharField(max_length=255)
+    class Meta:
+        unique_together = (("team", "event", "match_number"),)
     def __str__(self):
-        return str(self.team.team_number) + " " + str(self.match_number) + ' ' + str(self.event.event_code)
+        return str(self.team.number) + " " + str(self.match_number) + ' ' + str(self.event.event_code)
+        
 
 
 class MyUserManager(BaseUserManager):

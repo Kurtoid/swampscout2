@@ -66,6 +66,8 @@ class ScoutScreen extends React.Component {
             this.setState({
                 match_number_error: false
             });
+
+            this.teamselect.updateSource()
         } else {
             this.setState({ match_number_error: true })
             // alert("problem")
@@ -88,8 +90,8 @@ class ScoutScreen extends React.Component {
                 <form className={classes.container} autoComplete="off">
                     <Card className={classes.card}>
                         <TextField
-                            id="match-number"
-                            name="match-number"
+                            id="match_number"
+                            name="match_number"
                             label="Match Number"
                             className={classes.textField}
                             margin="normal"
@@ -102,13 +104,13 @@ class ScoutScreen extends React.Component {
                             error={this.state.match_number_error}
                         />
                         <div className={classes.divider} />
-                        <DropDownByEndPoint endpoint={"/api/teams/"+this.state.match_number} onChange={this.handleInputChange} showpk={true} labellabel="name" valuelabel="number" show="name" token={this.props.cookies.get('token')} classes={classes} label="Team" id="team" />
+                        <DropDownByEndPoint ref={(child) => { this.teamselect = child; }} endpoint={"/api/get-teams-by-match/2016nytr/"+this.state.match_number}  onChange={this.handleInputChange} showpk={true} labellabel="display_name" valuelabel="number" token={this.props.cookies.get('token')} classes={classes} label="Team" id="team" />
                     </Card>
                     <div className={classes.divider} />
                     <Card className={classes.card}>
-                        <RadioByEndPoint endpoint="/api/match-start-status/" onChange={this.handleInputChange} labellabel="status" valuelabel="pk" showpk={false} label="Match Start Location" id="matchstartstatus" show="status" token={this.props.cookies.get('token')} classes={classes} />
+                        <RadioByEndPoint endpoint="/api/match-start-status/"  onChange={this.handleInputChange} labellabel="status" valuelabel="pk" showpk={false} label="Match Start Location" id="matchstartstatus"  token={this.props.cookies.get('token')} classes={classes} />
                         <div className={classes.divider} />
-                        <RadioByEndPoint endpoint="/api/preload/" onChange={this.handleInputChange} labellabel="status" valuelabel="pk" showpk={false} label="Preloaded" id="preload" show="status" token={this.props.cookies.get('token')} classes={classes} />
+                        <RadioByEndPoint endpoint="/api/preload/" onChange={this.handleInputChange} labellabel="status" valuelabel="pk" showpk={false} label="Preloaded" id="preload"  token={this.props.cookies.get('token')} classes={classes} />
                     </Card>
                     <div className={classes.divider} />
                     <Button
