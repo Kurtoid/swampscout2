@@ -17,6 +17,7 @@ router.register(r'scouted-match', views.ScoutedMatchViewSet)
 router.register(r'match-end-status', views.MatchEndStatusViewSet)
 router.register(r'tournament', views.TournamentViewSet)
 router.register(r'preload', views.PreloadViewSet)
+router.register(r'scheduled-match', views.ScheduledMatchViewSet)
 
 
 urlpatterns = [

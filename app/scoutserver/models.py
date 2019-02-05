@@ -10,7 +10,7 @@ from rest_framework.authtoken.models import Token
 
 
 class Team(models.Model):
-    number = models.IntegerField()
+    number = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=255)
     in_event = models.ForeignKey(
         'Tournament', on_delete=models.SET_NULL, null=True)
@@ -124,11 +124,15 @@ class HatchScored(models.Model):
 
 class Tournament(models.Model):
     name = models.CharField(max_length=200, default="UNAMED")
-    event_code = models.CharField(max_length=200, default="UNAMED")
+    event_code = models.CharField(max_length=200, default="UNAMED", primary_key=True)
 
     def __str__(self):
         return self.name
 
+class ScheduledMatch(models.Model):
+    match_number = models.DecimalField(max_digits=3, decimal_places=0)
+    event = models.ForeignKey('Tournament', on_delete=models.CASCADE)
+    team = models.ForeignKey('Team', on_delete=models.CASCADE)
 
 class ScoutedMatch(models.Model):
     number = models.IntegerField()

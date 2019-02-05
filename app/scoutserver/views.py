@@ -5,8 +5,8 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
 from rest_framework import generics, permissions
-from .serializers import UserSerializer, TeamSerializer, ScoutedMatchSerializer, GameTimeSerializer, CargoFromSerializer, HatchFromSerializer, HatchScoredSerializer, ScoreLocationSerializer, CargoScoredSerializer, MatchEndStatusSerializer, MatchStartStatusSerializer, TournamentSerializer, PreloadSerializer
-from .models import Team, MyUser, ScoutedMatch, GameTime, CargoFrom, CargoScored, HatchScored, HatchFrom, MatchStartStatus, MatchEndStatus, ScoreLocation, Tournament, PreloadStatus
+from .serializers import UserSerializer, TeamSerializer, ScoutedMatchSerializer, GameTimeSerializer, CargoFromSerializer, HatchFromSerializer, HatchScoredSerializer, ScoreLocationSerializer, CargoScoredSerializer, MatchEndStatusSerializer, MatchStartStatusSerializer, TournamentSerializer, PreloadSerializer, ScheduledMatchSerializer
+from .models import Team, MyUser, ScoutedMatch, GameTime, CargoFrom, CargoScored, HatchScored, HatchFrom, MatchStartStatus, MatchEndStatus, ScoreLocation, Tournament, PreloadStatus, ScheduledMatch
 # Create your views here.
 import requests
 
@@ -83,6 +83,11 @@ class Index(View):
     def get(self, request):
         return render(request, 'scoutserver/index.html')
 
+class ScheduledMatchViewSet(viewsets.ModelViewSet):
+    queryset = ScheduledMatch.objects.all()
+    serializer_class = ScheduledMatchSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+
 class AddTournament(View):
     def get(self, request, event_code=None):
         key = 'ptxL3AMaCfhTGWVX7nbTYp0wfBqYFIu2HkjSr7hu2zxqWfk3B0uCAdALaVohrrxi'
@@ -103,4 +108,15 @@ class AddTournament(View):
             print(t)
             t.in_event = event
             t.save()
+
+        url = 'https://www.thebluealliance.com/api/v3/event/' + event_code + '/matches/simple'
+        result = requests.get(url, headers=headers)
+        result = result.json()
+        for entry in result: # for result
+            for alliance in entry['alliances']: # for alliance
+                print(entry['alliances'][alliance]) # for team
+                for team in entry['alliances'][alliance]['team_keys']: 
+                    t = Team.objects.get(number=team[3:])
+                    sm, _ = ScheduledMatch.objects.get_or_create(event=event, team=t, match_number=entry['match_number'])
+                    sm.save()
         return HttpResponse('hi')
