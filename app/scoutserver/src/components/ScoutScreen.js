@@ -102,7 +102,7 @@ class ScoutScreen extends React.Component {
                             error={this.state.match_number_error}
                         />
                         <div className={classes.divider} />
-                        <DropDownByEndPoint endpoint="/api/teams/" onChange={this.handleInputChange} showpk={true} labellabel="name" valuelabel="number" show="name" token={this.props.cookies.get('token')} classes={classes} label="Team" id="team" />
+                        <DropDownByEndPoint endpoint={"/api/teams/"+this.state.match_number} onChange={this.handleInputChange} showpk={true} labellabel="name" valuelabel="number" show="name" token={this.props.cookies.get('token')} classes={classes} label="Team" id="team" />
                     </Card>
                     <div className={classes.divider} />
                     <Card className={classes.card}>

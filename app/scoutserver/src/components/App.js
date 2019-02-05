@@ -6,6 +6,7 @@ import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 import MainMenu from "./MainMenu";
 import { createMuiTheme } from '@material-ui/core/styles';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+// MUST IMPORT COLORS!!!
 import green from '@material-ui/core/colors/green';
 import red from '@material-ui/core/colors/red';
 import purple from '@material-ui/core/colors/purple';
@@ -13,8 +14,8 @@ import purple from '@material-ui/core/colors/purple';
 const theme = createMuiTheme({
     palette: {
         primary: green,
-        secondary: red,
-        error: purple,
+        secondary: purple, // Radio buttons selected
+        error: red,
         // Used by `getContrastText()` to maximize the contrast between the background and
         // the text.
         contrastThreshold: 3,
