@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
-from .models import MyUser, Team, MatchStartStatus,PreloadStatus, GameTime, CargoFrom, HatchFrom, ScoreLocation, CargoScored, HatchScored, ScoutedMatch, Tournament, MatchEndStatus, MatchStartStatus, ScheduledMatch
+from .models import MyUser, Team, MatchStartStatus,PreloadStatus, GameTime, CargoFrom, HatchFrom, ScoreLocation, CargoScored, HatchScored, ScoutedMatch, Tournament, MatchEndStatus, MatchStartStatus, ScheduledMatch, Cards
 
 
 class TournamentSerializer(serializers.HyperlinkedModelSerializer):
@@ -82,4 +82,9 @@ class ScoutedMatchSerializer(serializers.HyperlinkedModelSerializer):
 class MatchEndStatusSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = MatchEndStatus
-        fields = ('__all__')        
+        fields = ('status','pk')
+
+class CardsSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Cards
+        fields = ('status','pk')

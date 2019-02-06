@@ -49,7 +49,7 @@ class MatchEndStatus(models.Model):
     @property
     @classmethod
     def defaults(cls):
-        return ("Level 1", "Level 2", "Level 3", "Missed End Game", "Disabled", "Incapacitated")
+        return ("Level 1", "Level 2", "Levesl 3", "Missed End Game", "Disabled", "Incapacitated")
 
 
 class GameTime(models.Model):
@@ -86,6 +86,17 @@ class HatchFrom(models.Model):
     @classmethod
     def defaults(cls):
         return ('Prepopulated', 'Ground', 'Loading Station')
+
+class Cards(models.Model):
+    status = models.CharField(max_length=255)
+
+    def __str__(self):
+        return str(self.status)
+
+    @property
+    @classmethod
+    def defaults(cls):
+        return ('Red Card', 'Yellow Card', 'No Card')
 
 
 class ScoreLocation(models.Model):
