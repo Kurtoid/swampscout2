@@ -10,6 +10,8 @@ import RadioByEndPoint from './RadioByEndpoint'
 
 import TextField from '@material-ui/core/TextField'
 import Button from "@material-ui/core/Button"
+
+import ScoreEntry from './ScoreEntry'
 const styles = theme => ({
     TextField: {
         margin: theme.spacing.unit,
@@ -104,15 +106,16 @@ class ScoutScreen extends React.Component {
                             error={this.state.match_number_error}
                         />
                         <div className={classes.divider} />
-                        <DropDownByEndPoint ref={(child) => { this.teamselect = child; }} endpoint={"/api/get-teams-by-match/2016nytr/"+this.state.match_number}  onChange={this.handleInputChange} showpk={true} labellabel="display_name" valuelabel="number" token={this.props.cookies.get('token')} classes={classes} label="Team" id="team" />
+                        <DropDownByEndPoint ref={(child) => { this.teamselect = child; }} endpoint={"/api/get-teams-by-match/2016nytr/" + this.state.match_number} onChange={this.handleInputChange} showpk={true} labellabel="display_name" valuelabel="number" token={this.props.cookies.get('token')} classes={classes} label="Team" id="team" />
                     </Card>
                     <div className={classes.divider} />
                     <Card className={classes.card}>
-                        <RadioByEndPoint endpoint="/api/match-start-status/"  onChange={this.handleInputChange} labellabel="status" valuelabel="pk" showpk={false} label="Match Start Location" id="matchstartstatus"  token={this.props.cookies.get('token')} classes={classes} />
+                        <RadioByEndPoint endpoint="/api/match-start-status/" onChange={this.handleInputChange} labellabel="status" valuelabel="pk" showpk={false} label="Match Start Location" id="matchstartstatus" token={this.props.cookies.get('token')} classes={classes} />
                         <div className={classes.divider} />
-                        <RadioByEndPoint endpoint="/api/preload/" onChange={this.handleInputChange} labellabel="status" valuelabel="pk" showpk={false} label="Preloaded" id="preload"  token={this.props.cookies.get('token')} classes={classes} />
+                        <RadioByEndPoint endpoint="/api/preload/" onChange={this.handleInputChange} labellabel="status" valuelabel="pk" showpk={false} label="Preloaded" id="preload" token={this.props.cookies.get('token')} classes={classes} />
                     </Card>
                     <div className={classes.divider} />
+                    <ScoreEntry classes={classes} cookies={this.props.cookies} />
                     <Button
                         type="submit"
                         fullWidth

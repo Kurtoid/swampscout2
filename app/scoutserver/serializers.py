@@ -49,7 +49,7 @@ class HatchFromSerializer(serializers.HyperlinkedModelSerializer):
 class ScoreLocationSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = ScoreLocation
-        fields = ('url', 'location')
+        fields = (""pk", 'url', 'location'")
 
 class CargoScoredSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

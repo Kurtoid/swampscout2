@@ -93,6 +93,7 @@ admin.site.register(models.ScoutedMatch)
 admin.site.register(models.Team)
 admin.site.register(models.Tournament)
 admin.site.register(models.ScheduledMatch)
+admin.site.register(models.GameTime)
 
 
 # ... and, since we're not using Django's built-in permissions,
