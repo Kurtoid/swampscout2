@@ -36,13 +36,12 @@ class ScoutScreen extends React.Component {
         this.state = {
             something: false,
             labelWidth: 0,
-            match_number_error: false,
-            match_number: 0,
+            matchNumberError: false,
+            matchNumber: 0,
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleMatchNumber = this.handleMatchNumber.bind(this);
-
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     handleInputChange(event) {
@@ -50,6 +49,7 @@ class ScoutScreen extends React.Component {
         const value = target.value;
         const name = target.name;
 
+        console.log("State: " + name + " = " + value)
         this.setState({
             [name]: value
         });
@@ -58,24 +58,48 @@ class ScoutScreen extends React.Component {
         const target = event.target;
         const value = target.value;
         const name = target.name;
-        console.log(value)
         this.setState({
             [name]: value,
         });
         if (!(value < 0)) {
             this.setState({
-                match_number_error: false
+                matchNumberError: false
             });
 
             this.teamselect.updateSource()
         } else {
-            this.setState({ match_number_error: true })
+            this.setState({ matchNumberError: true })
             // alert("problem")
         }
 
     }
 
     handleSubmit(event) {
+        console.log("sending request");
+        fetch('/api/scouted-match/', {
+            method: 'POST',
+            body: JSON.stringify({
+                //TODO: Set backend to recieve number
+                start_status: "/api/match-start-status/" + this.state.matchStartStatus + "/",
+                preload: this.state.preload,
+                end_status: "/api/match-end-status/" + this.state.matchEndStatus + "/",
+                cards: this.state.cards,
+                number: this.state.matchNumber,
+                team: "/api/teams/" + this.state.team + "/",
+                scouted_by: "/api/users/1/", // TODO: THIS TO NOT BE FIRST USER
+            }),
+            headers: {
+                "Content-Type": "application/json",
+                // "Content-Type": "application/x-www-form-urlencoded",
+            },
+        })
+            .then(function (response) {
+                return response.json();
+            }).then(myJson => {
+                console.log(myJson);
+                event.preventDefault()
+            });
+        event.preventDefault();
 
     }
 
@@ -89,11 +113,11 @@ class ScoutScreen extends React.Component {
             );
         else return (
             <div>
-                <form id="frn1" className={classes.container} autoComplete="off">
-                    <Card className={classes.card}> 
+                <form id="frn1" className={classes.container} onSubmit={this.handleSubmit} autoComplete="off">
+                    <Card className={classes.card}>
                         <TextField
-                            id="match_number" 
-                            name="match_number"
+                            id="matchNumber"
+                            name="matchNumber"
                             label="Match Number"
                             className={classes.textField}
                             margin="normal"
@@ -103,21 +127,21 @@ class ScoutScreen extends React.Component {
                             autoFocus={true}
                             default={0}
                             onChange={this.handleMatchNumber}
-                            error={this.state.match_number_error}
-                        /> 
+                            error={this.state.matchNumberError}
+                        />
                         <div className={classes.divider} />
                         <DropDownByEndPoint ref={(child) => { this.teamselect = child; }}
-                            endpoint={"/api/get-teams-by-match/2016nytr/" + this.state.match_number}
+                            endpoint={"/api/get-teams-by-match/2016nytr/" + this.state.matchNumber}
                             onChange={this.handleInputChange}
                             showpk={true}
                             labellabel="display_name"
                             valuelabel="number"
                             token={this.props.cookies.get('token')}
                             classes={classes} label="Team" id="team"
-                        />  
-                    </Card> 
+                        />
+                    </Card>
                     <div className={classes.divider} />
-                    <Card className={classes.card}> 
+                    <Card className={classes.card}>
                         <RadioByEndPoint
                             endpoint="/api/match-start-status/"
                             onChange={this.handleInputChange}
@@ -125,10 +149,10 @@ class ScoutScreen extends React.Component {
                             valuelabel="pk"
                             showpk={false}
                             label="Match Start Location"
-                            id="matchstartstatus"
+                            id="matchStartStatus"
                             token={this.props.cookies.get('token')}
                             classes={classes}
-                        /> 
+                        />
                         <div className={classes.divider} />
                         <RadioByEndPoint
                             endpoint="/api/preload/"
@@ -140,7 +164,7 @@ class ScoutScreen extends React.Component {
                             id="preload"
                             token={this.props.cookies.get('token')}
                             classes={classes}
-                        /> 
+                        />
                     </Card>
                     <div className={classes.divider} />
                     <Card className={classes.card}>
@@ -155,10 +179,10 @@ class ScoutScreen extends React.Component {
                             valuelabel="pk"
                             showpk={false}
                             label="End Game"
-                            id="matchendStatus"
+                            id="matchEndStatus"
                             token={this.props.cookies.get('token')}
                             classes={classes}
-                        /> 
+                        />
                         <div className={classes.divider} />
                         <RadioByEndPoint
                             endpoint="/api/cards/"
@@ -170,7 +194,7 @@ class ScoutScreen extends React.Component {
                             id="cards"
                             token={this.props.cookies.get('token')}
                             classes={classes}
-                        /> 
+                        />
                     </Card>
                     <div className={classes.divider} />
                     <Button

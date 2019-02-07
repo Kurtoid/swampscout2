@@ -142,7 +142,7 @@ class Tournament(models.Model):
 
 class ScoutedMatch(models.Model):
     number = models.IntegerField()
-    tournament = models.ForeignKey('Tournament', on_delete=models.CASCADE)
+    tournament = models.ForeignKey('Tournament', on_delete=models.CASCADE, null=True)
     team = models.ForeignKey('Team', on_delete=models.CASCADE)
     start_status = models.ForeignKey(
         'MatchStartStatus', on_delete=models.CASCADE)
