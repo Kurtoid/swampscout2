@@ -15,6 +15,7 @@ import IconButton from '@material-ui/core/IconButton'
 
 import key from 'weak-key'
 import { createVerify } from 'crypto';
+import { Typography } from '@material-ui/core';
 
 const styles = theme => ({
     root: {
@@ -44,7 +45,6 @@ export default class ScoreEntry extends React.Component {
         const value = target.value;
         const name = target.name;
 
-        console.log("State: " + name + " = " + value)
         this.setState({
             [name]: value
         });
@@ -55,9 +55,8 @@ export default class ScoreEntry extends React.Component {
         })
     }
     handleSubmit(event) {
-        console.log(this.state)
-        this.setState({ scores: [...this.state.scores, new ScoredObject(this.state.time, this.state.acqloc, this.state.scoreloc)] })
-        console.log(this.state.scores)
+            this.setState({ scores: [...this.state.scores, new ScoredObject(this.state.time, this.state.acqloc, this.state.scoreloc)] }, () => {
+            })
 
     }
     render() {
@@ -65,12 +64,15 @@ export default class ScoreEntry extends React.Component {
 
         return (
             <Card className={classes.card}>
+                <Typography gutterBottom variant="h5" component="h2">
+                    {this.props.title}
+                </Typography>
                 <List>
                     {this.state.scores.map((element, i) => {
                         return (
                             <ListItem key={i}>
                                 <ListItemText
-                                    primary={"At " + this.timeselect.getNameByID(element.time) + ", picked up " + this.acqselect.getNameByID(element.from) + ", and scored " + this.scoreselect.getNameByID(element.to)}
+                                    primary={"During " + this.timeselect.getNameByID(element.time) + ", picked up from " + this.acqselect.getNameByID(element.from) + ", and scored at " + this.scoreselect.getNameByID(element.to)}
                                 />
                                 <ListItemSecondaryAction>
                                     <IconButton aria-label="Delete" onClick={this.handleDelete.bind(this, i)}>
@@ -87,18 +89,18 @@ export default class ScoreEntry extends React.Component {
                     </Grid>
                     <Grid item>
 
-                        <DropDownByEndPoint ref={(child) => { this.acqselect = child; }} id='acqloc' onChange={this.handleInputChange} label="Acquired Location" classes={classes} endpoint="api/hatch-from-locations/" valuelabel="pk" labellabel="location" token={this.props.cookies.get('token')} />
+                        <DropDownByEndPoint ref={(child) => { this.acqselect = child; }} id='acqloc' onChange={this.handleInputChange} label="Acquired Location" classes={classes} endpoint="api/from-locations/" valuelabel="pk" labellabel="location" token={this.props.cookies.get('token')} />
                     </Grid>
                     <Grid item>
                         <DropDownByEndPoint ref={(child) => { this.scoreselect = child; }} id='scoreloc' onChange={this.handleInputChange} label="Scored Location" classes={classes} endpoint="api/score-locations/" valuelabel="pk" labellabel="location" token={this.props.cookies.get('token')} />
                     </Grid>
                     <Grid item>
                         <Button
-                            fullWidth
                             variant="contained"
                             color="primary"
                             className={classes.submit}
-                            onClick={this.handleSubmit}
+                            onClick={this.handleSubmit}                            
+                            fullWidth
                         >Add</Button>
                     </Grid>
                 </Grid>

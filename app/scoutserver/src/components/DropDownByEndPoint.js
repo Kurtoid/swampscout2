@@ -2,6 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 import TextField from '@material-ui/core/TextField';
+import MenuItem from '@material-ui/core/MenuItem';
+
 import Select from '@material-ui/core/Select'
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -32,7 +34,6 @@ export default class DropDownByEndPoint extends React.Component {
         return undefined
     }
     updateSource() {
-        console.log("updating input source for " + this.props.endpoint)
         fetch(this.props.endpoint, {
             method: 'GET',
             headers: {
@@ -45,14 +46,12 @@ export default class DropDownByEndPoint extends React.Component {
                 return response.json();
             })
             .then(myJson => {
-                console.log(myJson)
                 this.setState({
                     list: myJson.map(result => ({
                         value: result[this.props.valuelabel],
                         label: result[this.props.labellabel],
                     }))
                 });
-                console.log(this.state.list);
 
             }).catch(error => console.log(error));
     }

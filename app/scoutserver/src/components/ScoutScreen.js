@@ -27,7 +27,7 @@ const styles = theme => ({
     divider: {
         margin: theme.spacing.unit * 2,
     },
-    listitem:{
+    listitem: {
         flexgrow: 1,
     },
 });
@@ -54,7 +54,6 @@ class ScoutScreen extends React.Component {
         const value = target.value;
         const name = target.name;
 
-        console.log("State: " + name + " = " + value)
         this.setState({
             [name]: value
         });
@@ -69,9 +68,10 @@ class ScoutScreen extends React.Component {
         if (!(value < 0)) {
             this.setState({
                 matchNumberError: false
+            }, () => {
+                this.teamselect.updateSource()
             });
 
-            this.teamselect.updateSource()
         } else {
             this.setState({ matchNumberError: true })
             // alert("problem")
@@ -80,7 +80,6 @@ class ScoutScreen extends React.Component {
     }
 
     handleSubmit(event) {
-        console.log("sending request");
         fetch('/api/scouted-match/', {
             method: 'POST',
             body: JSON.stringify({
@@ -101,7 +100,6 @@ class ScoutScreen extends React.Component {
             .then(function (response) {
                 return response.json();
             }).then(myJson => {
-                console.log(myJson);
                 event.preventDefault()
             });
         event.preventDefault();
@@ -153,9 +151,11 @@ class ScoutScreen extends React.Component {
                         <RadioByEndPoint endpoint="/api/preload/" onChange={this.handleInputChange} labellabel="status" valuelabel="pk" showpk={false} label="Preloaded" id="preload" token={this.props.cookies.get('token')} classes={classes} />
                     </Card>
                     <div className={classes.divider} />
-                    <Card className={classes.card}>
-                        Game Peice Scores Go Here
-                    </Card>
+                    <ScoreEntry type={"hatches"} title={"Hatches"} classes={classes} cookies={this.props.cookies} />
+                    <div className={classes.divider} />
+
+                    <ScoreEntry type={"cargo"} title={"Cargo"} classes={classes} cookies={this.props.cookies} />
+
                     <div className={classes.divider} />
                     <Card className={classes.card}>
                         <RadioByEndPoint
@@ -183,7 +183,6 @@ class ScoutScreen extends React.Component {
                         />
                     </Card>
                     <div className={classes.divider} />
-                    <ScoreEntry classes={classes} cookies={this.props.cookies} />
                     <Button
                         type="submit"
                         fullWidth

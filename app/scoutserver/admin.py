@@ -82,9 +82,8 @@ class UserAdmin(BaseUserAdmin):
 
 # Now register the new UserAdmin...
 admin.site.register(MyUser, UserAdmin)
-admin.site.register(models.CargoFrom)
+admin.site.register(models.FromLocation)
 admin.site.register(models.CargoScored)
-admin.site.register(models.HatchFrom)
 admin.site.register(models.HatchScored)
 admin.site.register(models.MatchEndStatus)
 admin.site.register(models.MatchStartStatus)
@@ -93,6 +92,9 @@ admin.site.register(models.ScoutedMatch)
 admin.site.register(models.Team)
 admin.site.register(models.Tournament)
 admin.site.register(models.ScheduledMatch)
+admin.site.register(models.PreloadStatus)
+admin.site.register(models.Cards)
+
 admin.site.register(models.GameTime)
 
 

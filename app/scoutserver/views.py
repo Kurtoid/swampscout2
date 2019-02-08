@@ -5,8 +5,8 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
 from rest_framework import generics, permissions
-from .serializers import UserSerializer, TeamSerializer, ScoutedMatchSerializer, GameTimeSerializer, CargoFromSerializer, HatchFromSerializer, HatchScoredSerializer, ScoreLocationSerializer, CargoScoredSerializer, MatchEndStatusSerializer, MatchStartStatusSerializer, TournamentSerializer, PreloadSerializer, ScheduledMatchSerializer, CardsSerializer
-from .models import Team, MyUser, ScoutedMatch, GameTime, CargoFrom, CargoScored, HatchScored, HatchFrom, MatchStartStatus, MatchEndStatus, ScoreLocation, Tournament, PreloadStatus, ScheduledMatch, Cards
+from .serializers import UserSerializer, TeamSerializer, ScoutedMatchSerializer, GameTimeSerializer, HatchScoredSerializer, ScoreLocationSerializer, CargoScoredSerializer, MatchEndStatusSerializer, MatchStartStatusSerializer, TournamentSerializer, PreloadSerializer, ScheduledMatchSerializer, CardsSerializer, FromLocationSerializer
+from .models import Team, MyUser, ScoutedMatch, GameTime, CargoScored, HatchScored, FromLocation, MatchStartStatus, MatchEndStatus, ScoreLocation, Tournament, PreloadStatus, ScheduledMatch, Cards
 # Create your views here.
 import requests
 
@@ -39,16 +39,11 @@ class GameTimeViewSet(viewsets.ModelViewSet):
     serializer_class = GameTimeSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
 
-class CargoFromViewSet(viewsets.ModelViewSet):
-    queryset = CargoFrom.objects.all()
-    serializer_class = CargoFromSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
-
-class HatchFromViewSet(viewsets.ModelViewSet):
-    queryset = HatchFrom.objects.all()
-    serializer_class = HatchFromSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
-
+class FromLocationViewSet(viewsets.ModelViewSet):
+    queryset = FromLocation.objects.all()
+    serializer_class = FromLocationSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    
 class ScoreLocationViewSet(viewsets.ModelViewSet):
     queryset = ScoreLocation.objects.all()
     serializer_class = ScoreLocationSerializer

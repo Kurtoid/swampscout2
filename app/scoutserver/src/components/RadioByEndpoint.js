@@ -38,7 +38,6 @@ export default class RadioByEndPoint extends React.Component {
                         label: result[this.props.labellabel],
                     }))
                 });
-                console.log(this.state.list);
 
             }).catch(error => console.log(error));
 
