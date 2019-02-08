@@ -8,4 +8,6 @@
     "editor.roundedSelection": true,
     "editor.smoothScrolling": true,
     "editor.tabCompletion": "on",
+    "python.formatting.provider": "black",
+    "python.linting.enabled": false,
 }

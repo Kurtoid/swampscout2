@@ -166,5 +166,26 @@
         "fields":{
             "status": "Hatch"
         }
+    },
+    {
+        "model": "scoutserver.Cards",
+        "pk": 1,
+        "fields":{
+            "status": "Red Card"
+        }
+    },
+    {
+        "model": "scoutserver.Cards",
+        "pk": 2,
+        "fields":{
+            "status": "Yellow Card"
+        }
+    },
+    {
+        "model": "scoutserver.Cards",
+        "pk": 3,
+        "fields":{
+            "status": "No Card"
+        }
     }
 ]
