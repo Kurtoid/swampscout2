@@ -50,14 +50,15 @@ export default class ScoreEntry extends React.Component {
         });
     }
     handleDelete(index, event) {
-        console.log(index)
         this.setState({
             scores: this.state.scores.filter((_, i) => i !== index)
         })
     }
     handleSubmit(event) {
+        console.log(this.state)
         this.setState({ scores: [...this.state.scores, new ScoredObject(this.state.time, this.state.acqloc, this.state.scoreloc)] })
         console.log(this.state.scores)
+
     }
     render() {
         const { classes } = this.props;
@@ -69,7 +70,7 @@ export default class ScoreEntry extends React.Component {
                         return (
                             <ListItem key={i}>
                                 <ListItemText
-                                    primary={i + " " + element.time + " " + element.from + " " + element.from}
+                                    primary={"At " + this.timeselect.getNameByID(element.time) + ", picked up " + this.acqselect.getNameByID(element.from) + ", and scored " + this.scoreselect.getNameByID(element.to)}
                                 />
                                 <ListItemSecondaryAction>
                                     <IconButton aria-label="Delete" onClick={this.handleDelete.bind(this, i)}>
@@ -82,14 +83,14 @@ export default class ScoreEntry extends React.Component {
                 </List>
                 <Grid container spacing={8}>
                     <Grid item>
-                        <DropDownByEndPoint id='time' onChange={this.handleInputChange} label="Time" classes={classes} endpoint="api/game-time/" valuelabel="pk" labellabel="time" token={this.props.cookies.get('token')} />
+                        <DropDownByEndPoint ref={(child) => { this.timeselect = child; }} id='time' onChange={this.handleInputChange} label="Time" classes={classes} endpoint="api/game-time/" valuelabel="pk" labellabel="time" token={this.props.cookies.get('token')} />
                     </Grid>
                     <Grid item>
 
-                        <DropDownByEndPoint id='acqloc' onChange={this.handleInputChange} label="Acquired Location" classes={classes} endpoint="api/hatch-from-locations/" valuelabel="pk" labellabel="location" token={this.props.cookies.get('token')} />
+                        <DropDownByEndPoint ref={(child) => { this.acqselect = child; }} id='acqloc' onChange={this.handleInputChange} label="Acquired Location" classes={classes} endpoint="api/hatch-from-locations/" valuelabel="pk" labellabel="location" token={this.props.cookies.get('token')} />
                     </Grid>
                     <Grid item>
-                        <DropDownByEndPoint id='scoreloc' onChange={this.handleInputChange} label="Scored Location" classes={classes} endpoint="api/score-locations/" valuelabel="pk" labellabel="location" token={this.props.cookies.get('token')} />
+                        <DropDownByEndPoint ref={(child) => { this.scoreselect = child; }} id='scoreloc' onChange={this.handleInputChange} label="Scored Location" classes={classes} endpoint="api/score-locations/" valuelabel="pk" labellabel="location" token={this.props.cookies.get('token')} />
                     </Grid>
                     <Grid item>
                         <Button

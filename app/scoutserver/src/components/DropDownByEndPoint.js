@@ -22,6 +22,15 @@ export default class DropDownByEndPoint extends React.Component {
 
         this.updateSource()
     }
+    getNameByID(id) {
+        for (var i = 0, size = this.state.list.length; i < size; i++) {
+            var item = this.state.list[i]
+            if (item.value == id) {
+                return item.label
+            }
+        }
+        return undefined
+    }
     updateSource() {
         console.log("updating input source for " + this.props.endpoint)
         fetch(this.props.endpoint, {
