@@ -55,6 +55,7 @@ class SignUp extends React.Component {
         this.state = {
             email: "",
             password: "",
+            passwordInvalidError: "",
             passwordCheck: "",
             passwordError: false,
             team: "",
@@ -65,14 +66,32 @@ class SignUp extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handlePassword(event) {
+    handleValidatePassword() {
         const target = event.target;
         const value = target.value;
         const name = target.name;
         this.setState({
             [name]: value,
         });
-        if (!(value < 0)) {
+        var invalid = true;
+        if (!(invalid)) {
+            this.setState({
+                passwordInvalidError: false
+            });
+        } else {
+            this.setState({ passwordInvalidError: true })
+            // alert("problem")
+        }
+    }
+
+    handleCheckPassword(event) {
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
+        this.setState({
+            [name]: value,
+        });
+        if (!(this.state.password === this.state.passwordCheck)) {
             this.setState({
                 passwordError: false
             });
@@ -130,10 +149,7 @@ class SignUp extends React.Component {
             <main className={classes.main}>
                 <CssBaseline />
                 <Paper className={classes.paper}>
-
                     {this.state.waiting ? <CircularProgress /> : <Avatar className={classes.avatar}><LockOutlinedIcon /> </Avatar>}
-
-
                     <Typography component="h1" variant="h5">
                         Sign up
                 </Typography>
@@ -167,7 +183,7 @@ class SignUp extends React.Component {
                                 type="password"
                                 id="password"
                                 value={this.state.password}
-                                onChange={this.handleInputChange}
+                                onChange={this.handleValidatePassword}
                             />
                         </FormControl>
                         <FormControl
@@ -183,13 +199,13 @@ class SignUp extends React.Component {
                                 type="passwordCheck"
                                 id="passwordCheck"
                                 value={this.state.passwordCheck}
-                                onChange={this.handlePassword}
+                                onChange={this.handleCheckPassword}
                             />
                         </FormControl>
                         <DropDownByEndPoint ref={(child) => { this.teamselect = child; }}
                             endpoint={"/api/teams/" + this.state.matchNumber}
                             onChange={this.handleInputChange}
-                            showpk={false} // why is this true??? making it false does not display the team number twice???
+                            showpk={false}
                             labellabel="display_name"
                             valuelabel="number"
                             classes={classes}
