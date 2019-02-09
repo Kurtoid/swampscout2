@@ -46,7 +46,7 @@ const styles = theme => ({
         marginTop: theme.spacing.unit * 3,
     },
 });
-class SignIn extends React.Component {
+class SignUp extends React.Component {
     static propTypes = {
         cookies: instanceOf(Cookies).isRequired
     };
@@ -55,11 +55,31 @@ class SignIn extends React.Component {
         this.state = {
             email: "",
             password: "",
+            passwordCheck: "",
+            passwordError: false,
+            team: "",
             waiting: false,
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handlePassword(event) {
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
+        this.setState({
+            [name]: value,
+        });
+        if (!(value < 0)) {
+            this.setState({
+                passwordError: false
+            });
+        } else {
+            this.setState({ passwordError: true })
+            // alert("problem")
+        }
     }
 
     handleInputChange(event) {
@@ -71,6 +91,7 @@ class SignIn extends React.Component {
             [name]: value
         });
     }
+    
     handleSubmit(event) {
         // alert('Your are: ' + this.state.email);
         this.setState({ waiting: true });
@@ -80,7 +101,8 @@ class SignIn extends React.Component {
             method: 'POST',
             body: JSON.stringify({
                 username: this.state.email,
-                password: this.state.password
+                password: this.state.password,
+                team: this.state.team
             }),
             headers: {
                 "Content-Type": "application/json",
@@ -113,7 +135,7 @@ class SignIn extends React.Component {
 
 
                     <Typography component="h1" variant="h5">
-                        Sign in
+                        Sign up
                 </Typography>
                     <form className={classes.form} onSubmit={this.handleSubmit}>
                         <FormControl
@@ -123,15 +145,56 @@ class SignIn extends React.Component {
                             <InputLabel
                                 htmlFor="email"
                             >Email Address</InputLabel>
-                            <Input id="email" name="email" autoComplete="email" value={this.state.email} onChange={this.handleInputChange} autoFocus />
+                            <Input
+                                id="email" 
+                                name="email"
+                                autoComplete="email"
+                                value={this.state.email}
+                                onChange={this.handleInputChange}
+                                autoFocus
+                            />
                         </FormControl>
-                        <FormControl margin="normal" required fullWidth>
-                            <InputLabel htmlFor="password">Password</InputLabel>
-                            <Input name="password" type="password" id="password" autoComplete="current-password" value={this.state.password} onChange={this.handleInputChange} />
+                        <FormControl
+                            margin="normal"
+                            required
+                            fullWidth
+                        >
+                            <InputLabel
+                                htmlFor="password"
+                            >Password</InputLabel>
+                            <Input
+                                name="password"
+                                type="password"
+                                id="password"
+                                value={this.state.password}
+                                onChange={this.handleInputChange}
+                            />
                         </FormControl>
-                        <FormControlLabel
-                            control={<Checkbox value="remember" color="primary" />}
-                            label="Remember me"
+                        <FormControl
+                            margin="normal"
+                            required
+                            fullWidth
+                        >
+                            <InputLabel
+                                htmlFor="passwordCheck"
+                            >Password Check</InputLabel>
+                            <Input
+                                name="passwordCheck"
+                                type="passwordCheck"
+                                id="passwordCheck"
+                                value={this.state.passwordCheck}
+                                onChange={this.handlePassword}
+                            />
+                        </FormControl>
+                        <DropDownByEndPoint ref={(child) => { this.teamselect = child; }}
+                            endpoint={"/api/teams/" + this.state.matchNumber}
+                            onChange={this.handleInputChange}
+                            showpk={false} // why is this true??? making it false does not display the team number twice???
+                            labellabel="display_name"
+                            valuelabel="number"
+                            classes={classes}
+                            label="Team"
+                            id="team"
                         />
                         <Button
                             type="submit"
@@ -139,9 +202,7 @@ class SignIn extends React.Component {
                             variant="contained"
                             color="primary"
                             className={classes.submit}
-                        >
-                            Sign in
-                    </Button>
+                        > Sign up </Button>
                     </form>
                 </Paper>
             </main>
@@ -150,4 +211,4 @@ class SignIn extends React.Component {
 }
 
 
-export default withStyles(styles)(withCookies(SignIn));
+export default withStyles(styles)(withCookies(SignUp));

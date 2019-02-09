@@ -62,7 +62,12 @@ export default class RadioByEndPoint extends React.Component {
                         onChange={this.handleInputChange}
                     >
                         {this.state.list.map((element) => {
-                            return <FormControlLabel key={"" + element.value} value={"" + element.value} control={<Radio />} label={(this.props.showpk ? element.value + ": " : "") + element.label} />
+                            return <FormControlLabel
+                                key={"" + element.value}
+                                value={"" + element.value}
+                                control={<Radio />}
+                                label={(this.props.showpk ? element.value + ": " : "") + element.label}
+                            />
                         })}
 
 

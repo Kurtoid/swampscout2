@@ -90,13 +90,16 @@ export default class DropDownByEndPoint extends React.Component {
                         <option key={0} value={0}>None</option>
 
                         {this.state.list.map((element) => {
-                            return <option key={element.value} value={element.value}>{(this.props.showpk ? element.value + ": " : "") + element.label}</option>
+                            return <option
+                                key={element.value}
+                                value={element.value}
+                            >
+                                {(this.props.showpk ? element.value + ": " : "") + element.label}
+                            </option>
                         })}
                     </Select>
                 </FormControl>
-
             </div>
-
         );
     }
 }

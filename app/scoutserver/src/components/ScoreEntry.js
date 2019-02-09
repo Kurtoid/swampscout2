@@ -45,6 +45,7 @@ export default class ScoreEntry extends React.Component {
         const value = target.value;
         const name = target.name;
 
+        console.log("State: " + name + " = " + value)
         this.setState({
             [name]: value
         });
@@ -55,8 +56,11 @@ export default class ScoreEntry extends React.Component {
         })
     }
     handleSubmit(event) {
+        if ((this.state.time | this.state.acqloc | this.state.scoreloc)) {
             this.setState({ scores: [...this.state.scores, new ScoredObject(this.state.time, this.state.acqloc, this.state.scoreloc)] }, () => {
+                console.log(this.state.scores)
             })
+        }
 
     }
     render() {
@@ -64,7 +68,7 @@ export default class ScoreEntry extends React.Component {
 
         return (
             <Card className={classes.card}>
-                <Typography gutterBottom variant="h5" component="h2">
+                <Typography gutterBottom variant="subtitle1" component="h2"> 
                     {this.props.title}
                 </Typography>
                 <List>
@@ -72,10 +76,15 @@ export default class ScoreEntry extends React.Component {
                         return (
                             <ListItem key={i}>
                                 <ListItemText
-                                    primary={"During " + this.timeselect.getNameByID(element.time) + ", picked up from " + this.acqselect.getNameByID(element.from) + ", and scored at " + this.scoreselect.getNameByID(element.to)}
+                                    primary={"During " + this.timeselect.getNameByID(element.time)
+                                        + ", picked up from " + this.acqselect.getNameByID(element.from)
+                                        + ", and scored at " + this.scoreselect.getNameByID(element.to)}
                                 />
                                 <ListItemSecondaryAction>
-                                    <IconButton aria-label="Delete" onClick={this.handleDelete.bind(this, i)}>
+                                    <IconButton
+                                        aria-label="Delete"
+                                        onClick={this.handleDelete.bind(this, i)}
+                                    >
                                         <DeleteIcon />
                                     </IconButton>
                                 </ListItemSecondaryAction>
@@ -85,14 +94,41 @@ export default class ScoreEntry extends React.Component {
                 </List>
                 <Grid container spacing={8}>
                     <Grid item>
-                        <DropDownByEndPoint ref={(child) => { this.timeselect = child; }} id='time' onChange={this.handleInputChange} label="Time" classes={classes} endpoint="api/game-time/" valuelabel="pk" labellabel="time" token={this.props.cookies.get('token')} />
+                        <DropDownByEndPoint ref={(child) => { this.timeselect = child; }}
+                            id='time'
+                            onChange={this.handleInputChange}
+                            label="Time"
+                            classes={classes}
+                            endpoint="api/game-time/"
+                            valuelabel="pk"
+                            labellabel="time"
+                            token={this.props.cookies.get('token')}
+                        />
                     </Grid>
                     <Grid item>
 
-                        <DropDownByEndPoint ref={(child) => { this.acqselect = child; }} id='acqloc' onChange={this.handleInputChange} label="Acquired Location" classes={classes} endpoint="api/from-locations/" valuelabel="pk" labellabel="location" token={this.props.cookies.get('token')} />
+                        <DropDownByEndPoint ref={(child) => { this.acqselect = child; }}
+                            id='acqloc'
+                            onChange={this.handleInputChange}
+                            label="Acquired Location"
+                            classes={classes}
+                            endpoint="api/from-locations/"
+                            valuelabel="pk"
+                            labellabel="location"
+                            token={this.props.cookies.get('token')}
+                        />
                     </Grid>
                     <Grid item>
-                        <DropDownByEndPoint ref={(child) => { this.scoreselect = child; }} id='scoreloc' onChange={this.handleInputChange} label="Scored Location" classes={classes} endpoint="api/score-locations/" valuelabel="pk" labellabel="location" token={this.props.cookies.get('token')} />
+                        <DropDownByEndPoint ref={(child) => { this.scoreselect = child; }}
+                            id='scoreloc'
+                            onChange={this.handleInputChange}
+                            label="Scored Location"
+                            classes={classes}
+                            endpoint="api/score-locations/"
+                            valuelabel="pk"
+                            labellabel="location"
+                            token={this.props.cookies.get('token')}
+                        />
                     </Grid>
                     <Grid item>
                         <Button

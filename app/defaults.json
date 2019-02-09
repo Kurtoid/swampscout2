@@ -89,7 +89,6 @@
             "location" : "Loading Station"
         }
     },
-
     {
         "model": "scoutserver.ScoreLocation",
         "pk": 0,

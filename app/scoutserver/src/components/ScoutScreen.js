@@ -116,7 +116,11 @@ class ScoutScreen extends React.Component {
             );
         else return (
             <div>
-                <form id="frn1" className={classes.container} onSubmit={this.handleSubmit} autoComplete="off">
+                <form
+                    className={classes.container}
+                    onSubmit={this.handleSubmit}
+                    autoComplete="off"
+                >
                     <Card className={classes.card}>
                         <TextField
                             id="matchNumber"
@@ -137,25 +141,55 @@ class ScoutScreen extends React.Component {
                         <DropDownByEndPoint ref={(child) => { this.teamselect = child; }}
                             endpoint={"/api/get-teams-by-match/2016nytr/" + this.state.matchNumber}
                             onChange={this.handleInputChange}
-                            showpk={true}
+                            showpk={false} // why is this true??? making it false does not display the team number twice???
                             labellabel="display_name"
                             valuelabel="number"
                             token={this.props.cookies.get('token')}
-                            classes={classes} label="Team" id="team"
+                            classes={classes}
+                            label="Team"
+                            id="team"
                         />
                     </Card>
                     <div className={classes.divider} />
                     <Card className={classes.card}>
-                        <RadioByEndPoint endpoint="/api/match-start-status/" onChange={this.handleInputChange} labellabel="status" valuelabel="pk" showpk={false} label="Match Start Location" id="matchstartstatus" token={this.props.cookies.get('token')} classes={classes} />
+                        <RadioByEndPoint
+                            endpoint="/api/match-start-status/"
+                            onChange={this.handleInputChange}
+                            labellabel="status"
+                            valuelabel="pk"
+                            showpk={false}
+                            label="Match Start Location"
+                            id="matchstartstatus"
+                            token={this.props.cookies.get('token')}
+                            classes={classes} 
+                            />
                         <div className={classes.divider} />
-                        <RadioByEndPoint endpoint="/api/preload/" onChange={this.handleInputChange} labellabel="status" valuelabel="pk" showpk={false} label="Preloaded" id="preload" token={this.props.cookies.get('token')} classes={classes} />
+                        <RadioByEndPoint
+                            endpoint="/api/preload/"
+                            onChange={this.handleInputChange}
+                            labellabel="status"
+                            valuelabel="pk" s
+                            howpk={false}
+                            label="Preloaded"
+                            id="preload"
+                            token={this.props.cookies.get('token')}
+                            classes={classes}
+                        />
                     </Card>
                     <div className={classes.divider} />
-                    <ScoreEntry type={"hatches"} title={"Hatches"} classes={classes} cookies={this.props.cookies} />
+                    <ScoreEntry
+                        type={"hatches"}
+                        title={"Hatches"}
+                        classes={classes}
+                        cookies={this.props.cookies}
+                    />
                     <div className={classes.divider} />
-
-                    <ScoreEntry type={"cargo"} title={"Cargo"} classes={classes} cookies={this.props.cookies} />
-
+                    <ScoreEntry
+                        type={"cargo"}
+                        title={"Cargo"}
+                        classes={classes}
+                        cookies={this.props.cookies}
+                    />
                     <div className={classes.divider} />
                     <Card className={classes.card}>
                         <RadioByEndPoint
@@ -190,7 +224,6 @@ class ScoutScreen extends React.Component {
                         color="primary"
                         className={classes.submit}
                     >Submit</Button>
-
                 </form>
             </div >
         );
