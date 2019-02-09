@@ -53,6 +53,7 @@ class SignUp extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            name: "",
             email: "",
             password: "",
             passwordInvalidError: "",
@@ -61,6 +62,9 @@ class SignUp extends React.Component {
             team: "",
             waiting: false,
         };
+
+        this.handleValidatePassword = this.handleValidatePassword.bind(this);        
+        this.handleCheckPassword = this.handleCheckPassword.bind(this);
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -116,9 +120,10 @@ class SignUp extends React.Component {
         this.setState({ waiting: true });
         console.log("sending request");
         const { cookies } = this.props;
-        fetch('/api-token-auth/', {
+        fetch('/api/createuser/', {
             method: 'POST',
             body: JSON.stringify({
+                name: this.state.name,
                 username: this.state.email,
                 password: this.state.password,
                 team: this.state.team
@@ -150,11 +155,27 @@ class SignUp extends React.Component {
                 <CssBaseline />
                 <Paper className={classes.paper}>
                     {this.state.waiting ? <CircularProgress /> : <Avatar className={classes.avatar}><LockOutlinedIcon /> </Avatar>}
-                    <Typography component="h1" variant="h5">
-                        Sign up
-                </Typography>
+                    <Typography
+                        component="h1"
+                        variant="h5"
+                    > Sign up </Typography>
                     <form className={classes.form} onSubmit={this.handleSubmit}>
-                        <FormControl
+                    <FormControl
+                            margin="normal"
+                            required
+                            fullWidth>
+                            <InputLabel
+                                htmlFor="name"
+                            >Name</InputLabel>
+                            <Input
+                                id="name" 
+                                name="name"
+                                autoComplete="name"
+                                value={this.state.name}
+                                onChange={this.handleInputChange}
+                                autoFocus
+                            />
+                        </FormControl> <FormControl
                             margin="normal"
                             required
                             fullWidth>
@@ -184,6 +205,7 @@ class SignUp extends React.Component {
                                 id="password"
                                 value={this.state.password}
                                 onChange={this.handleValidatePassword}
+                                error={this.state.passwordCheckError}
                             />
                         </FormControl>
                         <FormControl
@@ -200,6 +222,7 @@ class SignUp extends React.Component {
                                 id="passwordCheck"
                                 value={this.state.passwordCheck}
                                 onChange={this.handleCheckPassword}
+                                error={this.state.passwordError}
                             />
                         </FormControl>
                         <DropDownByEndPoint ref={(child) => { this.teamselect = child; }}

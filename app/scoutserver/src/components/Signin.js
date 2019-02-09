@@ -110,12 +110,13 @@ class SignIn extends React.Component {
                 <Paper className={classes.paper}>
 
                     {this.state.waiting ? <CircularProgress /> : <Avatar className={classes.avatar}><LockOutlinedIcon /> </Avatar>}
-
-
                     <Typography component="h1" variant="h5">
                         Sign in
                 </Typography>
-                    <form className={classes.form} onSubmit={this.handleSubmit}>
+                    <form
+                        className={classes.form}
+                        onSubmit={this.handleSubmit}
+                    >
                         <FormControl
                             margin="normal"
                             required
@@ -123,14 +124,38 @@ class SignIn extends React.Component {
                             <InputLabel
                                 htmlFor="email"
                             >Email Address</InputLabel>
-                            <Input id="email" name="email" autoComplete="email" value={this.state.email} onChange={this.handleInputChange} autoFocus />
+                            <Input
+                                id="email"
+                                name="email"
+                                autoComplete="email"
+                                value={this.state.email}
+                                onChange={this.handleInputChange}
+                                autoFocus
+                            />
                         </FormControl>
-                        <FormControl margin="normal" required fullWidth>
-                            <InputLabel htmlFor="password">Password</InputLabel>
-                            <Input name="password" type="password" id="password" autoComplete="current-password" value={this.state.password} onChange={this.handleInputChange} />
+                        <FormControl
+                            margin="normal"
+                            required 
+                            fullWidth
+                        >
+                            <InputLabel 
+                            htmlFor="password"
+                            >Password</InputLabel>
+                            <Input
+                                name="password"
+                                type="password"
+                                id="password"
+                                autoComplete="current-password"
+                                value={this.state.password}
+                                onChange={this.handleInputChange}
+                            />
                         </FormControl>
                         <FormControlLabel
-                            control={<Checkbox value="remember" color="primary" />}
+                            control={
+                                <Checkbox
+                                    value="remember" 
+                                    color="primary"
+                                />}
                             label="Remember me"
                         />
                         <Button
@@ -139,9 +164,7 @@ class SignIn extends React.Component {
                             variant="contained"
                             color="primary"
                             className={classes.submit}
-                        >
-                            Sign in
-                    </Button>
+                        > Sign in </Button>
                     </form>
                 </Paper>
             </main>
