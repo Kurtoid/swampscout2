@@ -1,2 +1,2 @@
-release: python3 app/manage.py migrate --noinput
+release: sh build.sh
 web: npm start
