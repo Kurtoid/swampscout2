@@ -1,5 +1,6 @@
 export default class ScoredObject{
-    constructor(time, from, to){
+    constructor(type, time, from, to){
+        this.type = type
         this.time = time
         this.from = from
         this.to = to

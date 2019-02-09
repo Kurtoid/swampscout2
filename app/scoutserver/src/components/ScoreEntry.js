@@ -30,11 +30,13 @@ const styles = theme => ({
     },
 });
 export default class ScoreEntry extends React.Component {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
             scores: []
         }
+        console.log(props)
+        // this.parentHandleChange = props.onChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleDelete = this.handleDelete.bind(this)
@@ -57,11 +59,10 @@ export default class ScoreEntry extends React.Component {
     }
     handleSubmit(event) {
         if ((this.state.time | this.state.acqloc | this.state.scoreloc)) {
-            this.setState({ scores: [...this.state.scores, new ScoredObject(this.state.time, this.state.acqloc, this.state.scoreloc)] }, () => {
+            this.setState({ scores: [...this.state.scores, new ScoredObject("a thing ", this.state.time, this.state.acqloc, this.state.scoreloc)] }, () => {
                 console.log(this.state.scores)
             })
         }
-
     }
     render() {
         const { classes } = this.props;

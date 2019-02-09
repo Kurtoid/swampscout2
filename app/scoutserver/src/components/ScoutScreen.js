@@ -80,6 +80,7 @@ class ScoutScreen extends React.Component {
     }
 
     handleSubmit(event) {
+        console.log(this.state)
         fetch('/api/scouted-match/', {
             method: 'POST',
             body: JSON.stringify({
@@ -100,7 +101,6 @@ class ScoutScreen extends React.Component {
             .then(function (response) {
                 return response.json();
             }).then(myJson => {
-                event.preventDefault()
             });
         event.preventDefault();
 
@@ -168,7 +168,7 @@ class ScoutScreen extends React.Component {
                             endpoint="/api/preload/"
                             onChange={this.handleInputChange}
                             labellabel="status"
-                            valuelabel="pk" s
+                            valuelabel="pk"
                             howpk={false}
                             label="Preloaded"
                             id="preload"
@@ -182,6 +182,7 @@ class ScoutScreen extends React.Component {
                         title={"Hatches"}
                         classes={classes}
                         cookies={this.props.cookies}
+                        onChange={this.handleInputChange}
                     />
                     <div className={classes.divider} />
                     <ScoreEntry
@@ -189,6 +190,8 @@ class ScoutScreen extends React.Component {
                         title={"Cargo"}
                         classes={classes}
                         cookies={this.props.cookies}
+                        value={this.state.cargo}
+                        onChange={this.handleInputChange}
                     />
                     <div className={classes.divider} />
                     <Card className={classes.card}>
@@ -223,6 +226,7 @@ class ScoutScreen extends React.Component {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
+                        onClick={this.handleSubmit}
                     >Submit</Button>
                 </form>
             </div >
