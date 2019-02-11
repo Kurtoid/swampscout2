@@ -105,7 +105,10 @@ class ScoutScreen extends React.Component {
         event.preventDefault();
 
     }
-
+    handleScoreChange(name, value) {
+        console.log(name + " " + value)
+        this.setState({[name]: value})
+    }
     render() {
         const { classes } = this.props;
         if (this.props.cookies.get('token') == null)
@@ -161,8 +164,8 @@ class ScoutScreen extends React.Component {
                             label="Match Start Location"
                             id="matchstartstatus"
                             token={this.props.cookies.get('token')}
-                            classes={classes} 
-                            />
+                            classes={classes}
+                        />
                         <div className={classes.divider} />
                         <RadioByEndPoint
                             endpoint="/api/preload/"
@@ -178,20 +181,9 @@ class ScoutScreen extends React.Component {
                     </Card>
                     <div className={classes.divider} />
                     <ScoreEntry
-                        type={"hatches"}
-                        title={"Hatches"}
                         classes={classes}
                         cookies={this.props.cookies}
-                        onChange={this.handleInputChange}
-                    />
-                    <div className={classes.divider} />
-                    <ScoreEntry
-                        type={"cargo"}
-                        title={"Cargo"}
-                        classes={classes}
-                        cookies={this.props.cookies}
-                        value={this.state.cargo}
-                        onChange={this.handleInputChange}
+                        onChange={this.handleScoreChange.bind(this)}
                     />
                     <div className={classes.divider} />
                     <Card className={classes.card}>
