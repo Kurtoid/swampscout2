@@ -64,19 +64,7 @@ class GameTime(models.Model):
         return ("Sandstorm", "Teleop")
 
 
-class CargoFrom(models.Model):
-    location = models.CharField(max_length=255)
-
-    def __str__(self):
-        return str(self.location)
-
-    @property
-    @classmethod
-    def defaults(cls):
-        return ('Prepopulated', 'Ground')
-
-
-class HatchFrom(models.Model):
+class FromLocation(models.Model):
     location = models.CharField(max_length=255)
 
     def __str__(self):
@@ -113,7 +101,7 @@ class ScoreLocation(models.Model):
 
 class CargoScored(models.Model):
     when = models.ForeignKey('GameTime', on_delete=models.CASCADE)
-    got_from = models.ForeignKey('CargoFrom', on_delete=models.CASCADE)
+    got_from = models.ForeignKey('FromLocation', on_delete=models.CASCADE)
     scored_where = models.ForeignKey('ScoreLocation', on_delete=models.CASCADE)
     match = models.ForeignKey(
         'ScoutedMatch', on_delete=models.CASCADE, null=True)
@@ -124,7 +112,7 @@ class CargoScored(models.Model):
 
 class HatchScored(models.Model):
     when = models.ForeignKey('GameTime', on_delete=models.CASCADE)
-    got_from = models.ForeignKey('HatchFrom', on_delete=models.CASCADE)
+    got_from = models.ForeignKey('FromLocation', on_delete=models.CASCADE)
     scored_where = models.ForeignKey('ScoreLocation', on_delete=models.CASCADE)
     match = models.ForeignKey(
         'ScoutedMatch', on_delete=models.CASCADE, null=True)

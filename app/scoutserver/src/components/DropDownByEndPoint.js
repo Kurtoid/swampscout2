@@ -2,6 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 import TextField from '@material-ui/core/TextField';
+import MenuItem from '@material-ui/core/MenuItem';
+
 import Select from '@material-ui/core/Select'
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -22,8 +24,16 @@ export default class DropDownByEndPoint extends React.Component {
 
         this.updateSource()
     }
+    getNameByID(id) {
+        for (var i = 0, size = this.state.list.length; i < size; i++) {
+            var item = this.state.list[i]
+            if (item.value == id) {
+                return item.label
+            }
+        }
+        return undefined
+    }
     updateSource() {
-        console.log("updating input source for " + this.props.endpoint)
         fetch(this.props.endpoint, {
             method: 'GET',
             headers: {
@@ -36,14 +46,12 @@ export default class DropDownByEndPoint extends React.Component {
                 return response.json();
             })
             .then(myJson => {
-                console.log(myJson)
                 this.setState({
                     list: myJson.map(result => ({
                        
                         label: result[this.props.labellabel],
                     }))
                 });
-                console.log(this.state.list);
 
             }).catch(error => console.log(error));
     }
@@ -82,13 +90,16 @@ export default class DropDownByEndPoint extends React.Component {
                         <option key={0} value={0}>None</option>
 
                         {this.state.list.map((element) => {
-                            return <option key={element.value} value={element.value}>{(this.props.showpk ? element.value + ": " : "") + element.label}</option>
+                            return <option
+                                key={element.value}
+                                value={element.value}
+                            >
+                                {(this.props.showpk ? element.value + ": " : "") + element.label}
+                            </option>
                         })}
                     </Select>
                 </FormControl>
-
             </div>
-
         );
     }
 }

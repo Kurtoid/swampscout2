@@ -10,6 +10,8 @@ import RadioByEndPoint from './RadioByEndpoint'
 
 import TextField from '@material-ui/core/TextField'
 import Button from "@material-ui/core/Button"
+
+import ScoreEntry from './ScoreEntry'
 const styles = theme => ({
     TextField: {
         margin: theme.spacing.unit,
@@ -24,7 +26,10 @@ const styles = theme => ({
     },
     divider: {
         margin: theme.spacing.unit * 2,
-    }
+    },
+    listitem: {
+        flexgrow: 1,
+    },
 });
 
 class ScoutScreen extends React.Component {
@@ -49,7 +54,6 @@ class ScoutScreen extends React.Component {
         const value = target.value;
         const name = target.name;
 
-        console.log("State: " + name + " = " + value)
         this.setState({
             [name]: value
         });
@@ -64,9 +68,10 @@ class ScoutScreen extends React.Component {
         if (!(value < 0)) {
             this.setState({
                 matchNumberError: false
+            }, () => {
+                this.teamselect.updateSource()
             });
 
-            this.teamselect.updateSource()
         } else {
             this.setState({ matchNumberError: true })
             // alert("problem")
@@ -75,7 +80,6 @@ class ScoutScreen extends React.Component {
     }
 
     handleSubmit(event) {
-        console.log("sending request");
         fetch('/api/scouted-match/', {
             method: 'POST',
             body: JSON.stringify({
@@ -96,7 +100,6 @@ class ScoutScreen extends React.Component {
             .then(function (response) {
                 return response.json();
             }).then(myJson => {
-                console.log(myJson);
                 event.preventDefault()
             });
         event.preventDefault();
@@ -113,7 +116,11 @@ class ScoutScreen extends React.Component {
             );
         else return (
             <div>
-                <form id="frn1" className={classes.container} onSubmit={this.handleSubmit} autoComplete="off">
+                <form
+                    className={classes.container}
+                    onSubmit={this.handleSubmit}
+                    autoComplete="off"
+                >
                     <Card className={classes.card}>
                         <TextField
                             id="matchNumber"
@@ -127,17 +134,20 @@ class ScoutScreen extends React.Component {
                             autoFocus={true}
                             default={0}
                             onChange={this.handleMatchNumber}
+                            value={this.state.matchNumber}
                             error={this.state.matchNumberError}
                         />
                         <div className={classes.divider} />
                         <DropDownByEndPoint ref={(child) => { this.teamselect = child; }}
                             endpoint={"/api/get-teams-by-match/2016nytr/" + this.state.matchNumber}
                             onChange={this.handleInputChange}
-                            showpk={false}
+                            showpk={false} // why is this true??? making it false does not display the team number twice???
                             labellabel="display_name"
                             valuelabel="number"
                             token={this.props.cookies.get('token')}
-                            classes={classes} label="Team" id="team"
+                            classes={classes}
+                            label="Team"
+                            id="team"
                         />
                     </Card>
                     <div className={classes.divider} />
@@ -149,17 +159,17 @@ class ScoutScreen extends React.Component {
                             valuelabel="pk"
                             showpk={false}
                             label="Match Start Location"
-                            id="matchStartStatus"
+                            id="matchstartstatus"
                             token={this.props.cookies.get('token')}
-                            classes={classes}
-                        />
+                            classes={classes} 
+                            />
                         <div className={classes.divider} />
                         <RadioByEndPoint
                             endpoint="/api/preload/"
                             onChange={this.handleInputChange}
                             labellabel="status"
-                            valuelabel="pk"
-                            showpk={false}
+                            valuelabel="pk" s
+                            howpk={false}
                             label="Preloaded"
                             id="preload"
                             token={this.props.cookies.get('token')}
@@ -167,9 +177,19 @@ class ScoutScreen extends React.Component {
                         />
                     </Card>
                     <div className={classes.divider} />
-                    <Card className={classes.card}>
-                        Game Peice Scores Go Here
-                    </Card>
+                    <ScoreEntry
+                        type={"hatches"}
+                        title={"Hatches"}
+                        classes={classes}
+                        cookies={this.props.cookies}
+                    />
+                    <div className={classes.divider} />
+                    <ScoreEntry
+                        type={"cargo"}
+                        title={"Cargo"}
+                        classes={classes}
+                        cookies={this.props.cookies}
+                    />
                     <div className={classes.divider} />
                     <Card className={classes.card}>
                         <RadioByEndPoint
@@ -204,7 +224,6 @@ class ScoutScreen extends React.Component {
                         color="primary"
                         className={classes.submit}
                     >Submit</Button>
-
                 </form>
             </div >
         );

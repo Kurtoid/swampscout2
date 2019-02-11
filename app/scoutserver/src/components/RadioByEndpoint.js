@@ -10,7 +10,7 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import key from 'weak-key';
 
-export default class DropDownByEndPoint extends React.Component {
+export default class RadioByEndPoint extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -38,7 +38,6 @@ export default class DropDownByEndPoint extends React.Component {
                         label: result[this.props.labellabel],
                     }))
                 });
-                console.log(this.state.list);
 
             }).catch(error => console.log(error));
 
@@ -63,7 +62,12 @@ export default class DropDownByEndPoint extends React.Component {
                         onChange={this.handleInputChange}
                     >
                         {this.state.list.map((element) => {
-                            return <FormControlLabel key={"" + element.value} value={"" + element.value} control={<Radio />} label={(this.props.showpk ? element.value + ": " : "") + element.label} />
+                            return <FormControlLabel
+                                key={"" + element.value}
+                                value={"" + element.value}
+                                control={<Radio />}
+                                label={(this.props.showpk ? element.value + ": " : "") + element.label}
+                            />
                         })}
 
 

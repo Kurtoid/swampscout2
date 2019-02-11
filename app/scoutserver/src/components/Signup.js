@@ -46,20 +46,63 @@ const styles = theme => ({
         marginTop: theme.spacing.unit * 3,
     },
 });
-class SignIn extends React.Component {
+class SignUp extends React.Component {
     static propTypes = {
         cookies: instanceOf(Cookies).isRequired
     };
     constructor(props) {
         super(props);
         this.state = {
+            name: "",
             email: "",
             password: "",
+            passwordInvalidError: "",
+            passwordCheck: "",
+            passwordError: false,
+            team: "",
             waiting: false,
         };
 
+        this.handleValidatePassword = this.handleValidatePassword.bind(this);        
+        this.handleCheckPassword = this.handleCheckPassword.bind(this);
+
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleValidatePassword() {
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
+        this.setState({
+            [name]: value,
+        });
+        var invalid = true;
+        if (!(invalid)) {
+            this.setState({
+                passwordInvalidError: false
+            });
+        } else {
+            this.setState({ passwordInvalidError: true })
+            // alert("problem")
+        }
+    }
+
+    handleCheckPassword(event) {
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
+        this.setState({
+            [name]: value,
+        });
+        if (!(this.state.password === this.state.passwordCheck)) {
+            this.setState({
+                passwordError: false
+            });
+        } else {
+            this.setState({ passwordError: true })
+            // alert("problem")
+        }
     }
 
     handleInputChange(event) {
@@ -71,16 +114,19 @@ class SignIn extends React.Component {
             [name]: value
         });
     }
+    
     handleSubmit(event) {
         // alert('Your are: ' + this.state.email);
         this.setState({ waiting: true });
         console.log("sending request");
         const { cookies } = this.props;
-        fetch('/api-token-auth/', {
+        fetch('/api/createuser/', {
             method: 'POST',
             body: JSON.stringify({
+                name: this.state.name,
                 username: this.state.email,
-                password: this.state.password
+                password: this.state.password,
+                team: this.state.team
             }),
             headers: {
                 "Content-Type": "application/json",
@@ -107,17 +153,29 @@ class SignIn extends React.Component {
         return (
             <main className={classes.main}>
                 <CssBaseline />
-                <Paper id="main" className={classes.paper}>
-
+                <Paper className={classes.paper}>
                     {this.state.waiting ? <CircularProgress /> : <Avatar className={classes.avatar}><LockOutlinedIcon /> </Avatar>}
-                    <Typography component="h1" variant="h5">
-                        Sign in
-                </Typography>
-                    <form
-                        className={classes.form}
-                        onSubmit={this.handleSubmit}
-                    >
-                        <FormControl
+                    <Typography
+                        component="h1"
+                        variant="h5"
+                    > Sign up </Typography>
+                    <form className={classes.form} onSubmit={this.handleSubmit}>
+                    <FormControl
+                            margin="normal"
+                            required
+                            fullWidth>
+                            <InputLabel
+                                htmlFor="name"
+                            >Name</InputLabel>
+                            <Input
+                                id="name" 
+                                name="name"
+                                autoComplete="name"
+                                value={this.state.name}
+                                onChange={this.handleInputChange}
+                                autoFocus
+                            />
+                        </FormControl> <FormControl
                             margin="normal"
                             required
                             fullWidth>
@@ -125,7 +183,7 @@ class SignIn extends React.Component {
                                 htmlFor="email"
                             >Email Address</InputLabel>
                             <Input
-                                id="email"
+                                id="email" 
                                 name="email"
                                 autoComplete="email"
                                 value={this.state.email}
@@ -135,46 +193,55 @@ class SignIn extends React.Component {
                         </FormControl>
                         <FormControl
                             margin="normal"
-                            required 
+                            required
                             fullWidth
                         >
-                            <InputLabel 
-                            htmlFor="password"
+                            <InputLabel
+                                htmlFor="password"
                             >Password</InputLabel>
                             <Input
                                 name="password"
                                 type="password"
                                 id="password"
-                                autoComplete="current-password"
                                 value={this.state.password}
-                                onChange={this.handleInputChange}
+                                onChange={this.handleValidatePassword}
+                                error={this.state.passwordCheckError}
                             />
                         </FormControl>
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    value="remember" 
-                                    color="primary"
-                                />}
-                            label="Remember me"
+                        <FormControl
+                            margin="normal"
+                            required
+                            fullWidth
+                        >
+                            <InputLabel
+                                htmlFor="passwordCheck"
+                            >Password Check</InputLabel>
+                            <Input
+                                name="passwordCheck"
+                                type="passwordCheck"
+                                id="passwordCheck"
+                                value={this.state.passwordCheck}
+                                onChange={this.handleCheckPassword}
+                                error={this.state.passwordError}
+                            />
+                        </FormControl>
+                        <DropDownByEndPoint ref={(child) => { this.teamselect = child; }}
+                            endpoint={"/api/teams/" + this.state.matchNumber}
+                            onChange={this.handleInputChange}
+                            showpk={false}
+                            labellabel="display_name"
+                            valuelabel="number"
+                            classes={classes}
+                            label="Team"
+                            id="team"
                         />
                         <Button
                             type="submit"
                             fullWidth
                             variant="contained"
                             color="primary"
-                            className={classes.submit}>
-                        Sign in
-                    </Button>
-                        <Button
-                            type="button"
-                            fullWidth
-                            variant="contained"
-                            color="secondary"
-                            disabled
-                            className={classes.submit}>
-                        Sign up
-                    </Button>
+                            className={classes.submit}
+                        > Sign up </Button>
                     </form>
                 </Paper>
             </main>
@@ -183,4 +250,4 @@ class SignIn extends React.Component {
 }
 
 
-export default withStyles(styles)(withCookies(SignIn));
+export default withStyles(styles)(withCookies(SignUp));

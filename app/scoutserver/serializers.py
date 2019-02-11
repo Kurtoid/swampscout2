@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
-from .models import MyUser, Team, MatchStartStatus,PreloadStatus, GameTime, CargoFrom, HatchFrom, ScoreLocation, CargoScored, HatchScored, ScoutedMatch, Tournament, MatchEndStatus, MatchStartStatus, ScheduledMatch, Cards
+from .models import MyUser, Team, MatchStartStatus,PreloadStatus, GameTime, FromLocation, ScoreLocation, CargoScored, HatchScored, ScoutedMatch, Tournament, MatchEndStatus, MatchStartStatus, ScheduledMatch, Cards
 
 
 class TournamentSerializer(serializers.HyperlinkedModelSerializer):
@@ -32,24 +32,18 @@ class PreloadSerializer(serializers.HyperlinkedModelSerializer):
 class GameTimeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = GameTime
-        fields = ('url', 'time')
+        fields = ('url', 'time', 'pk')
 
 
-class CargoFromSerializer(serializers.HyperlinkedModelSerializer):
+class FromLocationSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = CargoFrom
-        fields = ('url', 'location')
-
-
-class HatchFromSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = HatchFrom
-        fields = ('url', 'location')
+        model = FromLocation
+        fields = ('url', 'location','pk')
 
 class ScoreLocationSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = ScoreLocation
-        fields = ('url', 'location')
+        fields = ("pk", 'url', 'location')
 
 class CargoScoredSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

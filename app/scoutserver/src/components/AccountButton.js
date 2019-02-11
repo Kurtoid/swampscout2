@@ -23,7 +23,7 @@ class AccountButton extends React.Component {
     }
 
     render() {
-        if (this.props.cookies.get('token') == null)
+        if (this.props.cookies.get('token') == null && this.props.cookies.get('token') != "")
             return (
                 <Button onClick={this.handleSignIn}>Sign In</Button>
             ); else
