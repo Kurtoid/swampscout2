@@ -39,7 +39,7 @@ export default class DropDownByEndPoint extends React.Component {
                 console.log(myJson)
                 this.setState({
                     list: myJson.map(result => ({
-                        value: result[this.props.valuelabel],
+                       
                         label: result[this.props.labellabel],
                     }))
                 });

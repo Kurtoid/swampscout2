@@ -133,7 +133,7 @@ class ScoutScreen extends React.Component {
                         <DropDownByEndPoint ref={(child) => { this.teamselect = child; }}
                             endpoint={"/api/get-teams-by-match/2016nytr/" + this.state.matchNumber}
                             onChange={this.handleInputChange}
-                            showpk={true}
+                            showpk={false}
                             labellabel="display_name"
                             valuelabel="number"
                             token={this.props.cookies.get('token')}

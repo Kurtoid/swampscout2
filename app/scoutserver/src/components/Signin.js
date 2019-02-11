@@ -107,7 +107,7 @@ class SignIn extends React.Component {
         return (
             <main className={classes.main}>
                 <CssBaseline />
-                <Paper className={classes.paper}>
+                <Paper id="main" className={classes.paper}>
 
                     {this.state.waiting ? <CircularProgress /> : <Avatar className={classes.avatar}><LockOutlinedIcon /> </Avatar>}
 
@@ -133,9 +133,17 @@ class SignIn extends React.Component {
                             fullWidth
                             variant="contained"
                             color="primary"
-                            className={classes.submit}
-                        >
-                            Sign in
+                            className={classes.submit}>
+                        Sign in
+                    </Button>
+                        <Button
+                            type="button"
+                            fullWidth
+                            variant="contained"
+                            color="secondary"
+                            disabled
+                            className={classes.submit}>
+                        Sign up
                     </Button>
                     </form>
                 </Paper>
