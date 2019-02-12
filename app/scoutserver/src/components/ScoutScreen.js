@@ -181,6 +181,7 @@ class ScoutScreen extends React.Component {
                     </Card>
                     <div className={classes.divider} />
                     <ScoreEntry
+                        title="Game Pieces"
                         classes={classes}
                         cookies={this.props.cookies}
                         onChange={this.handleScoreChange.bind(this)}

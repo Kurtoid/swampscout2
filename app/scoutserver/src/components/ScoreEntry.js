@@ -98,7 +98,17 @@ export default class ScoreEntry extends React.Component {
                     })}
                 </List>
                 <Grid container spacing={8}>
-                    <Grid item>
+                    <Grid item>  {/* TODO: This should be changed eventually to be dynamic */}
+                        {/* <DropDownByEndPoint ref={(child) => { this.timeselect = child; }}
+                                id='gamepeice'
+                                onChange={this.handleInputChange}
+                                label="Score Entry"
+                                classes={classes}
+                                endpoint="api/game-peices/"
+                                valuelabel="pk"
+                                labellabel="gamepeice"
+                                token={this.props.cookies.get('token')}
+                            /> */}
                         <FormControl variant="outlined" className={classes.formControl}>
                             <InputLabel htmlFor="type">Score Entry</InputLabel>
                             <Select
@@ -110,7 +120,9 @@ export default class ScoreEntry extends React.Component {
                                 <option value="hatch">Hatch</option>
                                 <option value="cargo">Cargo</option>
                             </Select>
-                        </FormControl>
+                        </FormControl>                        
+                    </Grid>
+                    <Grid item>
                         <DropDownByEndPoint ref={(child) => { this.timeselect = child; }}
                             id='time'
                             onChange={this.handleInputChange}
@@ -123,7 +135,6 @@ export default class ScoreEntry extends React.Component {
                         />
                     </Grid>
                     <Grid item>
-
                         <DropDownByEndPoint ref={(child) => { this.acqselect = child; }}
                             id='acqloc'
                             onChange={this.handleInputChange}
