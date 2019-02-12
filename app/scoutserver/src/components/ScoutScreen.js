@@ -125,7 +125,7 @@ class ScoutScreen extends React.Component {
                     autoComplete="off"
                 >
                     <Card className={classes.card}>
-                        <TextField
+                        <TextField // team number
                             id="matchNumber"
                             name="matchNumber"
                             label="Match Number"
@@ -141,10 +141,10 @@ class ScoutScreen extends React.Component {
                             error={this.state.matchNumberError}
                         />
                         <div className={classes.divider} />
-                        <DropDownByEndPoint ref={(child) => { this.teamselect = child; }}
+                        <DropDownByEndPoint ref={(child) => { this.teamselect = child; }} // match number
                             endpoint={"/api/get-teams-by-match/2016nytr/" + this.state.matchNumber}
                             onChange={this.handleInputChange}
-                            showpk={false} // why is this true??? making it false does not display the team number twice???
+                            showpk={false} 
                             labellabel="display_name"
                             valuelabel="number"
                             token={this.props.cookies.get('token')}
@@ -155,7 +155,7 @@ class ScoutScreen extends React.Component {
                     </Card>
                     <div className={classes.divider} />
                     <Card className={classes.card}>
-                        <RadioByEndPoint
+                        <RadioByEndPoint // robot starting location
                             endpoint="/api/match-start-status/"
                             onChange={this.handleInputChange}
                             labellabel="status"
@@ -167,7 +167,7 @@ class ScoutScreen extends React.Component {
                             classes={classes}
                         />
                         <div className={classes.divider} />
-                        <RadioByEndPoint
+                        <RadioByEndPoint // preloaded
                             endpoint="/api/preload/"
                             onChange={this.handleInputChange}
                             labellabel="status"
@@ -178,9 +178,10 @@ class ScoutScreen extends React.Component {
                             token={this.props.cookies.get('token')}
                             classes={classes}
                         />
+                        {/* auto move goes here */}
                     </Card>
                     <div className={classes.divider} />
-                    <ScoreEntry
+                    <ScoreEntry // game pieces
                         title="Game Pieces"
                         classes={classes}
                         cookies={this.props.cookies}
@@ -188,7 +189,7 @@ class ScoutScreen extends React.Component {
                     />
                     <div className={classes.divider} />
                     <Card className={classes.card}>
-                        <RadioByEndPoint
+                        <RadioByEndPoint // robot end location
                             endpoint="/api/match-end-status/"
                             onChange={this.handleInputChange}
                             labellabel="status"
@@ -200,7 +201,7 @@ class ScoutScreen extends React.Component {
                             classes={classes}
                         />
                         <div className={classes.divider} />
-                        <RadioByEndPoint
+                        <RadioByEndPoint // team cards
                             endpoint="/api/cards/"
                             onChange={this.handleInputChange}
                             labellabel="status"
