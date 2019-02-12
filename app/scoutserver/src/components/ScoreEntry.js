@@ -61,7 +61,7 @@ export default class ScoreEntry extends React.Component {
         })
     }
     handleSubmit(event) {
-        if ((this.state.time & this.state.acqloc & this.state.scoreloc & this.state.type)) {
+        if ((this.state.time && this.state.acqloc && this.state.scoreloc && this.state.type)) {
             this.setState({ scores: [...this.state.scores, new ScoredObject(this.state.type, this.state.time, this.state.acqloc, this.state.scoreloc)] }, () => {
                 console.log(this.state.scores)
                 this.props.onChange("scores", this.state.scores)
@@ -117,6 +117,7 @@ export default class ScoreEntry extends React.Component {
                                 onChange={this.handleInputChange}
                                 input={<OutlinedInput name="type" id="type" labelWidth={10} />}
                             >
+                                <option value="none">None</option>
                                 <option value="hatch">Hatch</option>
                                 <option value="cargo">Cargo</option>
                             </Select>

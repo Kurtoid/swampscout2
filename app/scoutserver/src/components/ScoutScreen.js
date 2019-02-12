@@ -11,6 +11,8 @@ import RadioByEndPoint from './RadioByEndpoint'
 import TextField from '@material-ui/core/TextField'
 import Button from "@material-ui/core/Button"
 
+import SignIn from "./MatchTable";
+
 import ScoreEntry from './ScoreEntry'
 const styles = theme => ({
     TextField: {
@@ -46,6 +48,7 @@ class ScoutScreen extends React.Component {
             labelWidth: 0,
             matchNumberError: false,
             matchNumber: 0,
+            automoveyn: false,
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -112,6 +115,7 @@ class ScoutScreen extends React.Component {
         console.log(name + " " + value)
         this.setState({[name]: value})
     }
+  
     render() {
         const { classes } = this.props;
         if (this.props.cookies.get('token') == null)
@@ -182,6 +186,9 @@ class ScoutScreen extends React.Component {
                             classes={classes}
                         />
                         {/* auto move goes here */}
+                        <div className={classes.divider} />
+                        <SignIn/>
+                        
                     </Card>
                     <div className={classes.divider} />
                     <ScoreEntry // game pieces
