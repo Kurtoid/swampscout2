@@ -63,6 +63,9 @@ class ScoutedMatchViewSet(viewsets.ModelViewSet):
     queryset = ScoutedMatch.objects.all()
     serializer_class = ScoutedMatchSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+    
+def matches(request):
+    return render(request, 'scoutserver/matches.html', {'matches': ScoutedMatch.objects.all()})
 
 class MatchEndStatusViewSet(viewsets.ModelViewSet):
     queryset = MatchEndStatus.objects.all()

@@ -32,7 +32,10 @@ const styles = theme => ({
     },
 });
 
+let eventID = "2016nytr"; // TODO: Make this dynamic
+
 class ScoutScreen extends React.Component {
+
     static propTypes = {
         cookies: instanceOf(Cookies).isRequired,
     };
@@ -142,7 +145,7 @@ class ScoutScreen extends React.Component {
                         />
                         <div className={classes.divider} />
                         <DropDownByEndPoint ref={(child) => { this.teamselect = child; }} // match number
-                            endpoint={"/api/get-teams-by-match/2016nytr/" + this.state.matchNumber}
+                            endpoint={"/api/get-teams-by-match/" + eventID  +"/" + this.state.matchNumber}
                             onChange={this.handleInputChange}
                             showpk={false} 
                             labellabel="display_name"
@@ -218,6 +221,7 @@ class ScoutScreen extends React.Component {
                         type="submit"
                         fullWidth
                         variant="contained"
+                        // disabled // no submit for you!!!
                         color="primary"
                         className={classes.submit}
                         onClick={this.handleSubmit}
