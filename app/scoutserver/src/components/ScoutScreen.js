@@ -88,7 +88,7 @@ class ScoutScreen extends React.Component {
 
     handleSubmit(event) {
         console.log(this.state)
-        fetch('/api/scouted-match/', {
+        fetch('/pegs/', {
             method: 'POST',
             body: JSON.stringify({
                 //TODO: Set backend to recieve number
@@ -98,7 +98,9 @@ class ScoutScreen extends React.Component {
                 cards: this.state.cards,
                 number: this.state.matchNumber,
                 team: "/api/teams/" + this.state.team + "/",
-                scouted_by: "/api/users/1/", // TODO: THIS TO NOT BE FIRST USER
+                scouted_by: this.props.cookies.get('token'),
+                scores: this.state.scores,
+                tournament: this.props.cookies.get('tournament'),
             }),
             headers: {
                 "Content-Type": "application/json",
@@ -122,6 +124,7 @@ class ScoutScreen extends React.Component {
     }
   
     render() {
+        cookies.set('tournament', eventID);
         const { classes } = this.props;
         if (this.props.cookies.get('token') == null)
             return (
@@ -174,7 +177,7 @@ class ScoutScreen extends React.Component {
                             valuelabel="pk"
                             showpk={false}
                             label="Match Start Location"
-                            id="matchstartstatus"
+                            id="matchStartStatus"
                             token={this.props.cookies.get('token')}
                             classes={classes}
                         />
