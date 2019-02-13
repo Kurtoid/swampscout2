@@ -11,7 +11,7 @@ import RadioByEndPoint from './RadioByEndpoint'
 import TextField from '@material-ui/core/TextField'
 import Button from "@material-ui/core/Button"
 
-import SignIn from "./MatchTable";
+import Checkbox from "./CheckboxAutoMove";
 
 import ScoreEntry from './ScoreEntry'
 const styles = theme => ({
@@ -60,6 +60,7 @@ class ScoutScreen extends React.Component {
         const value = target.value;
         const name = target.name;
 
+        console.log("State: " + name + " = " + value)
         this.setState({
             [name]: value
         });
@@ -114,6 +115,10 @@ class ScoutScreen extends React.Component {
     handleScoreChange(name, value) {
         console.log(name + " " + value)
         this.setState({[name]: value})
+    }
+
+    handleBoxChange() {       
+        this.setState({automoveyn: (state.automoveyn ? false : true)})   
     }
   
     render() {
@@ -185,10 +190,13 @@ class ScoutScreen extends React.Component {
                             token={this.props.cookies.get('token')}
                             classes={classes}
                         />
-                        {/* auto move goes here */}
+                        I hate check boxes!!!
                         <div className={classes.divider} />
-                        <SignIn/>
-                        
+                        <Checkbox
+                            value="automoveyn"
+                            color="secondary"
+                            onChange={this.handleBoxChange}
+                        />
                     </Card>
                     <div className={classes.divider} />
                     <ScoreEntry // game pieces
