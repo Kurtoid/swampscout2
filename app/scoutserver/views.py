@@ -9,7 +9,7 @@ from .serializers import UserSerializer, TeamSerializer, ScoutedMatchSerializer,
 from .models import Team, MyUser, ScoutedMatch, GameTime, CargoScored, HatchScored, FromLocation, MatchStartStatus, MatchEndStatus, ScoreLocation, Tournament, PreloadStatus, ScheduledMatch, Cards
 # Create your views here.
 import requests
-
+import json
 class UserViewSet(viewsets.ModelViewSet):
     queryset = MyUser.objects.all().order_by('team__number')
     serializer_class = UserSerializer
@@ -138,19 +138,34 @@ class ScheduledMatchList(generics.ListAPIView):
         return ScheduledMatch.objects.filter(match_number=number, event=event)
 
 
-@csrf_exempt
 class SubmitMatchView(View):
-    def get(self, request):
+    @csrf_exempt
+    def post(self, request):
+        print(request.body)
         match = ScoutedMatch()
-        print(request.POST)
-        match.number = request.POST['number']
-        match.start_status = MatchStartStatus.objects.get(pk=request.POST['start_status'])
-        match.end_status = MatchEndStatus.objects.get(pk=request.POST['end_status'])
-        match.team = Team.objects.get(pk=request.POST['team'])
-        match.tournament = Tournament.objects.get(pk=request.POST['tournament'])
-        match.user = Token.objects.get(key=request.POST['scouted_by']).user
-        # match.preload = PreloadStatus.objects.get(pk=request.Post['preload'])
-        # match.cards = Cards.objects.get(key=request.POST['cards'])
-        # match.scores = request.POST['scores']
+        data = json.loads(request.body)
+        match.number = data['number']
+        match.start_status = MatchStartStatus.objects.get(pk=data['start_status'])
+        match.end_status = MatchEndStatus.objects.get(pk=data['end_status'])
+        match.team = Team.objects.get(pk=data['team'])
+        match.tournament = Tournament.objects.get(pk=data['tournament'])
+        match.user = Token.objects.get(pk=data['scouted_by']).user
+        match.preload = PreloadStatus.objects.get(pk=data['preload'])
+        match.cards = Cards.objects.get(pk=data['cards'])
+        match.scores = data['scores']
+        match.scouted_by = Token.objects.get(key=data['scouted_by']).user
         match.save()
+        for line in data['scores']:
+            print(line)
+            score = None
+            if line['type'] == 'cargo':
+                score = HatchScored()
+            else:
+                score = CargoScored()
+            score.when = GameTime.objects.get(pk=line['time'])
+            score.got_from = FromLocation.objects.get(pk=line['from'])
+            score.scored_where = ScoreLocation.objects.get(pk=line['to'])
+            score.match = match
+            score.save()
+        return HttpResponse("good")
         

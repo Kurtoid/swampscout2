@@ -28,7 +28,7 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace="rest_framework")),
     path('api-token-auth/', rfviews.obtain_auth_token),    
-    # path('pegs/', views.SubmitMatchView.as_view()),
+    path('pegs/', views.SubmitMatchView.as_view()),
     path('matches/', views.matches),
     re_path('', views.Index.as_view()),
 

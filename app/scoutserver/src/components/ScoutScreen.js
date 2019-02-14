@@ -93,18 +93,20 @@ class ScoutScreen extends React.Component {
             method: 'POST',
             body: JSON.stringify({
                 //TODO: Set backend to recieve number
-                start_status: "/api/match-start-status/" + this.state.matchStartStatus + "/",
+                start_status: this.state.matchStartStatus,
                 preload: this.state.preload,
-                end_status: "/api/match-end-status/" + this.state.matchEndStatus + "/",
+                end_status: this.state.matchEndStatus,
                 cards: this.state.cards,
                 number: this.state.matchNumber,
-                team: "/api/teams/" + this.state.team + "/",
+                team: this.state.team,
                 scouted_by: this.props.cookies.get('token'),
                 scores: this.state.scores,
                 tournament: this.props.cookies.get('tournament'),
             }),
             headers: {
                 "Content-Type": "application/json",
+                'X-CSRFToken': this.props.cookies.get('csrftoken')
+
                 // "Content-Type": "application/x-www-form-urlencoded",
             },
         })
