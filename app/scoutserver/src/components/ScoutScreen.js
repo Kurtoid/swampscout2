@@ -54,6 +54,7 @@ class ScoutScreen extends React.Component {
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleMatchNumber = this.handleMatchNumber.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.didComponentMount = this.didComponentMount.bind(this)
     }
     handleInputChange(event) {
         const target = event.target;
@@ -122,9 +123,10 @@ class ScoutScreen extends React.Component {
     handleBoxChange() {       
         this.setState({automoveyn: (state.automoveyn ? false : true)})   
     }
-  
-    render() {
+    didComponentMount() {
         this.props.cookies.set('tournament', eventID);
+    }
+    render() {
         const { classes } = this.props;
         if (this.props.cookies.get('token') == null)
             return (
