@@ -124,7 +124,7 @@ class ScoutScreen extends React.Component {
     }
   
     render() {
-        cookies.set('tournament', eventID);
+        this.props.cookies.set('tournament', eventID);
         const { classes } = this.props;
         if (this.props.cookies.get('token') == null)
             return (
