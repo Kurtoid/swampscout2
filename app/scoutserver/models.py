@@ -26,6 +26,9 @@ class MatchStartStatus(models.Model):
     @classmethod
     def defaults(cls):
         return ("Level 1", "Level 2")
+        
+    def __str__(self):
+        return str(self.status)
 
 
 class PreloadStatus(models.Model):

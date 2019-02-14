@@ -1,10 +1,10 @@
 from django.shortcuts import render, render_to_response
-from rest_framework import viewsets
 from django.http import HttpResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
-from rest_framework import generics, permissions
+from rest_framework.authtoken.models import Token
+from rest_framework import generics, permissions, viewsets
 from .serializers import UserSerializer, TeamSerializer, ScoutedMatchSerializer, GameTimeSerializer, HatchScoredSerializer, ScoreLocationSerializer, CargoScoredSerializer, MatchEndStatusSerializer, MatchStartStatusSerializer, TournamentSerializer, PreloadSerializer, ScheduledMatchSerializer, CardsSerializer, FromLocationSerializer
 from .models import Team, MyUser, ScoutedMatch, GameTime, CargoScored, HatchScored, FromLocation, MatchStartStatus, MatchEndStatus, ScoreLocation, Tournament, PreloadStatus, ScheduledMatch, Cards
 # Create your views here.
@@ -63,6 +63,9 @@ class ScoutedMatchViewSet(viewsets.ModelViewSet):
     queryset = ScoutedMatch.objects.all()
     serializer_class = ScoutedMatchSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+    
+def matches(request):
+    return render(request, 'scoutserver/matches.html', {'matches': ScoutedMatch.objects.all()})
 
 class MatchEndStatusViewSet(viewsets.ModelViewSet):
     queryset = MatchEndStatus.objects.all()
@@ -133,3 +136,21 @@ class ScheduledMatchList(generics.ListAPIView):
         event = self.kwargs['event_code']
         number = self.kwargs['number']
         return ScheduledMatch.objects.filter(match_number=number, event=event)
+
+
+@csrf_exempt
+class SubmitMatchView(View):
+    def get(self, request):
+        match = ScoutedMatch()
+        print(request.POST)
+        match.number = request.POST['number']
+        match.start_status = MatchStartStatus.objects.get(pk=request.POST['start_status'])
+        match.end_status = MatchEndStatus.objects.get(pk=request.POST['end_status'])
+        match.team = Team.objects.get(pk=request.POST['team'])
+        match.tournament = Tournament.objects.get(pk=request.POST['tournament'])
+        match.user = Token.objects.get(key=request.POST['scouted_by']).user
+        # match.preload = PreloadStatus.objects.get(pk=request.Post['preload'])
+        # match.cards = Cards.objects.get(key=request.POST['cards'])
+        # match.scores = request.POST['scores']
+        match.save()
+        

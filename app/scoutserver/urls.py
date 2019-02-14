@@ -1,6 +1,8 @@
 from django.urls import path, include, re_path
 from rest_framework import routers, serializers, viewsets
 
+from scoutserver.views import ScoutedMatch
+
 from . import views
 from rest_framework.authtoken import views as rfviews
 router = routers.DefaultRouter()
@@ -22,10 +24,12 @@ router.register(r'cards', views.CardsViewSet)
 
 urlpatterns = [
     path('api/import-event/<str:event_code>', views.AddTournament.as_view()),
-    path('api/get-teams-by-match/<str:event_code>/<int:number>', views.ScheduledMatchList.as_view()),
+    path('api/get-teams-by-match/<str:event_code>/<int:number>', views.ScheduledMatchList.as_view()),    
     path('api/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace="rest_framework")),
-    path('api-token-auth/', rfviews.obtain_auth_token),
+    path('api-token-auth/', rfviews.obtain_auth_token),    
+    # path('pegs/', views.SubmitMatchView.as_view()),
+    path('matches/', views.matches),
     re_path('', views.Index.as_view()),
 
 ]
