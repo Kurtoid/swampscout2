@@ -49,22 +49,32 @@ class ScoutScreen extends React.Component {
             matchNumberError: false,
             matchNumber: 0,
             automoveyn: false,
+            cansubmit: false,
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleMatchNumber = this.handleMatchNumber.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.didComponentMount = this.didComponentMount.bind(this)
+        this.didComponentMount = this.didComponentMount.bind(this);
+        this.canSubmitForm = this.canSubmitForm.bind(this);
+    }
+    canSubmitForm() {
+        return (!this.state.matchNumberError && this.state.matchStartStatus != undefined && this.state.preload != undefined && this.state.matchEndStatus != undefined && this.state.cards != undefined);
     }
     handleInputChange(event) {
         const target = event.target;
         const value = target.value;
         const name = target.name;
-
-        console.log("State: " + name + " = " + value)
         this.setState({
-            [name]: value
-        });
+            [name]: value,
+        }, () => {
+            this.setState({
+                cansubmit: this.canSubmitForm()
+            }, () => {
+                console.log("State: " + name + " = " + value)
+                console.log(this.state)
+            })
+        })
     }
     handleMatchNumber(event) {
         const target = event.target;
@@ -72,18 +82,12 @@ class ScoutScreen extends React.Component {
         const name = target.name;
         this.setState({
             [name]: value,
-        });
-        if (!(value < 0)) {
-            this.setState({
-                matchNumberError: false
-            }, () => {
+            matchNumberError: (value < 0),
+        }, () => {
+            if (!this.state.matchNumberError) {
                 this.teamselect.updateSource()
-            });
-
-        } else {
-            this.setState({ matchNumberError: true })
-            // alert("problem")
-        }
+            }
+        });
 
     }
 
@@ -119,11 +123,11 @@ class ScoutScreen extends React.Component {
     }
     handleScoreChange(name, value) {
         console.log(name + " " + value)
-        this.setState({[name]: value})
+        this.setState({ [name]: value })
     }
 
-    handleBoxChange() {       
-        this.setState({automoveyn: (state.automoveyn ? false : true)})   
+    handleBoxChange() {
+        this.setState({ automoveyn: (state.automoveyn ? false : true) })
     }
     didComponentMount() {
         this.props.cookies.set('tournament', eventID);
@@ -161,9 +165,9 @@ class ScoutScreen extends React.Component {
                         />
                         <div className={classes.divider} />
                         <DropDownByEndPoint ref={(child) => { this.teamselect = child; }} // match number
-                            endpoint={"/api/get-teams-by-match/" + eventID  +"/" + this.state.matchNumber}
+                            endpoint={"/api/get-teams-by-match/" + eventID + "/" + this.state.matchNumber}
                             onChange={this.handleInputChange}
-                            showpk={false} 
+                            showpk={false}
                             labellabel="display_name"
                             valuelabel="number"
                             token={this.props.cookies.get('token')}
@@ -247,6 +251,7 @@ class ScoutScreen extends React.Component {
                         color="primary"
                         className={classes.submit}
                         onClick={this.handleSubmit}
+                        disabled={!this.state.cansubmit}
                     >Submit</Button>
                 </form>
             </div >
