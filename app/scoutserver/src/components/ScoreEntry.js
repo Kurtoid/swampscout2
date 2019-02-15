@@ -73,30 +73,10 @@ export default class ScoreEntry extends React.Component {
 
         return (
             <Card className={classes.card}>
+            <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"></link>
                 <Typography gutterBottom variant="subtitle1" component="h2">
                     {this.props.title}
-                </Typography>
-                <List>
-                    {this.state.scores.map((element, i) => {
-                        return (
-                            <ListItem key={i}>
-                                <ListItemText
-                                    primary={"During " + this.timeselect.getNameByID(element.time)
-                                        + ", picked a " + element.type + " up from " + this.acqselect.getNameByID(element.from)
-                                        + ", and scored at " + this.scoreselect.getNameByID(element.to)}
-                                />
-                                <ListItemSecondaryAction>
-                                    <IconButton
-                                        aria-label="Delete"
-                                        onClick={this.handleDelete.bind(this, i)}
-                                    >
-                                        <DeleteIcon />
-                                    </IconButton>
-                                </ListItemSecondaryAction>
-                            </ListItem>
-                        );
-                    })}
-                </List>
+                </Typography>                
                 <Grid container spacing={8}>
                     <Grid item>  {/* TODO: This should be changed eventually to be dynamic */}
                         {/* <DropDownByEndPoint ref={(child) => { this.timeselect = child; }}
@@ -117,9 +97,9 @@ export default class ScoreEntry extends React.Component {
                                 onChange={this.handleInputChange}
                                 input={<OutlinedInput name="type" id="type" labelWidth={10} />}
                             >
-                                <option value="none">None</option>
-                                <option value="hatch">Hatch</option>
-                                <option value="cargo">Cargo</option>
+                                <option value="None">None</option>
+                                <option value="Hatch">Hatch</option>
+                                <option value="Cargo">Cargo</option>
                             </Select>
                         </FormControl>                        
                     </Grid>
@@ -166,9 +146,30 @@ export default class ScoreEntry extends React.Component {
                             className={classes.submit}
                             onClick={this.handleSubmit}
                             fullWidth
-                        >Add</Button>
+                        ><i class="material-icons right">add</i></Button>
                     </Grid>
                 </Grid>
+                <List>
+                    {this.state.scores.map((element, i) => {
+                        return (
+                            <ListItem key={i}>
+                                <ListItemText
+                                    primary={"During " + this.timeselect.getNameByID(element.time)
+                                        + ", picked a " + element.type + " up from " + this.acqselect.getNameByID(element.from)
+                                        + ", and scored at " + this.scoreselect.getNameByID(element.to)}
+                                />
+                                <ListItemSecondaryAction>
+                                    <IconButton
+                                        aria-label="Delete"
+                                        onClick={this.handleDelete.bind(this, i)}
+                                    >
+                                        <DeleteIcon />
+                                    </IconButton>
+                                </ListItemSecondaryAction>
+                            </ListItem>
+                        );
+                    })}
+                </List>
             </Card>
 
         );
