@@ -154,10 +154,9 @@ class SubmitMatchView(View):
         match.end_status = MatchEndStatus.objects.get(pk=data['end_status'])
         match.team = Team.objects.get(pk=data['team'])
         match.tournament = Tournament.objects.get(pk=data['tournament'])
-        match.user = Token.objects.get(pk=data['scouted_by']).user
+        match.scouted_by = Token.objects.get(pk=data['scouted_by']).user
         match.preload = PreloadStatus.objects.get(pk=data['preload'])
-        match.cards = Cards.objects.get(pk=data['cards'])
-        match.scores = data['scores']
+        match.card = Cards.objects.get(pk=data['cards'])
         match.scouted_by = Token.objects.get(key=data['scouted_by']).user
         match.save()
         for line in data['scores']:
