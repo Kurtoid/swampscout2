@@ -10,6 +10,7 @@
     "build": "webpack --mode production ./app/scoutserver/src/index.js --output ./app/scoutserver/static/scoutserver/main.js",
     "start": "gunicorn --pythonpath app swampscout.wsgi --log-file -"
   },
+  "heroku-run-build-script": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Kurtoid/swampscout2.git"
