@@ -201,7 +201,7 @@ class ScoutScreen extends React.Component {
                             token={this.props.cookies.get('token')}
                             classes={classes}
                         />
-                        I hate check boxes!!!
+                        {/* I hate check boxes!!! */}
                         <div className={classes.divider} />
                         <Checkbox
                             value="automoveyn"
