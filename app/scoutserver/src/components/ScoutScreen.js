@@ -11,7 +11,7 @@ import RadioByEndPoint from './RadioByEndpoint'
 import TextField from '@material-ui/core/TextField'
 import Button from "@material-ui/core/Button"
 
-import Checkbox from "./CheckboxAutoMove";
+import Checkbox from "./BetterCheckbox";
 
 import ScoreEntry from './ScoreEntry'
 const styles = theme => ({
@@ -144,8 +144,13 @@ class ScoutScreen extends React.Component {
         const { classes } = this.props;
         if (this.props.cookies.get('token') == null)
             return (
-                <Card className={classes.card}>
-                    Please log in<br />I'll make this prettier later
+                <Card className={classes.card}>                    
+                    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"></link>
+                    Please log in
+                    <br />
+                    I'll make this prettier later                    
+                    <br />
+                    <i class="material-icons">code</i>
                     </Card>
             );
         else return (

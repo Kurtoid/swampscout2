@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
+import Checkbox from "./BetterCheckbox";
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -56,6 +56,7 @@ class SignIn extends React.Component {
             email: "",
             password: "",
             waiting: false,
+            rember: false,
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -70,6 +71,9 @@ class SignIn extends React.Component {
         this.setState({
             [name]: value
         });
+    }
+    handleBoxChange() {
+        this.setState({ remember: (this.state.remember ? false : true) })      
     }
     handleSubmit(event) {
         // alert('Your are: ' + this.state.email);
@@ -148,15 +152,13 @@ class SignIn extends React.Component {
                                 autoComplete="current-password"
                                 value={this.state.password}
                                 onChange={this.handleInputChange}
-                            />
+                            />                           
                         </FormControl>
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    value="remember" 
-                                    color="primary"
-                                />}
+                        <Checkbox
+                            color="primary"
+                            name="remember"
                             label="Remember me"
+                            onChange={this.handleBoxChange}
                         />
                         <Button
                             type="submit"
@@ -165,6 +167,13 @@ class SignIn extends React.Component {
                             color="primary"
                             className={classes.submit}
                         > Sign in </Button>
+                         <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            disabled
+                            color="primary"
+                        > Sign up </Button>
                     </form>
                 </Paper>
             </main>
