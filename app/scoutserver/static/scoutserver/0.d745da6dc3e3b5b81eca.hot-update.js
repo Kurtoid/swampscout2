@@ -1,1 +1,0 @@
-webpackHotUpdate(0,[!1,!1,!1,,,,,,,,function(o,e,t){"use strict";var l=t(4);console.log("hello world"),new l.MDCRipple(document.querySelector(".foo-button"))},,,!1,!1,!1,!1]);

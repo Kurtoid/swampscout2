@@ -48,7 +48,7 @@ export default class RadioByEndPoint extends React.Component {
 
     render() {
         const { classes } = this.props;
-//Match number = 1234567890-e.+E
+        //Match number = 1234567890-e.+E
         // wtf
         //went down my keyboard
         return (
@@ -69,8 +69,6 @@ export default class RadioByEndPoint extends React.Component {
                                 label={(this.props.showpk ? element.value + ": " : "") + element.label}
                             />
                         })}
-
-
                     </RadioGroup>
                 </FormControl>
 

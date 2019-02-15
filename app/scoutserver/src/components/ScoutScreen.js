@@ -11,6 +11,8 @@ import RadioByEndPoint from './RadioByEndpoint'
 import TextField from '@material-ui/core/TextField'
 import Button from "@material-ui/core/Button"
 
+import Checkbox from "./CheckboxAutoMove";
+
 import ScoreEntry from './ScoreEntry'
 const styles = theme => ({
     TextField: {
@@ -32,7 +34,10 @@ const styles = theme => ({
     },
 });
 
+let eventID = "2016nytr"; // TODO: Make this dynamic
+
 class ScoutScreen extends React.Component {
+
     static propTypes = {
         cookies: instanceOf(Cookies).isRequired,
     };
@@ -43,20 +48,33 @@ class ScoutScreen extends React.Component {
             labelWidth: 0,
             matchNumberError: false,
             matchNumber: 0,
+            automoveyn: false,
+            cansubmit: false,
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleMatchNumber = this.handleMatchNumber.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.didComponentMount = this.didComponentMount.bind(this);
+        this.canSubmitForm = this.canSubmitForm.bind(this);
+    }
+    canSubmitForm() {
+        return (!this.state.matchNumberError && this.state.matchStartStatus != undefined && this.state.preload != undefined && this.state.matchEndStatus != undefined && this.state.cards != undefined);
     }
     handleInputChange(event) {
         const target = event.target;
         const value = target.value;
         const name = target.name;
-
         this.setState({
-            [name]: value
-        });
+            [name]: value,
+        }, () => {
+            this.setState({
+                cansubmit: this.canSubmitForm()
+            }, () => {
+                console.log("State: " + name + " = " + value)
+                console.log(this.state)
+            })
+        })
     }
     handleMatchNumber(event) {
         const target = event.target;
@@ -64,48 +82,56 @@ class ScoutScreen extends React.Component {
         const name = target.name;
         this.setState({
             [name]: value,
-        });
-        if (!(value < 0)) {
-            this.setState({
-                matchNumberError: false
-            }, () => {
+            matchNumberError: (value < 0),
+        }, () => {
+            if (!this.state.matchNumberError) {
                 this.teamselect.updateSource()
-            });
-
-        } else {
-            this.setState({ matchNumberError: true })
-            // alert("problem")
-        }
+            }
+        });
 
     }
 
     handleSubmit(event) {
-        fetch('/api/scouted-match/', {
+        console.log(this.state)
+        fetch('/pegs/', {
             method: 'POST',
             body: JSON.stringify({
                 //TODO: Set backend to recieve number
-                start_status: "/api/match-start-status/" + this.state.matchStartStatus + "/",
+                start_status: this.state.matchStartStatus,
                 preload: this.state.preload,
-                end_status: "/api/match-end-status/" + this.state.matchEndStatus + "/",
+                end_status: this.state.matchEndStatus,
                 cards: this.state.cards,
                 number: this.state.matchNumber,
-                team: "/api/teams/" + this.state.team + "/",
-                scouted_by: "/api/users/1/", // TODO: THIS TO NOT BE FIRST USER
+                team: this.state.team,
+                scouted_by: this.props.cookies.get('token'),
+                scores: this.state.scores,
+                tournament: this.props.cookies.get('tournament'),
             }),
             headers: {
                 "Content-Type": "application/json",
+                'X-CSRFToken': this.props.cookies.get('csrftoken')
+
                 // "Content-Type": "application/x-www-form-urlencoded",
             },
         })
             .then(function (response) {
                 return response.json();
             }).then(myJson => {
-                event.preventDefault()
             });
         event.preventDefault();
 
     }
+    handleScoreChange(name, value) {
+        console.log(name + " " + value)
+        this.setState({ [name]: value })
+    }
 
+    handleBoxChange() {
+        this.setState({ automoveyn: (state.automoveyn ? false : true) })
+    }
+    didComponentMount() {
+        this.props.cookies.set('tournament', eventID);
+    }
     render() {
         const { classes } = this.props;
         if (this.props.cookies.get('token') == null)
@@ -122,7 +148,7 @@ class ScoutScreen extends React.Component {
                     autoComplete="off"
                 >
                     <Card className={classes.card}>
-                        <TextField
+                        <TextField // team number
                             id="matchNumber"
                             name="matchNumber"
                             label="Match Number"
@@ -138,10 +164,10 @@ class ScoutScreen extends React.Component {
                             error={this.state.matchNumberError}
                         />
                         <div className={classes.divider} />
-                        <DropDownByEndPoint ref={(child) => { this.teamselect = child; }}
-                            endpoint={"/api/get-teams-by-match/2016nytr/" + this.state.matchNumber}
+                        <DropDownByEndPoint ref={(child) => { this.teamselect = child; }} // match number
+                            endpoint={"/api/get-teams-by-match/" + eventID + "/" + this.state.matchNumber}
                             onChange={this.handleInputChange}
-                            showpk={false} // why is this true??? making it false does not display the team number twice???
+                            showpk={false}
                             labellabel="display_name"
                             valuelabel="number"
                             token={this.props.cookies.get('token')}
@@ -152,47 +178,47 @@ class ScoutScreen extends React.Component {
                     </Card>
                     <div className={classes.divider} />
                     <Card className={classes.card}>
-                        <RadioByEndPoint
+                        <RadioByEndPoint // robot starting location
                             endpoint="/api/match-start-status/"
                             onChange={this.handleInputChange}
                             labellabel="status"
                             valuelabel="pk"
                             showpk={false}
                             label="Match Start Location"
-                            id="matchstartstatus"
+                            id="matchStartStatus"
                             token={this.props.cookies.get('token')}
-                            classes={classes} 
-                            />
+                            classes={classes}
+                        />
                         <div className={classes.divider} />
-                        <RadioByEndPoint
+                        <RadioByEndPoint // preloaded
                             endpoint="/api/preload/"
                             onChange={this.handleInputChange}
                             labellabel="status"
-                            valuelabel="pk" s
+                            valuelabel="pk"
                             howpk={false}
                             label="Preloaded"
                             id="preload"
                             token={this.props.cookies.get('token')}
                             classes={classes}
                         />
+                        I hate check boxes!!!
+                        <div className={classes.divider} />
+                        <Checkbox
+                            value="automoveyn"
+                            color="secondary"
+                            onChange={this.handleBoxChange}
+                        />
                     </Card>
                     <div className={classes.divider} />
-                    <ScoreEntry
-                        type={"hatches"}
-                        title={"Hatches"}
+                    <ScoreEntry // game pieces
+                        title="Game Pieces"
                         classes={classes}
                         cookies={this.props.cookies}
-                    />
-                    <div className={classes.divider} />
-                    <ScoreEntry
-                        type={"cargo"}
-                        title={"Cargo"}
-                        classes={classes}
-                        cookies={this.props.cookies}
+                        onChange={this.handleScoreChange.bind(this)}
                     />
                     <div className={classes.divider} />
                     <Card className={classes.card}>
-                        <RadioByEndPoint
+                        <RadioByEndPoint // robot end location
                             endpoint="/api/match-end-status/"
                             onChange={this.handleInputChange}
                             labellabel="status"
@@ -204,7 +230,7 @@ class ScoutScreen extends React.Component {
                             classes={classes}
                         />
                         <div className={classes.divider} />
-                        <RadioByEndPoint
+                        <RadioByEndPoint // team cards
                             endpoint="/api/cards/"
                             onChange={this.handleInputChange}
                             labellabel="status"
@@ -221,8 +247,11 @@ class ScoutScreen extends React.Component {
                         type="submit"
                         fullWidth
                         variant="contained"
+                        // disabled // no submit for you!!!
                         color="primary"
                         className={classes.submit}
+                        onClick={this.handleSubmit}
+                        disabled={!this.state.cansubmit}
                     >Submit</Button>
                 </form>
             </div >

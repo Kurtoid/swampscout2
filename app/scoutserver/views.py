@@ -1,15 +1,15 @@
 from django.shortcuts import render, render_to_response
-from rest_framework import viewsets
 from django.http import HttpResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
-from rest_framework import generics, permissions
+from rest_framework.authtoken.models import Token
+from rest_framework import generics, permissions, viewsets
 from .serializers import UserSerializer, TeamSerializer, ScoutedMatchSerializer, GameTimeSerializer, HatchScoredSerializer, ScoreLocationSerializer, CargoScoredSerializer, MatchEndStatusSerializer, MatchStartStatusSerializer, TournamentSerializer, PreloadSerializer, ScheduledMatchSerializer, CardsSerializer, FromLocationSerializer
 from .models import Team, MyUser, ScoutedMatch, GameTime, CargoScored, HatchScored, FromLocation, MatchStartStatus, MatchEndStatus, ScoreLocation, Tournament, PreloadStatus, ScheduledMatch, Cards
 # Create your views here.
 import requests
-
+import json
 class UserViewSet(viewsets.ModelViewSet):
     queryset = MyUser.objects.all().order_by('team__number')
     serializer_class = UserSerializer
@@ -18,6 +18,8 @@ class UserViewSet(viewsets.ModelViewSet):
 class TeamViewSet(viewsets.ModelViewSet):
     queryset = Team.objects.all().order_by('number')
     serializer_class = TeamSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+
 
 class MatchViewSet(viewsets.ModelViewSet):
     queryset = ScoutedMatch.objects.all()
@@ -63,6 +65,9 @@ class ScoutedMatchViewSet(viewsets.ModelViewSet):
     queryset = ScoutedMatch.objects.all()
     serializer_class = ScoutedMatchSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+    
+def matches(request):
+    return render(request, 'scoutserver/matches.html', {'matches': ScoutedMatch.objects.all()})
 
 class MatchEndStatusViewSet(viewsets.ModelViewSet):
     queryset = MatchEndStatus.objects.all()
@@ -124,7 +129,7 @@ class AddTournament(View):
 
 class ScheduledMatchList(generics.ListAPIView):
     serializer_class = ScheduledMatchSerializer
-
+    permission_classes = (permissions.IsAuthenticated,)
     def get_queryset(self):
         """
         This view should return a list of all the purchases for
@@ -133,3 +138,36 @@ class ScheduledMatchList(generics.ListAPIView):
         event = self.kwargs['event_code']
         number = self.kwargs['number']
         return ScheduledMatch.objects.filter(match_number=number, event=event)
+
+
+class SubmitMatchView(View):
+    @csrf_exempt
+    def post(self, request):
+        print(request.body)
+        match = ScoutedMatch()
+        data = json.loads(request.body)
+        match.number = data['number']
+        match.start_status = MatchStartStatus.objects.get(pk=data['start_status'])
+        match.end_status = MatchEndStatus.objects.get(pk=data['end_status'])
+        match.team = Team.objects.get(pk=data['team'])
+        match.tournament = Tournament.objects.get(pk=data['tournament'])
+        match.user = Token.objects.get(pk=data['scouted_by']).user
+        match.preload = PreloadStatus.objects.get(pk=data['preload'])
+        match.cards = Cards.objects.get(pk=data['cards'])
+        match.scores = data['scores']
+        match.scouted_by = Token.objects.get(key=data['scouted_by']).user
+        match.save()
+        for line in data['scores']:
+            print(line)
+            score = None
+            if line['type'] == 'cargo':
+                score = HatchScored()
+            else:
+                score = CargoScored()
+            score.when = GameTime.objects.get(pk=line['time'])
+            score.got_from = FromLocation.objects.get(pk=line['from'])
+            score.scored_where = ScoreLocation.objects.get(pk=line['to'])
+            score.match = match
+            score.save()
+        return HttpResponse("good")
+        
