@@ -129,7 +129,7 @@ class AddTournament(View):
 
 class ScheduledMatchList(generics.ListAPIView):
     serializer_class = ScheduledMatchSerializer
-
+    permission_classes = (permissions.IsAuthenticated,)
     def get_queryset(self):
         """
         This view should return a list of all the purchases for
