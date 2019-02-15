@@ -1,5 +1,5 @@
 from django.shortcuts import render, render_to_response
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
@@ -141,6 +141,9 @@ class ScheduledMatchList(generics.ListAPIView):
 
 
 class SubmitMatchView(View):
+    # def get(self, request):
+    #     print("get called")
+
     @csrf_exempt
     def post(self, request):
         print(request.body)
@@ -169,5 +172,5 @@ class SubmitMatchView(View):
             score.scored_where = ScoreLocation.objects.get(pk=line['to'])
             score.match = match
             score.save()
-        return HttpResponse("good")
+        return JsonResponse({'status': 'good'})
         

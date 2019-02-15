@@ -11,7 +11,7 @@ import RadioByEndPoint from './RadioByEndpoint'
 import TextField from '@material-ui/core/TextField'
 import Button from "@material-ui/core/Button"
 
-import Checkbox from "./CheckboxAutoMove";
+import Checkbox from "./BetterCheckbox";
 
 import ScoreEntry from './ScoreEntry'
 const styles = theme => ({
@@ -50,16 +50,22 @@ class ScoutScreen extends React.Component {
             matchNumber: 0,
             automoveyn: false,
             cansubmit: false,
+            scores: {},
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleBoxChange = this.handleBoxChange.bind(this);
         this.handleMatchNumber = this.handleMatchNumber.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.didComponentMount = this.didComponentMount.bind(this);
         this.canSubmitForm = this.canSubmitForm.bind(this);
     }
     canSubmitForm() {
-        return (!this.state.matchNumberError && this.state.matchStartStatus != undefined && this.state.preload != undefined && this.state.matchEndStatus != undefined && this.state.cards != undefined);
+        return (!this.state.matchNumberError &&
+            this.state.matchStartStatus != undefined &&
+            this.state.preload != undefined &&
+            this.state.matchEndStatus != undefined &&
+            this.state.cards != undefined);
     }
     handleInputChange(event) {
         const target = event.target;
@@ -105,7 +111,8 @@ class ScoutScreen extends React.Component {
                 team: this.state.team,
                 scouted_by: this.props.cookies.get('token'),
                 scores: this.state.scores,
-                tournament: this.props.cookies.get('tournament'),
+                tournament: eventID,                
+                // tournament: this.props.cookies.get('tournament'),
             }),
             headers: {
                 "Content-Type": "application/json",
@@ -117,7 +124,8 @@ class ScoutScreen extends React.Component {
             .then(function (response) {
                 return response.json();
             }).then(myJson => {
-            });
+
+            }); // Getting an error here
         event.preventDefault();
 
     }
@@ -127,7 +135,7 @@ class ScoutScreen extends React.Component {
     }
 
     handleBoxChange() {
-        this.setState({ automoveyn: (state.automoveyn ? false : true) })
+        this.setState({ automoveyn: (this.state.automoveyn ? false : true) })      
     }
     didComponentMount() {
         this.props.cookies.set('tournament', eventID);
@@ -136,8 +144,13 @@ class ScoutScreen extends React.Component {
         const { classes } = this.props;
         if (this.props.cookies.get('token') == null)
             return (
-                <Card className={classes.card}>
-                    Please log in<br />I'll make this prettier later
+                <Card className={classes.card}>                    
+                    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"></link>
+                    Please log in
+                    <br />
+                    I'll make this prettier later                    
+                    <br />
+                    <i class="material-icons">code</i>
                     </Card>
             );
         else return (
@@ -201,12 +214,14 @@ class ScoutScreen extends React.Component {
                             token={this.props.cookies.get('token')}
                             classes={classes}
                         />
-                        I hate check boxes!!!
+                        {/* I hate check boxes!!! */}
                         <div className={classes.divider} />
                         <Checkbox
-                            value="automoveyn"
+                            label="Auto Move"
                             color="secondary"
+                            name="automoveyn"
                             onChange={this.handleBoxChange}
+     
                         />
                     </Card>
                     <div className={classes.divider} />

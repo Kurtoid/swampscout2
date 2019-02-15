@@ -48,9 +48,6 @@ export default class RadioByEndPoint extends React.Component {
 
     render() {
         const { classes } = this.props;
-        //Match number = 1234567890-e.+E
-        // wtf
-        //went down my keyboard
         return (
             <div>
                 <FormControl component="fieldset" className={classes.formControl}>

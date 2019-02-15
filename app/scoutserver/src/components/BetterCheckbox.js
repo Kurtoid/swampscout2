@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 import Checkbox from '@material-ui/core/Checkbox';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -15,6 +16,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { withCookies, Cookies } from 'react-cookie';
 import { instanceOf } from 'prop-types';
+
 const styles = theme => ({
     main: {
         width: 'auto',
@@ -46,25 +48,31 @@ const styles = theme => ({
         marginTop: theme.spacing.unit * 3,
     },
 });
-class CheckboxTemp extends React.Component {
+
+class BetterCheckbox extends React.Component {
     static propTypes = {
         cookies: instanceOf(Cookies).isRequired
     };
     constructor(props) {
         super(props);
         this.state = {
+            checked: false
         };
     }
-      
+
+
     render() {
         return (
             <FormControlLabel
-                control={<Checkbox/>}
-              label="Auto Move"
+                control={<Switch
+                    name={this.props.name}
+                    id={this.props.name}
+                    onChange={this.props.onChange}
+                />}
+                label={this.props.label}
             />
         );
     }
 }
 
-
-export default withStyles(styles)(withCookies(CheckboxTemp));
+export default withStyles(styles)(withCookies(BetterCheckbox));
