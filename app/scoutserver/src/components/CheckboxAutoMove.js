@@ -15,6 +15,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { withCookies, Cookies } from 'react-cookie';
 import { instanceOf } from 'prop-types';
+
 const styles = theme => ({
     main: {
         width: 'auto',
@@ -46,6 +47,7 @@ const styles = theme => ({
         marginTop: theme.spacing.unit * 3,
     },
 });
+
 class CheckboxTemp extends React.Component {
     static propTypes = {
         cookies: instanceOf(Cookies).isRequired
@@ -53,18 +55,23 @@ class CheckboxTemp extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            checked: false
         };
     }
-      
+
+
     render() {
         return (
             <FormControlLabel
-                control={<Checkbox/>}
-              label="Auto Move"
+                control={<Checkbox
+                    name={this.props.name}
+                    id={this.props.name}
+                    onChange={this.props.onChange}
+                />}
+                label={this.props.label}
             />
         );
     }
 }
-
 
 export default withStyles(styles)(withCookies(CheckboxTemp));
