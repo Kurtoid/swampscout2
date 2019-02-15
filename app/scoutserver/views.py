@@ -18,6 +18,8 @@ class UserViewSet(viewsets.ModelViewSet):
 class TeamViewSet(viewsets.ModelViewSet):
     queryset = Team.objects.all().order_by('number')
     serializer_class = TeamSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+
 
 class MatchViewSet(viewsets.ModelViewSet):
     queryset = ScoutedMatch.objects.all()
