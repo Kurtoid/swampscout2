@@ -96,7 +96,7 @@ class ScoutScreen extends React.Component {
             [name]: value,
             matchNumberError: (value < 0),
         }, () => {
-            if (!this.state.matchNumberError && this.state.team!=0) {
+            if (!this.state.matchNumberError && this.state.team != 0) {
                 this.teamselect.updateSource()
             }
         });
@@ -134,15 +134,26 @@ class ScoutScreen extends React.Component {
             },
         })
             .then(function (response) {
-                try{
+                try {
                     return response.json();
                 } catch (e) {
                     this.setState({ notificationOpen: true, resultMessage: "There was a problem" })
                 }
-                
+
             }).then(myJson => {
                 if (myJson['status'] == "good") {
                     this.setState({ notificationOpen: true, resultMessage: "Submitted" })
+                    this.setState({
+                        something: false,
+                        labelWidth: 0,
+                        matchNumberError: false,
+                        matchNumber: 0,
+                        automoveyn: false,
+                        cansubmit: false,
+                        scores: {},
+                        notificationOpen: false,
+                    });
+
                 } else {
                     this.setState({ notificationOpen: true, resultMessage: "There was a problem" })
                 }

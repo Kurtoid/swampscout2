@@ -7,7 +7,9 @@ from rest_framework.authtoken.models import Token
 from rest_framework import generics, permissions, viewsets
 from .serializers import UserSerializer, TeamSerializer, ScoutedMatchSerializer, GameTimeSerializer, ScoredObjectSerializer, ScoreLocationSerializer, MatchEndStatusSerializer, MatchStartStatusSerializer, TournamentSerializer, PreloadSerializer, ScheduledMatchSerializer, CardsSerializer, FromLocationSerializer
 from .models import Team, MyUser, ScoutedMatch, GameTime, ScoredObject, FromLocation, MatchStartStatus, MatchEndStatus, ScoreLocation, Tournament, PreloadStatus, ScheduledMatch, Cards
+from .tables import ScoreTable, MatchTable
 from django.db.models import Q
+from django_tables2 import RequestConfig
 # Create your views here.
 import requests
 import json
@@ -63,10 +65,14 @@ class ScoutedMatchViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
     
 def matches(request, meaningless):
-    return render(request, 'scoutserver/matches.html', {'matches': ScoutedMatch.objects.all()})
+    table = MatchTable(ScoutedMatch.objects.all())
+    RequestConfig(request, paginate={'per_page': 9999}).configure(table)
+    return render(request, 'scoutserver/matches.html', {'table': table})
 
 def scores(request, meaningless):
-    return render(request, 'scoutserver/matches.html', {'matches': ScoredObject.objects.all()})
+    table = ScoreTable(ScoredObject.objects.all())
+    RequestConfig(request, paginate={'per_page': 9999}).configure(table)
+    return render(request, 'scoutserver/matches.html', {'table': table})
 
 
 class MatchEndStatusViewSet(viewsets.ModelViewSet):
