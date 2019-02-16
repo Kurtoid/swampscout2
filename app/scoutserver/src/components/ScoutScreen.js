@@ -143,17 +143,7 @@ class ScoutScreen extends React.Component {
             }).then(myJson => {
                 if (myJson['status'] == "good") {
                     this.setState({ notificationOpen: true, resultMessage: "Submitted" })
-                    this.setState({
-                        something: false,
-                        labelWidth: 0,
-                        matchNumberError: false,
-                        matchNumber: 0,
-                        automoveyn: false,
-                        cansubmit: false,
-                        scores: {},
-                        notificationOpen: false,
-                    });
-
+                    location.reload()
                 } else {
                     this.setState({ notificationOpen: true, resultMessage: "There was a problem" })
                 }
@@ -219,6 +209,7 @@ class ScoutScreen extends React.Component {
                             classes={classes}
                             label="Team"
                             id="team"
+                            value={this.state.team}
                         />
                     </Card>
                     <div className={classes.divider} />
@@ -233,6 +224,7 @@ class ScoutScreen extends React.Component {
                             id="matchStartStatus"
                             token={this.props.cookies.get('token')}
                             classes={classes}
+                            value={this.state.matchStartStatus}
                         />
                         <div className={classes.divider} />
                         <RadioByEndPoint // preloaded
@@ -245,6 +237,7 @@ class ScoutScreen extends React.Component {
                             id="preload"
                             token={this.props.cookies.get('token')}
                             classes={classes}
+                            value={this.state.preload}
                         />
                         {/* I hate check boxes!!! */}
                         <div className={classes.divider} />
@@ -262,6 +255,8 @@ class ScoutScreen extends React.Component {
                         classes={classes}
                         cookies={this.props.cookies}
                         onChange={this.handleScoreChange.bind(this)}
+                        value={this.state.scores}
+                        
                     />
                     <div className={classes.divider} />
                     <Card className={classes.card}>
@@ -275,6 +270,7 @@ class ScoutScreen extends React.Component {
                             id="matchEndStatus"
                             token={this.props.cookies.get('token')}
                             classes={classes}
+                            value={this.state.matchEndStatus}
                         />
                         <div className={classes.divider} />
                         <RadioByEndPoint // team cards
@@ -287,6 +283,7 @@ class ScoutScreen extends React.Component {
                             id="cards"
                             token={this.props.cookies.get('token')}
                             classes={classes}
+                            value={this.state.cards}
                         />
                     </Card>
                     <div className={classes.divider} />

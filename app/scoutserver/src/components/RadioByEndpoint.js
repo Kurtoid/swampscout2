@@ -55,7 +55,7 @@ export default class RadioByEndPoint extends React.Component {
                     <RadioGroup
                         name={this.props.id}
                         className={classes.group}
-                        value={this.state.value}
+                        value={this.props.value}
                         onChange={this.handleInputChange}
                     >
                         {this.state.list.map((element) => {
