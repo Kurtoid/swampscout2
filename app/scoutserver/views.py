@@ -5,8 +5,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
 from rest_framework.authtoken.models import Token
 from rest_framework import generics, permissions, viewsets
-from .serializers import UserSerializer, TeamSerializer, ScoutedMatchSerializer, GameTimeSerializer, HatchScoredSerializer, ScoreLocationSerializer, CargoScoredSerializer, MatchEndStatusSerializer, MatchStartStatusSerializer, TournamentSerializer, PreloadSerializer, ScheduledMatchSerializer, CardsSerializer, FromLocationSerializer
-from .models import Team, MyUser, ScoutedMatch, GameTime, CargoScored, HatchScored, FromLocation, MatchStartStatus, MatchEndStatus, ScoreLocation, Tournament, PreloadStatus, ScheduledMatch, Cards
+from .serializers import UserSerializer, TeamSerializer, ScoutedMatchSerializer, GameTimeSerializer, ScoredObjectSerializer, ScoreLocationSerializer, MatchEndStatusSerializer, MatchStartStatusSerializer, TournamentSerializer, PreloadSerializer, ScheduledMatchSerializer, CardsSerializer, FromLocationSerializer
+from .models import Team, MyUser, ScoutedMatch, GameTime, ScoredObject, FromLocation, MatchStartStatus, MatchEndStatus, ScoreLocation, Tournament, PreloadStatus, ScheduledMatch, Cards
+from django.db.models import Q
 # Create your views here.
 import requests
 import json
@@ -51,14 +52,9 @@ class ScoreLocationViewSet(viewsets.ModelViewSet):
     serializer_class = ScoreLocationSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
 
-class CargoScoredViewSet(viewsets.ModelViewSet):
-    queryset = CargoScored.objects.all()
-    serializer_class = CargoScoredSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
-
-class HatchScoredViewSet(viewsets.ModelViewSet):
-    queryset = HatchScored.objects.all()
-    serializer_class = HatchScoredSerializer
+class ScoredObjectViewSet(viewsets.ModelViewSet):
+    queryset = ScoredObject.objects.all()
+    serializer_class = ScoredObjectSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
 
 class ScoutedMatchViewSet(viewsets.ModelViewSet):
@@ -68,6 +64,10 @@ class ScoutedMatchViewSet(viewsets.ModelViewSet):
     
 def matches(request):
     return render(request, 'scoutserver/matches.html', {'matches': ScoutedMatch.objects.all()})
+
+def scores(request):
+    return render(request, 'scoutserver/matches.html', {'matches': ScoredObject.objects.all()})
+
 
 class MatchEndStatusViewSet(viewsets.ModelViewSet):
     queryset = MatchEndStatus.objects.all()
@@ -161,11 +161,8 @@ class SubmitMatchView(View):
         match.save()
         for line in data['scores']:
             print(line)
-            score = None
-            if line['type'] == 'cargo':
-                score = HatchScored()
-            else:
-                score = CargoScored()
+            score = ScoredObject()
+            score.obj_type = line['type']
             score.when = GameTime.objects.get(pk=line['time'])
             score.got_from = FromLocation.objects.get(pk=line['from'])
             score.scored_where = ScoreLocation.objects.get(pk=line['to'])

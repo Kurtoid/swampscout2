@@ -102,23 +102,13 @@ class ScoreLocation(models.Model):
         return ('Cargo Ship', 'Rocket Level 1', 'Rocket Level 2', 'Rocket Level 3', 'Dropped')
 
 
-class CargoScored(models.Model):
+class ScoredObject(models.Model):
     when = models.ForeignKey('GameTime', on_delete=models.CASCADE)
     got_from = models.ForeignKey('FromLocation', on_delete=models.CASCADE)
     scored_where = models.ForeignKey('ScoreLocation', on_delete=models.CASCADE)
     match = models.ForeignKey(
         'ScoutedMatch', on_delete=models.CASCADE, null=True)
-
-    def __str__(self):
-        return str(self.when)+" "+str(self.got_from)+" "+str(self.scored_where)+" "+str(self.match)
-
-
-class HatchScored(models.Model):
-    when = models.ForeignKey('GameTime', on_delete=models.CASCADE)
-    got_from = models.ForeignKey('FromLocation', on_delete=models.CASCADE)
-    scored_where = models.ForeignKey('ScoreLocation', on_delete=models.CASCADE)
-    match = models.ForeignKey(
-        'ScoutedMatch', on_delete=models.CASCADE, null=True)
+    obj_type = models.CharField(max_length = 255)
 
     def __str__(self):
         return str(self.when)+" "+str(self.got_from)+" "+str(self.scored_where)+" "+str(self.match)

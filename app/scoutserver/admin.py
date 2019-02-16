@@ -83,8 +83,7 @@ class UserAdmin(BaseUserAdmin):
 # Now register the new UserAdmin...
 admin.site.register(MyUser, UserAdmin)
 admin.site.register(models.FromLocation)
-admin.site.register(models.CargoScored)
-admin.site.register(models.HatchScored)
+admin.site.register(models.ScoredObject)
 admin.site.register(models.MatchEndStatus)
 admin.site.register(models.MatchStartStatus)
 admin.site.register(models.ScoreLocation)

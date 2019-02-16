@@ -13,7 +13,7 @@ router.register(r'match-start-status', views.MatchStartStatusViewSet)
 router.register(r'game-time', views.GameTimeViewSet)
 router.register(r'from-locations', views.FromLocationViewSet)
 router.register(r'score-locations', views.ScoreLocationViewSet)
-router.register(r'cargo-score-locations', views.CargoScoredViewSet)
+router.register(r'object-score-locations', views.ScoredObjectViewSet)
 router.register(r'scouted-match', views.ScoutedMatchViewSet)
 router.register(r'match-end-status', views.MatchEndStatusViewSet)
 router.register(r'tournament', views.TournamentViewSet)
@@ -30,6 +30,8 @@ urlpatterns = [
     path('api-token-auth/', rfviews.obtain_auth_token),    
     path('pegs/', views.SubmitMatchView.as_view()),
     path('matches/', views.matches),
+    path('scores/', views.scores),
+
     re_path('', views.Index.as_view()),
 
 ]
