@@ -38,7 +38,7 @@ const styles = theme => ({
     },
 });
 
-let eventID = "2016nytr"; // TODO: Make this dynamic
+let eventID = "COTS2019"; // TODO: Make this dynamic
 
 class ScoutScreen extends React.Component {
 
