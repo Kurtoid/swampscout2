@@ -137,6 +137,7 @@ class ScheduledMatchList(generics.ListAPIView):
         """
         event = self.kwargs['event_code']
         number = self.kwargs['number']
+        
         return ScheduledMatch.objects.filter(match_number=number, event=event)
 
 
@@ -147,26 +148,28 @@ class SubmitMatchView(View):
     @csrf_exempt
     def post(self, request):
         print(request.body)
-        match = ScoutedMatch()
-        data = json.loads(request.body)
-        match.number = data['number']
-        match.start_status = MatchStartStatus.objects.get(pk=data['start_status'])
-        match.end_status = MatchEndStatus.objects.get(pk=data['end_status'])
-        match.team = Team.objects.get(pk=data['team'])
-        match.tournament = Tournament.objects.get(pk=data['tournament'])
-        match.scouted_by = Token.objects.get(pk=data['scouted_by']).user
-        match.preload = PreloadStatus.objects.get(pk=data['preload'])
-        match.card = Cards.objects.get(pk=data['cards'])
-        match.scouted_by = Token.objects.get(key=data['scouted_by']).user
-        match.save()
-        for line in data['scores']:
-            print(line)
-            score = ScoredObject()
-            score.obj_type = line['type']
-            score.when = GameTime.objects.get(pk=line['time'])
-            score.got_from = FromLocation.objects.get(pk=line['from'])
-            score.scored_where = ScoreLocation.objects.get(pk=line['to'])
-            score.match = match
-            score.save()
-        return JsonResponse({'status': 'good'})
-        
+        try:
+            match = ScoutedMatch()
+            data = json.loads(request.body)
+            match.number = data['number']
+            match.start_status = MatchStartStatus.objects.get(pk=data['start_status'])
+            match.end_status = MatchEndStatus.objects.get(pk=data['end_status'])
+            match.team = Team.objects.get(pk=data['team'])
+            match.tournament = Tournament.objects.get(pk=data['tournament'])
+            match.scouted_by = Token.objects.get(pk=data['scouted_by']).user
+            match.preload = PreloadStatus.objects.get(pk=data['preload'])
+            match.card = Cards.objects.get(pk=data['cards'])
+            match.scouted_by = Token.objects.get(key=data['scouted_by']).user
+            match.save()
+            for line in data['scores']:
+                print(line)
+                score = ScoredObject()
+                score.obj_type = line['type']
+                score.when = GameTime.objects.get(pk=line['time'])
+                score.got_from = FromLocation.objects.get(pk=line['from'])
+                score.scored_where = ScoreLocation.objects.get(pk=line['to'])
+                score.match = match
+                score.save()
+            return JsonResponse({'status': 'good'})
+        except:
+            return JsonResponse({'status': 'bad'})

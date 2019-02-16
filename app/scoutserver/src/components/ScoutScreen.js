@@ -14,6 +14,10 @@ import Button from "@material-ui/core/Button"
 import Checkbox from "./BetterCheckbox";
 
 import ScoreEntry from './ScoreEntry'
+import Snackbar from "@material-ui/core/Snackbar";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
+
 const styles = theme => ({
     TextField: {
         margin: theme.spacing.unit,
@@ -51,6 +55,7 @@ class ScoutScreen extends React.Component {
             automoveyn: false,
             cansubmit: false,
             scores: {},
+            notificationOpen: false,
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -59,6 +64,7 @@ class ScoutScreen extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.didComponentMount = this.didComponentMount.bind(this);
         this.canSubmitForm = this.canSubmitForm.bind(this);
+        this.handleClose = this.handleClose.bind(this);
     }
     canSubmitForm() {
         return (!this.state.matchNumberError &&
@@ -90,13 +96,19 @@ class ScoutScreen extends React.Component {
             [name]: value,
             matchNumberError: (value < 0),
         }, () => {
-            if (!this.state.matchNumberError) {
+            if (!this.state.matchNumberError && this.state.team!=0) {
                 this.teamselect.updateSource()
             }
         });
 
     }
+    handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
 
+        this.setState({ notificationOpen: false });
+    };
     handleSubmit(event) {
         console.log(this.state)
         fetch('/pegs/', {
@@ -111,7 +123,7 @@ class ScoutScreen extends React.Component {
                 team: this.state.team,
                 scouted_by: this.props.cookies.get('token'),
                 scores: this.state.scores,
-                tournament: eventID,                
+                tournament: eventID,
                 // tournament: this.props.cookies.get('tournament'),
             }),
             headers: {
@@ -122,9 +134,18 @@ class ScoutScreen extends React.Component {
             },
         })
             .then(function (response) {
-                return response.json();
+                try{
+                    return response.json();
+                } catch (e) {
+                    this.setState({ notificationOpen: true, resultMessage: "There was a problem" })
+                }
+                
             }).then(myJson => {
-
+                if (myJson['status'] == "good") {
+                    this.setState({ notificationOpen: true, resultMessage: "Submitted" })
+                } else {
+                    this.setState({ notificationOpen: true, resultMessage: "There was a problem" })
+                }
             }); // Getting an error here
         event.preventDefault();
 
@@ -135,7 +156,7 @@ class ScoutScreen extends React.Component {
     }
 
     handleBoxChange() {
-        this.setState({ automoveyn: (this.state.automoveyn ? false : true) })      
+        this.setState({ automoveyn: (this.state.automoveyn ? false : true) })
     }
     didComponentMount() {
         this.props.cookies.set('tournament', eventID);
@@ -144,14 +165,14 @@ class ScoutScreen extends React.Component {
         const { classes } = this.props;
         if (this.props.cookies.get('token') == null)
             return (
-                <Card className={classes.card}>                    
+                <Card className={classes.card}>
                     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"></link>
                     Please log in
                     <br />
-                    I'll make this prettier later                    
+                    I'll make this prettier later
                     <br />
-                    <i class="material-icons">code</i>
-                    </Card>
+                    <i className="material-icons">code</i>
+                </Card>
             );
         else return (
             <div>
@@ -221,7 +242,7 @@ class ScoutScreen extends React.Component {
                             color="secondary"
                             name="automoveyn"
                             onChange={this.handleBoxChange}
-     
+
                         />
                     </Card>
                     <div className={classes.divider} />
@@ -269,6 +290,30 @@ class ScoutScreen extends React.Component {
                         disabled={!this.state.cansubmit}
                     >Submit</Button>
                 </form>
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    }}
+                    open={this.state.notificationOpen}
+                    autoHideDuration={6000}
+                    onClose={this.handleClose}
+                    ContentProps={{
+                        'aria-describedby': 'message-id',
+                    }}
+                    message={<span id="message-id">{this.state.resultMessage}</span>}
+                    action={[
+                        <IconButton
+                            key="close"
+                            aria-label="Close"
+                            color="inherit"
+                            className={classes.close}
+                            onClick={this.handleClose}
+                        >
+                            <CloseIcon />
+                        </IconButton>,
+                    ]}
+                />
             </div >
         );
     }

@@ -146,7 +146,7 @@ export default class ScoreEntry extends React.Component {
                             className={classes.submit}
                             onClick={this.handleSubmit}
                             fullWidth
-                        ><i class="material-icons right">add</i></Button>
+                        ><i className="material-icons right">add</i></Button>
                     </Grid>
                 </Grid>
                 <List>
