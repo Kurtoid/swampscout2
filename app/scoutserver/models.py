@@ -131,6 +131,7 @@ class ScoutedMatch(models.Model):
     scouted_by = models.ForeignKey('MyUser', on_delete=models.CASCADE)
     card = models.ForeignKey('Cards', on_delete=models.CASCADE)
     preload = models.ForeignKey('PreloadStatus', on_delete=models.CASCADE)
+    auto_move = models.BooleanField()
     def __str__(self):
         return str(self.tournament)+" "+str(self.number)+" "+str(self.team)+" "+str(self.scouted_by)
 

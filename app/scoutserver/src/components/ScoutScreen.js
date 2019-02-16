@@ -124,6 +124,7 @@ class ScoutScreen extends React.Component {
                 scouted_by: this.props.cookies.get('token'),
                 scores: this.state.scores,
                 tournament: eventID,
+                auto_move: this.state.automoveyn,
                 // tournament: this.props.cookies.get('tournament'),
             }),
             headers: {
