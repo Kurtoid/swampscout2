@@ -113,7 +113,6 @@ class ScoredObject(models.Model):
     def __str__(self):
         return str(self.when)+" "+str(self.got_from)+" "+str(self.scored_where)+" "+str(self.match)
 
-
 class Tournament(models.Model):
     name = models.CharField(max_length=200, default="UNAMED")
     event_code = models.CharField(max_length=200, default="UNAMED", primary_key=True)

@@ -18,6 +18,7 @@ import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import BugReport from "@material-ui/icons/BugReport"
+import TeamDropDown from "./TeamDropDown"
 const styles = theme => ({
     TextField: {
         margin: theme.spacing.unit,
@@ -38,7 +39,7 @@ const styles = theme => ({
     },
 });
 
-let eventID = "COTS2019"; // TODO: Make this dynamic
+let eventID = "2016nytr"; // TODO: Make this dynamic
 
 class ScoutScreen extends React.Component {
 
@@ -199,7 +200,7 @@ class ScoutScreen extends React.Component {
                             error={this.state.matchNumberError}
                         />
                         <div className={classes.divider} />
-                        <DropDownByEndPoint ref={(child) => { this.teamselect = child; }} // match number
+                        <TeamDropDown ref={(child) => { this.teamselect = child; }} // match number
                             endpoint={"/api/get-teams-by-match/" + eventID + "/" + this.state.matchNumber}
                             onChange={this.handleInputChange}
                             showpk={false}
