@@ -17,7 +17,7 @@ import ScoreEntry from './ScoreEntry'
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
-
+import BugReport from "@material-ui/Icons/BugReport"
 const styles = theme => ({
     TextField: {
         margin: theme.spacing.unit,
@@ -168,12 +168,11 @@ class ScoutScreen extends React.Component {
         if (this.props.cookies.get('token') == null)
             return (
                 <Card className={classes.card}>
-                    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"></link>
                     Please log in
                     <br />
                     I'll make this prettier later
                     <br />
-                    <i className="material-icons">code</i>
+                    <BugReport />
                 </Card>
             );
         else return (
