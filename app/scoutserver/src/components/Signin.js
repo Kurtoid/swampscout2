@@ -1,20 +1,22 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from "./BetterCheckbox";
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { withCookies, Cookies } from 'react-cookie';
 import { instanceOf } from 'prop-types';
+import Snackbar from "@material-ui/core/Snackbar";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
+import LockOutlinedIcon from "@material-ui/icons/Lock";
+
 const styles = theme => ({
     main: {
         width: 'auto',
@@ -73,7 +75,7 @@ class SignIn extends React.Component {
         });
     }
     handleBoxChange() {
-        this.setState({ remember: (this.state.remember ? false : true) })      
+        this.setState({ remember: (this.state.remember ? false : true) })
     }
     handleSubmit(event) {
         // alert('Your are: ' + this.state.email);
@@ -96,15 +98,24 @@ class SignIn extends React.Component {
             })
             .then(myJson => {
                 cookies.set('token', myJson['token'], { path: '/' });
-                if(myJson['token']!=null){
+                if (myJson['token'] != null) {
                     console.log(JSON.stringify(myJson));
                     this.props.history.push("/");
-                }else{
-                    this.setState({waiting: false});
+                } else {
+                    this.setState({ waiting: false });
+                    this.setState({ notificationOpen: true, resultMessage: "Wrong username or password" })
+
                 }
             }).catch(error => console.log(error));
         event.preventDefault();
     }
+    handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        this.setState({ notificationOpen: false });
+    };
 
     render() {
         const { classes } = this.props;
@@ -139,11 +150,11 @@ class SignIn extends React.Component {
                         </FormControl>
                         <FormControl
                             margin="normal"
-                            required 
+                            required
                             fullWidth
                         >
-                            <InputLabel 
-                            htmlFor="password"
+                            <InputLabel
+                                htmlFor="password"
                             >Password</InputLabel>
                             <Input
                                 name="password"
@@ -152,7 +163,7 @@ class SignIn extends React.Component {
                                 autoComplete="current-password"
                                 value={this.state.password}
                                 onChange={this.handleInputChange}
-                            />                           
+                            />
                         </FormControl>
                         <Checkbox
                             color="primary"
@@ -167,7 +178,7 @@ class SignIn extends React.Component {
                             color="primary"
                             className={classes.submit}
                         > Sign in </Button>
-                         <Button
+                        <Button
                             type="submit"
                             fullWidth
                             variant="contained"
@@ -176,6 +187,31 @@ class SignIn extends React.Component {
                         > Sign up </Button>
                     </form>
                 </Paper>
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    }}
+                    open={this.state.notificationOpen}
+                    autoHideDuration={6000}
+                    onClose={this.handleClose}
+                    ContentProps={{
+                        'aria-describedby': 'message-id',
+                    }}
+                    message={<span id="message-id">{this.state.resultMessage}</span>}
+                    action={[
+                        <IconButton
+                            key="close"
+                            aria-label="Close"
+                            color="inherit"
+                            className={classes.close}
+                            onClick={this.handleClose}
+                        >
+                            <CloseIcon />
+                        </IconButton>,
+                    ]}
+                />
+
             </main>
         );
     }

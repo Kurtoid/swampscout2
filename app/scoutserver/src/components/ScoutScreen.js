@@ -17,7 +17,7 @@ import ScoreEntry from './ScoreEntry'
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
-import BugReport from "@material-ui/Icons/BugReport"
+import BugReport from "@material-ui/icons/BugReport"
 const styles = theme => ({
     TextField: {
         margin: theme.spacing.unit,
@@ -148,7 +148,7 @@ class ScoutScreen extends React.Component {
                 } else {
                     this.setState({ notificationOpen: true, resultMessage: "There was a problem" })
                 }
-            }); // Getting an error here
+            }); 
         event.preventDefault();
 
     }
