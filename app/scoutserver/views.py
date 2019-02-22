@@ -180,4 +180,4 @@ class SubmitMatchView(View):
             return JsonResponse({'status': 'good'})
         except Exception as e:
             print(e)
-            return JsonResponse({'status': 'bad', 'except': e})
+            return JsonResponse({'status': 'bad'})
