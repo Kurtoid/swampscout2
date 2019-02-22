@@ -5,6 +5,8 @@ class MatchTable(tables.Table):
     class Meta:
         model = ScoutedMatch
         template_name = 'django_tables2/bootstrap.html'
+        sequence = ("number", "...")
+
 #         exclude=('id',)
     team = tables.Column(accessor='team.number', verbose_name='Team')
 
@@ -15,5 +17,4 @@ class ScoreTable(tables.Table):
     class Meta:
         model = ScoredObject
         template_name = 'django_tables2/bootstrap.html'
-        sequence = ("number", "...")
 #         exclude=('id',)
