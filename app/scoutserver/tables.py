@@ -15,4 +15,4 @@ class ScoreTable(tables.Table):
     class Meta:
         model = ScoredObject
         template_name = 'django_tables2/bootstrap.html'
-        exclude=('id',)
+#         exclude=('id',)
