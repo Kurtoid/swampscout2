@@ -178,6 +178,6 @@ class SubmitMatchView(View):
                 score.match = match
                 score.save()
             return JsonResponse({'status': 'good'})
-        except Exception as e
+        except Exception as e:
             print(e)
             return JsonResponse({'status': 'bad', 'except': e})
