@@ -141,5 +141,5 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     )
 }
-
+SECURE_SSL_REDIRECT = True
 django_heroku.settings(locals())
