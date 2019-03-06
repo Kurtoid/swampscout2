@@ -165,8 +165,9 @@ class SubmitMatchView(View):
             match.scouted_by = Token.objects.get(pk=data['scouted_by']).user
             match.preload = PreloadStatus.objects.get(pk=data['preload'])
             match.card = Cards.objects.get(pk=data['cards'])
-            match.scouted_by = Token.objects.get(key=data['scouted_by']).user
+            match.scouted_by = Token.objects.get(key=data['scouted_by']).user            
             match.auto_move = data['auto_move']
+            match.playedD = data['playedD']
             match.save()
             for line in data['scores']:
                 print(line)

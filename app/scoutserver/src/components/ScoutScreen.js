@@ -54,6 +54,7 @@ class ScoutScreen extends React.Component {
             matchNumberError: false,
             matchNumber: 0,
             automoveyn: false,
+            playedD: false,
             cansubmit: false,
             scores: {},
             notificationOpen: false,
@@ -126,6 +127,7 @@ class ScoutScreen extends React.Component {
                 scores: this.state.scores,
                 tournament: eventID,
                 auto_move: this.state.automoveyn,
+                playedD: this.state.playedD,
                 // tournament: this.props.cookies.get('tournament'),
             }),
             headers: {
@@ -249,6 +251,12 @@ class ScoutScreen extends React.Component {
                             onChange={this.handleBoxChange}
 
                         />
+                        <Checkbox
+                            label="Played Defense"
+                            color="secondary"
+                            name="playedD"
+                            onChange={this.handleBoxChange}
+                        />
                     </Card>
                     <div className={classes.divider} />
                     <ScoreEntry // game pieces
@@ -297,7 +305,9 @@ class ScoutScreen extends React.Component {
                         className={classes.submit}
                         onClick={this.handleSubmit}
                         disabled={!this.state.cansubmit}
-                    >Submit</Button>
+                    >
+                    Submit
+                    </Button>
                 </form>
                 <Snackbar
                     anchorOrigin={{

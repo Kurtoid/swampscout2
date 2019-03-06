@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import SignIn from "./Signin";
+import SignUp from "./Signup";
 import SimpleAppBar from "./TopAppBar"
 import SimpleFooter from "./BottomAppBar"
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
@@ -33,6 +34,7 @@ const App = () => (
             <main>
                 <Switch>
                     <Route path="/signin" component={SignIn} />
+                    <Route path="/signup" component={SignIn} />
                     <Route exact path='/' component={MainMenu} />
                 </Switch>
             </main>
