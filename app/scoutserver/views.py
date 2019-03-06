@@ -1,7 +1,7 @@
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponse, JsonResponse
 from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 from django.views.generic import View
 from rest_framework.authtoken.models import Token
 from rest_framework import generics, permissions, viewsets
@@ -10,9 +10,16 @@ from .models import Team, MyUser, ScoutedMatch, GameTime, ScoredObject, FromLoca
 from .tables import ScoreTable, MatchTable
 from django.db.models import Q
 from django_tables2 import RequestConfig
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication 
 # Create your views here.
 import requests
 import json
+
+class CsrfExemptSessionAuthentication(SessionAuthentication): # Don't mind me
+
+    def enforce_csrf(self, request):
+        return  # To not perform the csrf check previously happening
+
 class UserViewSet(viewsets.ModelViewSet):
     queryset = MyUser.objects.all().order_by('team__number')
     serializer_class = UserSerializer
@@ -100,7 +107,9 @@ class TournamentViewSet(viewsets.ModelViewSet):
     serializer_class = TournamentSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
 
-class Index(View):
+class Index(View):    
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
+    # @method_decorator(ensure_csrf_cookie)
     def get(self, request):
         return render(request, 'scoutserver/index.html')
 
@@ -166,7 +175,6 @@ class SubmitMatchView(View):
     # def get(self, request):
     #     print("get called")
 
-    @csrf_exempt
     def post(self, request):
         print(request.body)
         try:

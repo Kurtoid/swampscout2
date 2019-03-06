@@ -18,6 +18,7 @@ import NativeSelect from "@material-ui/core/NativeSelect"
 import Input from '@material-ui/core/Input'
 import key from 'weak-key'
 import { createVerify } from 'crypto';
+import Add from "@material-ui/icons/Add"
 import { Typography, Select, OutlinedInput } from '@material-ui/core';
 
 const styles = theme => ({
@@ -146,7 +147,7 @@ export default class ScoreEntry extends React.Component {
                             className={classes.submit}
                             onClick={this.handleSubmit}
                             fullWidth
-                        ><i className="material-icons right">add</i></Button>
+                        ><Add /></Button>
                     </Grid>
                 </Grid>
                 <List>
