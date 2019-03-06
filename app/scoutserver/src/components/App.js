@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import SignIn from "./Signin";
 import SimpleAppBar from "./TopAppBar"
+import SimpleFooter from "./BottomAppBar"
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 import MainMenu from "./MainMenu";
 import { createMuiTheme } from '@material-ui/core/styles';
@@ -35,6 +36,7 @@ const App = () => (
                     <Route exact path='/' component={MainMenu} />
                 </Switch>
             </main>
+            <SimpleFooter />
         </MuiThemeProvider>
     </React.Fragment >
     // <DataProvider endpoint="api/matches/"
