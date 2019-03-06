@@ -63,6 +63,7 @@ class SignIn extends React.Component {
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.toSignUp = this.toSignUp.bind(this);        
     }
 
     handleInputChange(event) {
@@ -116,6 +117,10 @@ class SignIn extends React.Component {
 
         this.setState({ notificationOpen: false });
     };
+    toSignUp() {
+        let path = `/signup`;
+        this.props.history.push(path);
+      }
 
     render() {
         const { classes } = this.props;
@@ -179,11 +184,12 @@ class SignIn extends React.Component {
                             className={classes.submit}
                         > Sign in </Button>
                         <Button
-                            type="submit"
+                            type="button"
                             fullWidth
                             variant="contained"
-                            disabled
+                            // disabled
                             color="primary"
+                            onClick={this.toSignUp}
                         > Sign up </Button>
                     </form>
                 </Paper>

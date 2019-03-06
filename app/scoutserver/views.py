@@ -17,6 +17,21 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = MyUser.objects.all().order_by('team__number')
     serializer_class = UserSerializer
 
+class NewUserView(View):
+
+     def post(self, request):
+        print(request.body)
+        try:
+            u = MyUser().objects.create_user(self, data['email'], data['password'] )
+            data = json.loads(request.body)
+            u.username = data['username']            
+            u.save()
+            
+            return JsonResponse({'status': 'good'})
+        except Exception as e:
+            print(e)
+            return JsonResponse({'status': 'bad'})
+
 
 class TeamViewSet(viewsets.ModelViewSet):
     queryset = Team.objects.all().order_by('number')
