@@ -1,7 +1,7 @@
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponse, JsonResponse
 from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
+from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie, csrf_protect
 from django.views.generic import View
 from rest_framework.authtoken.models import Token
 from rest_framework import generics, permissions, viewsets
@@ -26,7 +26,8 @@ class UserViewSet(viewsets.ModelViewSet):
 
 class NewUserView(View):
 
-     def post(self, request):
+    @csrf_protect
+    def post(self, request):
         print(request.body)
         try:
             u = MyUser().objects.create_user(self, data['email'], data['password'] )
@@ -175,6 +176,8 @@ class SubmitMatchView(View):
     # def get(self, request):
     #     print("get called")
 
+
+    @csrf_protect
     def post(self, request):
         print(request.body)
         try:
