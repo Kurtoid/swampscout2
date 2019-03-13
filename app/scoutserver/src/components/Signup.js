@@ -127,7 +127,7 @@ class SignUp extends React.Component {
                 name: this.state.name,
                 username: this.state.email,
                 password: this.state.password,
-                // team: this.state.team
+                team: this.state.team
             }),
             headers: {
                 "Content-Type": "application/json",

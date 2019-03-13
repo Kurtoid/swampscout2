@@ -30,9 +30,9 @@ class NewUserView(View):
     def post(self, request):
         print(request.body)
         try:
-            u = MyUser().objects.create_user(self, data['email'], data['password'] )
+            u = MyUser().objects.create_user(data['username'] , data['email'], data['password'] )
             data = json.loads(request.body)
-            u.username = data['username']            
+            u.team = data['team']            
             u.save()
             
             return JsonResponse({'status': 'good'})

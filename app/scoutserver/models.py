@@ -149,7 +149,7 @@ class ScheduledMatch(models.Model):
 
 class MyUserManager(BaseUserManager):
     # def create_user(self, email, password, team = 'none'):
-    def create_user(self, username, email, password, team = 'none'):
+    def create_user(self, email,  password, username = '', team = 'none'): # "MyUser.team" must be a "Team" instance
 
         """
         Creates and saves a User with the given email, date of
@@ -161,7 +161,7 @@ class MyUserManager(BaseUserManager):
         user = self.model(
             email=self.normalize_email(email),
         )
-        # user.set_username(username)
+        user.username = username
         user.set_password(password)
         # user.set_team(team)
         user.save(using=self._db)
@@ -175,10 +175,10 @@ class MyUserManager(BaseUserManager):
         """
         username = (email.split())[0]
         user = self.create_user(
-            # username,
+            username,
             email,
             password,
-            team,
+            # team,
         )
         user.is_admin = True
         user.save(using=self._db)
@@ -196,7 +196,7 @@ class MyUser(AbstractBaseUser):
     is_admin = models.BooleanField(default=False)
 
     team = models.ForeignKey('Team', on_delete=models.CASCADE, null=True)
-
+    username = 'hello'
     objects = MyUserManager()
 
     USERNAME_FIELD = 'email'

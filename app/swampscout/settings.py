@@ -144,4 +144,5 @@ REST_FRAMEWORK = {
 # SECURE_SSL_REDIRECT = True
 django_heroku.settings(locals())
 
-CSRF_COOKIE_SECURE = True
+# this broke things when true
+CSRF_COOKIE_SECURE = False
