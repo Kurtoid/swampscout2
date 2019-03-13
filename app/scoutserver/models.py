@@ -148,7 +148,9 @@ class ScheduledMatch(models.Model):
 
 
 class MyUserManager(BaseUserManager):
+    # def create_user(self, email, password, team = 'none'):
     def create_user(self, username, email, password, team = 'none'):
+
         """
         Creates and saves a User with the given email, date of
         birth and password.
@@ -159,9 +161,9 @@ class MyUserManager(BaseUserManager):
         user = self.model(
             email=self.normalize_email(email),
         )
-        user.set_username(username)
+        # user.set_username(username)
         user.set_password(password)
-        user.set_team(team)
+        # user.set_team(team)
         user.save(using=self._db)
 
         return user
@@ -171,8 +173,9 @@ class MyUserManager(BaseUserManager):
         Creates and saves a superuser with the given email, date of
         birth and password.
         """
+        username = (email.split())[0]
         user = self.create_user(
-            username,
+            # username,
             email,
             password,
             team,
