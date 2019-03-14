@@ -173,5 +173,14 @@
         "fields":{
             "status": "No Card"
         }
+    },
+    {
+        "model": "scoutserver.MyUser",
+        "pk": 0,
+        "fields":{
+            "email": "Iam@an.user",
+            "password": "pbkdf2_sha256$120000$MmfpTNk0p1IC$2BZPIlx2W+pZk3scERQf4MfFlBZ8JnxmYXaXab4LOCs=",
+            "is_admin": "True"
+        }
     }
 ]

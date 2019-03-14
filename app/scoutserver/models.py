@@ -148,8 +148,8 @@ class ScheduledMatch(models.Model):
 
 
 class MyUserManager(BaseUserManager):
-    # def create_user(self, email, password, team = 'none'):
-    def create_user(self, email,  password, username = '', team = 'none'): # "MyUser.team" must be a "Team" instance
+    def create_user(self, email, password=None):
+    # def create_user(self, email,  password, username = '', team = 'none'): # "MyUser.team" must be a "Team" instance
 
         """
         Creates and saves a User with the given email, date of
@@ -161,21 +161,23 @@ class MyUserManager(BaseUserManager):
         user = self.model(
             email=self.normalize_email(email),
         )
-        user.username = username
+        # user.username = username
         user.set_password(password)
         # user.set_team(team)
         user.save(using=self._db)
 
         return user
 
-    def create_superuser(self, email, password, team='none'):
+    def create_superuser(self, email, password):
+    # def create_superuser(self, email, password, team='none'):
+
         """
         Creates and saves a superuser with the given email, date of
         birth and password.
         """
         username = (email.split())[0]
         user = self.create_user(
-            username,
+            # username,
             email,
             password,
             # team,
@@ -196,13 +198,14 @@ class MyUser(AbstractBaseUser):
     is_admin = models.BooleanField(default=False)
 
     team = models.ForeignKey('Team', on_delete=models.CASCADE, null=True)
-    username = 'hello'
+    # username = 'hello'
     objects = MyUserManager()
 
     USERNAME_FIELD = 'email'
 
     def __str__(self):
-        return str(self.team) + ": " + self.username + " - " + self.email
+        return str(self.team) + ": " + self.email + " Passhash: = " + self.password
+        # return str(self.team) + ": " + self.username + " - " + self.email
 
     def has_perm(self, perm, obj=None):
         "Does the user have a specific permission?"
