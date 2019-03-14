@@ -176,8 +176,6 @@ class SubmitMatchView(View):
     # def get(self, request):
     #     print("get called")
 
-
-    @csrf_protect
     def post(self, request):
         print(request.body)
         try:
