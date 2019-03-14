@@ -204,7 +204,7 @@ class MyUser(AbstractBaseUser):
     USERNAME_FIELD = 'email'
 
     def __str__(self):
-        return str(self.team) + ": " + self.email + " Passhash: = " + self.password
+        return str(self.team) + ": " + self.email
         # return str(self.team) + ": " + self.username + " - " + self.email
 
     def has_perm(self, perm, obj=None):
