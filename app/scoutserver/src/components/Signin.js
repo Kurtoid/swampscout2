@@ -190,7 +190,7 @@ class SignIn extends React.Component {
                             type="button"
                             fullWidth
                             variant="contained"
-                            // disabled
+                            disabled
                             color="primary"
                             onClick={this.toSignUp}
                         > Sign up </Button>
