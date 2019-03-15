@@ -131,6 +131,7 @@ class ScoutedMatch(models.Model):
     card = models.ForeignKey('Cards', on_delete=models.CASCADE)
     preload = models.ForeignKey('PreloadStatus', on_delete=models.CASCADE)
     auto_move = models.BooleanField()
+    playedD = models.BooleanField()
     def __str__(self):
         return str(self.tournament)+" "+str(self.number)+" "+str(self.team)+" "+str(self.scouted_by)
 
@@ -148,6 +149,8 @@ class ScheduledMatch(models.Model):
 
 class MyUserManager(BaseUserManager):
     def create_user(self, email, password=None):
+    # def create_user(self, email,  password, username = '', team = 'none'): # "MyUser.team" must be a "Team" instance
+
         """
         Creates and saves a User with the given email, date of
         birth and password.
@@ -158,19 +161,26 @@ class MyUserManager(BaseUserManager):
         user = self.model(
             email=self.normalize_email(email),
         )
+        # user.username = username
         user.set_password(password)
+        # user.set_team(team)
         user.save(using=self._db)
 
         return user
 
     def create_superuser(self, email, password):
+    # def create_superuser(self, email, password, team='none'):
+
         """
         Creates and saves a superuser with the given email, date of
         birth and password.
         """
+        username = (email.split())[0]
         user = self.create_user(
+            # username,
             email,
-            password=password,
+            password,
+            # team,
         )
         user.is_admin = True
         user.save(using=self._db)
@@ -188,13 +198,14 @@ class MyUser(AbstractBaseUser):
     is_admin = models.BooleanField(default=False)
 
     team = models.ForeignKey('Team', on_delete=models.CASCADE, null=True)
-
+    # username = 'hello'
     objects = MyUserManager()
 
     USERNAME_FIELD = 'email'
 
     def __str__(self):
         return str(self.team) + ": " + self.email
+        # return str(self.team) + ": " + self.username + " - " + self.email
 
     def has_perm(self, perm, obj=None):
         "Does the user have a specific permission?"

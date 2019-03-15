@@ -6,6 +6,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import DropDownByEndPoint from './DropDownByEndPoint'
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -218,7 +219,7 @@ class SignUp extends React.Component {
                             >Password Check</InputLabel>
                             <Input
                                 name="passwordCheck"
-                                type="passwordCheck"
+                                type="password"
                                 id="passwordCheck"
                                 value={this.state.passwordCheck}
                                 onChange={this.handleCheckPassword}
@@ -226,7 +227,8 @@ class SignUp extends React.Component {
                             />
                         </FormControl>
                         <DropDownByEndPoint ref={(child) => { this.teamselect = child; }}
-                            endpoint={"/api/teams/" + this.state.matchNumber}
+                            value={this.state.team}
+                            endpoint={"/api/teams/"}
                             onChange={this.handleInputChange}
                             showpk={false}
                             labellabel="display_name"

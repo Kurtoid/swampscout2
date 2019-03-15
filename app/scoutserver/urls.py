@@ -27,9 +27,10 @@ urlpatterns = [
     path('api/get-teams-by-match/<str:event_code>/<int:number>', views.ScheduledMatchList.as_view()),    
     path('api/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace="rest_framework")),
-    path('api-token-auth/', rfviews.obtain_auth_token),    
-    path('pegs/', views.SubmitMatchView.as_view()),
-    path('matches/<str:meaningless>', views.matches),
+    path('api-token-auth/', rfviews.obtain_auth_token), 
+    path('api/createuser/', views.NewUserView.as_view()), 
+    path('pegs/', views.SubmitMatchView.as_view()), 
+    path('matches/<str:meaningless>', views.matches),    
     path('scores/<str:meaningless>', views.scores),
 
     re_path('', views.Index.as_view()),

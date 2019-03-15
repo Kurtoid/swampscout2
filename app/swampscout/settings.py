@@ -141,5 +141,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     )
 }
-SECURE_SSL_REDIRECT = True
+# SECURE_SSL_REDIRECT = True
 django_heroku.settings(locals())
+
+# this broke things when true
+CSRF_COOKIE_SECURE = False
