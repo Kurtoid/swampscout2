@@ -58,10 +58,11 @@ class SignIn extends React.Component {
             email: "",
             password: "",
             waiting: false,
-            rember: false,
+            remember: false,
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleRememberChange = this.handleRememberChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.toSignUp = this.toSignUp.bind(this);        
     }
@@ -120,8 +121,10 @@ class SignIn extends React.Component {
     toSignUp() {
         let path = `/signup`;
         this.props.history.push(path);
-      }
-
+    }
+    handleRememberChange() {
+        this.setState({ remember: (this.state.remember ? false : true) })
+    }
     render() {
         const { classes } = this.props;
         return (
@@ -174,7 +177,7 @@ class SignIn extends React.Component {
                             color="primary"
                             name="remember"
                             label="Remember me"
-                            onChange={this.handleBoxChange}
+                            onChange={this.handleRememberChange}
                         />
                         <Button
                             type="submit"
