@@ -23,7 +23,7 @@ function SimpleFooter(props) {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" color="inherit" className={classes.grow}>
-            <center style="font-size: 1rem">
+            <center>
               Originally created by Kurt Wilson <br />
               Updated and maintained by Kurt Wilson and Katelynn Morrison <br/>
               Copyright 2019
