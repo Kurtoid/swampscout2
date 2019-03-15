@@ -62,6 +62,7 @@ class ScoutScreen extends React.Component {
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleBoxChange = this.handleBoxChange.bind(this);
+        this.handleDefenseChange = this.handleDefenseChange.bind(this);
         this.handleMatchNumber = this.handleMatchNumber.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.didComponentMount = this.didComponentMount.bind(this);
@@ -163,6 +164,9 @@ class ScoutScreen extends React.Component {
     handleBoxChange() {
         this.setState({ automoveyn: (this.state.automoveyn ? false : true) })
     }
+    handleDefenseChange() {
+        this.setState({ playedD: (this.state.playedD ? false : true) })
+    }
     didComponentMount() {
         this.props.cookies.set('tournament', eventID);
     }
@@ -255,7 +259,7 @@ class ScoutScreen extends React.Component {
                             label="Played Defense"
                             color="secondary"
                             name="playedD"
-                            onChange={this.handleBoxChange}
+                            onChange={this.handleDefenseChange}
                         />
                     </Card>
                     <div className={classes.divider} />
