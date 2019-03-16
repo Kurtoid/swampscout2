@@ -14,13 +14,15 @@
 // Names of the two caches used in this version of the service worker.
 // Change to v2, etc. when you update any of the local resources, which will
 // in turn trigger the install event again.
-const PRECACHE = 'precache-v3';
+const PRECACHE = 'precache-v4';
 const RUNTIME = 'runtime';
 
 // A list of local resources we always want to be cached.
 const PRECACHE_URLS = [
   '/',
-  '/static/scoutserver/main.js'
+  '/static/scoutserver/main.js',
+  '/static/scoutserver/appicon.png',
+  '/static/scoutserver/appsplash.png'
 ];
 
 // The install handler takes care of precaching the resources we always need.
