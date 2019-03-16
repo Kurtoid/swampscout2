@@ -45,18 +45,16 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
 ]
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "scoutserver/static"),
-]
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', # add this line
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware', # add this line
 ]
 
 ROOT_URLCONF = 'swampscout.urls'
@@ -129,6 +127,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 AUTH_USER_MODEL = "scoutserver.MyUser"
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
@@ -141,7 +141,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     )
 }
-SECURE_SSL_REDIRECT = True
+# SECURE_SSL_REDIRECT = True
 django_heroku.settings(locals())
 
 # this broke things when true
