@@ -1,0 +1,8 @@
+{
+    "name": "SwampScout v2",
+    "short_name": "SwampScout 2",
+    "start_url": "/",
+    "display": "standalone",
+    "theme_color": "#4caf50",
+    "background_color":"#ffffff"
+  }
