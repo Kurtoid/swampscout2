@@ -99,8 +99,9 @@ class SignIn extends React.Component {
                 return response.json();
             })
             .then(myJson => {
+                var today = new Date();
                 var tomorrow = new Date();
-                tomorrow.setDate(today.getDate()+1);
+                tomorrow.setDate(today.getDate()+2);
 
                 cookies.set('token', myJson['token'], { path: '/', expires: tomorrow});
                 if (myJson['token'] != null) {
