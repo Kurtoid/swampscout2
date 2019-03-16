@@ -5,10 +5,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> -->
-<!--     <script src="http://localhost:35729/livereload.js"></script> -->
+    <!--     <script src="http://localhost:35729/livereload.js"></script> -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="viewport" content="width=device-width">
     <meta name="theme-color" content="#4caf50">
+    <link rel="manifest" href="/static/scoutserver/manifest.webmanifest">
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-79609502-2"></script>
     <script>
@@ -18,11 +19,25 @@
 
         gtag('config', 'UA-79609502-2');
     </script>
-
-    <title>Team 179 Scouting App V2 - Dev Branch</title>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register('/sw.js').then(function (registration) {
+                    // Registration was successful
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                }, function (err) {
+                    // registration failed :(
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
+    </script>
+    <title>Team 179 Scouting App V2</title>
 </head>
+
 <body>
     {% csrf_token %}
+    <noscript>use javascript u dinosaur</noscript>
     <section class="section">
         <div class="container">
             <div id="app" class="columns">
@@ -32,6 +47,6 @@
     </section>
 </body>
 {% load static %}
-<script src="{% static "scoutserver/main.js" %}"></script>
+<script src="{% static 'scoutserver/main.js' %}"></script>
 
 </html>
