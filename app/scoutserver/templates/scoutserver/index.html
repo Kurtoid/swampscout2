@@ -9,6 +9,7 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="viewport" content="width=device-width">
     <meta name="theme-color" content="#4caf50">
+    <link rel="manifest" href="/static/scoutserver/manifest.webmanifest">
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-79609502-2"></script>
     <script>
@@ -21,7 +22,7 @@
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function () {
-                navigator.serviceWorker.register('/static/scoutserver/sw.js').then(function (registration) {
+                navigator.serviceWorker.register('/sw.js').then(function (registration) {
                     // Registration was successful
                     console.log('ServiceWorker registration successful with scope: ', registration.scope);
                 }, function (err) {
