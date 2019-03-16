@@ -25,8 +25,12 @@ SECRET_KEY = 'd2up249$g@glm(na*sguu6asr%w#6n!$z#*0@xpy5o2cb$sh+c'
 # SECURITY WARNING: don't run with debug turned on in production!
 if 'DYNO' in os.environ:
     debug = False
+    SECURE_SSL_REDIRECT = True
+
 else:
     debug = True
+    SECURE_SSL_REDIRECT = False
+
 
 ALLOWED_HOSTS = ['*']
 
@@ -144,7 +148,6 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     )
 }
-# SECURE_SSL_REDIRECT = True
 django_heroku.settings(locals())
 
 # this broke things when true
