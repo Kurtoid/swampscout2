@@ -23,7 +23,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'd2up249$g@glm(na*sguu6asr%w#6n!$z#*0@xpy5o2cb$sh+c'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if 'DYNO' in os.environ:
+    debug = False
+else:
+    debug = True
 
 ALLOWED_HOSTS = ['*']
 
