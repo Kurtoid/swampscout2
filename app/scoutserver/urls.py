@@ -2,7 +2,7 @@ from django.urls import path, include, re_path
 from rest_framework import routers, serializers, viewsets
 
 from scoutserver.views import ScoutedMatch
-
+from django.views.generic.base import TemplateView
 from . import views
 from rest_framework.authtoken import views as rfviews
 router = routers.DefaultRouter()
@@ -32,7 +32,7 @@ urlpatterns = [
     path('pegs/', views.SubmitMatchView.as_view()), 
     path('matches/<str:meaningless>', views.matches),    
     path('scores/<str:meaningless>', views.scores),
-
+    path('sw.js', (TemplateView.as_view(template_name="scoutserver/sw.js", content_type='application/javascript', )), name='sw.js'), 
     re_path('', views.Index.as_view()),
 
 ]
