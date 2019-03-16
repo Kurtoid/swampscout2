@@ -4,5 +4,17 @@
     "start_url": "/",
     "display": "standalone",
     "theme_color": "#4caf50",
-    "background_color":"#ffffff"
+    "background_color":"#ffffff",
+    "icons": [
+      {
+        "src": "/static/scoutserver/appicon.png",
+        "type": "image/png",
+        "sizes": "200x200"
+      },
+      {
+        "src": "/static/scoutserver/appsplash.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      }
+    ]
   }
