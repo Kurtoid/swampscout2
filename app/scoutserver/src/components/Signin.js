@@ -99,7 +99,10 @@ class SignIn extends React.Component {
                 return response.json();
             })
             .then(myJson => {
-                cookies.set('token', myJson['token'], { path: '/' });
+                var tomorrow = new Date();
+                tomorrow.setDate(today.getDate()+1);
+
+                cookies.set('token', myJson['token'], { path: '/', expires: tomorrow});
                 if (myJson['token'] != null) {
                     console.log(JSON.stringify(myJson));
                     this.props.history.push("/");
