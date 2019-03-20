@@ -32,6 +32,7 @@ urlpatterns = [
     path('pegs/', views.SubmitMatchView.as_view()), 
     path('matches/<str:meaningless>', views.matches),    
     path('scores/<str:meaningless>', views.scores),
+    path('scores/<str:meaningless>/<int:begin>/<int:end>', views.scores_limited),
     path('sw.js', (TemplateView.as_view(template_name="scoutserver/sw.js", content_type='application/javascript', )), name='sw.js'), 
     re_path('', views.Index.as_view()),
 
