@@ -54,6 +54,8 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') { return; }  // Skip cross-origin requests, like those for Google Analytics.
    if ( event.request.url.indexOf( '/admin/' ) !== -1 ) { return false; } 
+    if ( event.request.url.indexOf( '/import-event/' ) !== -1 ) { return false; } 
+
   if (event.request.url.startsWith(self.location.origin)) {
     event.respondWith(
       caches.match(event.request).then(cachedResponse => {
