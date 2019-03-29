@@ -141,13 +141,16 @@ REST_FRAMEWORK = {
     )
 }
 # SECURITY WARNING: don't run with debug turned on in production!
-if 'DYNO' in os.environ:
-    debug = False
-    SECURE_SSL_REDIRECT = True
-    django_heroku.settings(locals())
-else:
-    debug = True
-    SECURE_SSL_REDIRECT = False
+# if 'DYNO' in os.environ:
+#     debug = False
+#     SECURE_SSL_REDIRECT = True
+#     django_heroku.settings(locals())
+# else:
+#     debug = True
+#     SECURE_SSL_REDIRECT = False
+debug = False
+SECURE_SSL_REDIRECT = True
+django_heroku.settings(locals())
 
 
 # this broke things when true
