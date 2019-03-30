@@ -105,7 +105,7 @@ def scores_limited(request, meaningless, begin, end):
     writer = csv.writer(response)
     writer.writerow(['ID','When', 'Got from','Scored where','Match','obj type', 'team','number'])
     for c in cubeList[int(begin):int(end)]:
-        output.append([c.id, c.when,c.got_from, c.scored_where, c.match, c.obj_type, c.match.team.number])
+        output.append([c.id, c.when,c.got_from, c.scored_where, c.match, c.obj_type, c.match.team.number, c.match.number])
     writer.writerows(output)
     return response
 
