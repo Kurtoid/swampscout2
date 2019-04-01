@@ -10,7 +10,8 @@ from .models import Team, MyUser, ScoutedMatch, GameTime, ScoredObject, FromLoca
 from .tables import ScoreTable, MatchTable
 from django.db.models import Q
 from django_tables2 import RequestConfig
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication 
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+import csv
 # Create your views here.
 import requests
 import json
@@ -97,6 +98,16 @@ def scores(request, meaningless):
     RequestConfig(request, paginate={'per_page': 9999}).configure(table)
     return render(request, 'scoutserver/matches.html', {'table': table})
 
+def scores_limited(request, meaningless, begin, end):
+    cubeList = ScoredObject.objects.all().order_by("match__number")
+    output = []
+    response = HttpResponse(content_type = 'text/csv')
+    writer = csv.writer(response)
+    writer.writerow(['ID','When', 'Got from','Scored where','Match','obj type', 'team','number'])
+    for c in cubeList[int(begin):int(end)]:
+        output.append([c.id, c.when,c.got_from, c.scored_where, c.match, c.obj_type, c.match.team.number, c.match.number])
+    writer.writerows(output)
+    return response
 
 class MatchEndStatusViewSet(viewsets.ModelViewSet):
     queryset = MatchEndStatus.objects.all()
