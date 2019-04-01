@@ -126,7 +126,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 AUTH_USER_MODEL = "scoutserver.MyUser"
 REST_FRAMEWORK = {
@@ -142,13 +142,12 @@ REST_FRAMEWORK = {
 }
 # SECURITY WARNING: don't run with debug turned on in production!
 if 'DYNO' in os.environ:
-    debug = False
+    DEBUG = False
     SECURE_SSL_REDIRECT = True
     django_heroku.settings(locals())
 else:
-    debug = True
+    DEBUG = True
     SECURE_SSL_REDIRECT = False
-
 
 # this broke things when true
 CSRF_COOKIE_SECURE = False

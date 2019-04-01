@@ -25,7 +25,7 @@ function SimpleFooter(props) {
           <Typography variant="h6" color="inherit" className={classes.grow}>
             <center>
               Originally created by Kurt Wilson <br />
-              Updated and maintained by Kurt Wilson and Katelynn Morrison <br/>
+              Maintained by Kurt Wilson, Katelynn Morrison, and Devin Dykstra<br/>
               Copyright 2019
             </center>
           </Typography>
