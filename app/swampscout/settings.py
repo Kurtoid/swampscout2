@@ -140,7 +140,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     )
 }
-SECURITY WARNING: don't run with debug turned on in production!
+# SECURITY WARNING: don't run with debug turned on in production!
 if 'DYNO' in os.environ:
     debug = False
     SECURE_SSL_REDIRECT = True
