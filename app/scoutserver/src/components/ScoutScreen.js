@@ -14,6 +14,7 @@ import Button from "@material-ui/core/Button"
 import Checkbox from "./BetterCheckbox";
 
 import ScoreEntry from './ScoreEntry'
+import DevinsScoreEntry from './DevinsScoreEntry'
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
@@ -265,6 +266,14 @@ class ScoutScreen extends React.Component {
                     <div className={classes.divider} />
                     <ScoreEntry // game pieces
                         title="Game Pieces"
+                        classes={classes}
+                        cookies={this.props.cookies}
+                        onChange={this.handleScoreChange.bind(this)}
+                        value={this.state.scores}
+                        
+                    />
+                    <DevinsScoreEntry // game pieces
+                        title="Game Pieces (Devin's Idea Version)"
                         classes={classes}
                         cookies={this.props.cookies}
                         onChange={this.handleScoreChange.bind(this)}
