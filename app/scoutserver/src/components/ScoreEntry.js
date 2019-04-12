@@ -152,9 +152,9 @@ export default class ScoreEntry extends React.Component {
                         <img src="static/scoutserver/rocket.png" width="42" />
                     </Grid>
                     <Grid xs={4} item>
-                        <Button onClick={this.handleAdd.bind(this, "Rocket Level 1")}>Level 1</Button><br />
+                        <Button onClick={this.handleAdd.bind(this, "Rocket Level 3")}>Level 3</Button><br />
                         <Button onClick={this.handleAdd.bind(this, "Rocket Level 2")}>Level 2</Button><br />
-                        <Button onClick={this.handleAdd.bind(this, "Rocket Level 3")}>Level 3</Button>
+                        <Button onClick={this.handleAdd.bind(this, "Rocket Level 1")}>Level 1</Button>
                     </Grid>
                     <Grid xs={4} item>
                         <Button>Ship</Button><br/><br/><br/>
