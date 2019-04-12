@@ -157,8 +157,8 @@ export default class ScoreEntry extends React.Component {
                         <Button onClick={this.handleAdd.bind(this, "Rocket Level 1")}>Level 1</Button>
                     </Grid>
                     <Grid xs={4} item>
-                        <Button>Ship</Button><br/><br/><br/>
-                        <Button>Dropped</Button>
+                        <Button  onClick={this.handleAdd.bind(this, "Cargo Ship")}>Ship</Button><br/><br/><br/>
+                        <Button  onClick={this.handleAdd.bind(this, "Dropped")}>Dropped</Button>
 
                     </Grid>
                     <Grid xs item>
