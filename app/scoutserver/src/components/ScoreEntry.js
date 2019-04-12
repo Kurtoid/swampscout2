@@ -37,14 +37,44 @@ export default class ScoreEntry extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            scores: []
+            scores: [],
+            current_time: "Sandstorm",
+            current_type: "Hatch",
+            current_source: "Prepopulated",
         }
         console.log(props)
         // this.parentHandleChange = props.onChange.bind(this)
-        this.handleSubmit = this.handleSubmit.bind(this)
+        this.handleAdd = this.handleAdd.bind(this)
+        
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleDelete = this.handleDelete.bind(this)
+        this.handleTimeChange = this.handleTimeChange.bind(this)
+        this.handleTypeChange = this.handleTypeChange.bind(this)
+        this.handleSourceChange = this.handleSourceChange.bind(this)
+
     }
+    handleTimeChange(event) {
+        if (this.state.current_time == "Sandstorm") {
+            this.setState({ current_time: "Teleop" })
+        } else {
+            this.setState({ current_time: "Sandstorm" })
+        }
+    }
+    handleTypeChange(event) {
+        if (this.state.current_type == "Hatch") {
+            this.setState({ current_type: "Cargo" })
+        } else {
+            this.setState({ current_type: "Hatch" })
+        }
+    }
+    handleSourceChange(event) {
+        if (this.state.current_source == "Loading Station") {
+            this.setState({ current_source: "Ground" })
+        } else {
+            this.setState({ current_source: "Loading Station" })
+        }
+    }
+
 
     handleInputChange(event) {
         const target = event.target;
@@ -61,93 +91,79 @@ export default class ScoreEntry extends React.Component {
             scores: this.state.scores.filter((_, i) => i !== index)
         })
     }
-    handleSubmit(event) {
-        if ((this.state.time && this.state.acqloc && this.state.scoreloc && this.state.type)) {
-            this.setState({ scores: [...this.state.scores, new ScoredObject(this.state.type, this.state.time, this.state.acqloc, this.state.scoreloc)] }, () => {
-                console.log(this.state.scores)
-                this.props.onChange("scores", this.state.scores)
-            })
-        }
+    handleAdd(target, event) {
+        this.setState({ scores: [new ScoredObject(this.state.current_type, this.state.current_time, this.state.current_source, target), ...this.state.scores] }, () => {
+            console.log(this.state.scores)
+            this.props.onChange("scores", this.state.scores)
+            if (this.state.current_source == "Prepopulated") {
+               this.handleSourceChange();
+            }
+    
+        })
+
     }
     render() {
         const { classes } = this.props;
 
         return (
             <Card className={classes.card}>
-            <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"></link>
+                <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"></link>
                 <Typography gutterBottom variant="subtitle1" component="h2">
                     {this.props.title}
-                </Typography>                
+                </Typography>
                 <Grid container spacing={8}>
-                    <Grid item>  {/* TODO: This should be changed eventually to be dynamic */}
-                        {/* <DropDownByEndPoint ref={(child) => { this.timeselect = child; }}
-                                id='gamepeice'
-                                onChange={this.handleInputChange}
-                                label="Score Entry"
-                                classes={classes}
-                                endpoint="api/game-peices/"
-                                valuelabel="pk"
-                                labellabel="gamepeice"
-                                token={this.props.cookies.get('token')}
-                            /> */}
-                        <FormControl variant="outlined" className={classes.formControl}>
-                            <InputLabel htmlFor="type">Score Entry</InputLabel>
-                            <Select
-                                native
-                                value={this.state.age}
-                                onChange={this.handleInputChange}
-                                input={<OutlinedInput name="type" id="type" labelWidth={10} />}
-                            >
-                                <option value="None">None</option>
-                                <option value="Hatch">Hatch</option>
-                                <option value="Cargo">Cargo</option>
-                            </Select>
-                        </FormControl>                        
-                    </Grid>
                     <Grid item>
-                        <DropDownByEndPoint ref={(child) => { this.timeselect = child; }}
-                            id='time'
-                            onChange={this.handleInputChange}
-                            label="Time"
-                            classes={classes}
-                            endpoint="api/game-time/"
-                            valuelabel="pk"
-                            labellabel="time"
-                            token={this.props.cookies.get('token')}
-                        />
-                    </Grid>
-                    <Grid item>
-                        <DropDownByEndPoint ref={(child) => { this.acqselect = child; }}
-                            id='acqloc'
-                            onChange={this.handleInputChange}
-                            label="Acquired Location"
-                            classes={classes}
-                            endpoint="api/from-locations/"
-                            valuelabel="pk"
-                            labellabel="location"
-                            token={this.props.cookies.get('token')}
-                        />
-                    </Grid>
-                    <Grid item>
-                        <DropDownByEndPoint ref={(child) => { this.scoreselect = child; }}
-                            id='scoreloc'
-                            onChange={this.handleInputChange}
-                            label="Scored Location"
-                            classes={classes}
-                            endpoint="api/score-locations/"
-                            valuelabel="pk"
-                            labellabel="location"
-                            token={this.props.cookies.get('token')}
-                        />
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={this.handleTimeChange}
+                            fullWidth
+                        >{this.state.current_time}</Button>
                     </Grid>
                     <Grid item>
                         <Button
                             variant="contained"
                             color="primary"
+                            onClick={this.handleTypeChange}
+                            fullWidth
+                        >{this.state.current_type}</Button>
+                    </Grid>
+                    <Grid item>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={this.handleSourceChange}
+                            fullWidth
+                        >{this.state.current_source}</Button>
+
+                    </Grid>
+                    <Grid item>
+                        {/* <Button
+                            variant="contained"
+                            color="primary"
                             className={classes.submit}
                             onClick={this.handleSubmit}
                             fullWidth
-                        ><Add /></Button>
+                        ><Add /></Button> */}
+                    </Grid>
+                </Grid>
+                <Grid container spacing={8}>
+                    <Grid xs item>
+                        <img src="static/scoutserver/rocket.png" width="42" />
+                    </Grid>
+                    <Grid xs={4} item>
+                        <Button onClick={this.handleAdd.bind(this, "Rocket Level 1")}>Level 1</Button><br />
+                        <Button onClick={this.handleAdd.bind(this, "Rocket Level 2")}>Level 2</Button><br />
+                        <Button onClick={this.handleAdd.bind(this, "Rocket Level 3")}>Level 3</Button>
+                    </Grid>
+                    <Grid xs={4} item>
+                        <Button>Ship</Button><br/><br/><br/>
+                        <Button>Dropped</Button>
+
+                    </Grid>
+                    <Grid xs item>
+                        <img src="static/scoutserver/ship.png" width="42" />
+
                     </Grid>
                 </Grid>
                 <List>
@@ -155,9 +171,9 @@ export default class ScoreEntry extends React.Component {
                         return (
                             <ListItem key={i}>
                                 <ListItemText
-                                    primary={"During " + this.timeselect.getNameByID(element.time)
-                                        + ", picked a " + element.type + " up from " + this.acqselect.getNameByID(element.from)
-                                        + ", and scored at " + this.scoreselect.getNameByID(element.to)}
+                                    primary={"During " + element.time
+                                        + ", picked a " + element.type + " up from " + element.from
+                                        + ", and scored at " + element.to}
                                 />
                                 <ListItemSecondaryAction>
                                     <IconButton
@@ -171,7 +187,7 @@ export default class ScoreEntry extends React.Component {
                         );
                     })}
                 </List>
-            </Card>
+            </Card >
 
         );
     }
