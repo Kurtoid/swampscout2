@@ -152,7 +152,8 @@ class AddTournament(View):
         result = result.json()
         for entry in result:
             # print(entry['team_number'])
-            t, _ = Team.objects.get_or_create(number=entry['team_number'], name=entry['nickname'])
+            t, _ = Team.objects.get_or_create(number=entry['team_number'])
+            t.name = entry['nickname']
             print(t)
             t.in_event = event
             t.save()
@@ -208,9 +209,9 @@ class SubmitMatchView(View):
                 print(line)
                 score = ScoredObject()
                 score.obj_type = line['type']
-                score.when = GameTime.objects.get(pk=line['time'])
-                score.got_from = FromLocation.objects.get(pk=line['from'])
-                score.scored_where = ScoreLocation.objects.get(pk=line['to'])
+                score.when = GameTime.objects.get(time=line['time'])
+                score.got_from = FromLocation.objects.get(location=line['from'])
+                score.scored_where = ScoreLocation.objects.get(location=line['to'])
                 score.match = match
                 score.save()
             return JsonResponse({'status': 'good'})
