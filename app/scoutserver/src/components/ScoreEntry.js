@@ -1,39 +1,22 @@
 import React from 'react'
 import Card from '@material-ui/core/Card';
-import DropDownByEndPoint from './DropDownByEndPoint';
 import Grid from "@material-ui/core/Grid"
 import Button from "@material-ui/core/Button"
 import ScoredObject from './models/ScoredObject'
 import DeleteIcon from '@material-ui/icons/Delete';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import IconButton from '@material-ui/core/IconButton'
-import FormControl from "@material-ui/core/FormControl"
-import InputLabel from "@material-ui/core/InputLabel"
-import NativeSelect from "@material-ui/core/NativeSelect"
-import Input from '@material-ui/core/Input'
-import key from 'weak-key'
-import { createVerify } from 'crypto';
-import Add from "@material-ui/icons/Add"
-import { Typography, Select, OutlinedInput } from '@material-ui/core';
-
+import { Typography } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
 const styles = theme => ({
-    root: {
-        flexGrow: 1,
-        maxWidth: 752,
-    },
-    demo: {
-        backgroundColor: theme.palette.background.paper,
-    },
-    title: {
-        margin: `${theme.spacing.unit * 4}px 0 ${theme.spacing.unit * 2}px`,
+    margin: {
+        marginTop: theme.spacing.unit,
     },
 });
-export default class ScoreEntry extends React.Component {
+class ScoreEntry extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -45,7 +28,7 @@ export default class ScoreEntry extends React.Component {
         console.log(props)
         // this.parentHandleChange = props.onChange.bind(this)
         this.handleAdd = this.handleAdd.bind(this)
-        
+
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleDelete = this.handleDelete.bind(this)
         this.handleTimeChange = this.handleTimeChange.bind(this)
@@ -89,6 +72,12 @@ export default class ScoreEntry extends React.Component {
     handleDelete(index, event) {
         this.setState({
             scores: this.state.scores.filter((_, i) => i !== index)
+        }, () => {
+            if (this.state.scores.length == 0) {
+                this.setState({
+                    current_source: "Prepopulated",
+                })
+            }
         })
     }
     handleAdd(target, event) {
@@ -96,9 +85,9 @@ export default class ScoreEntry extends React.Component {
             console.log(this.state.scores)
             this.props.onChange("scores", this.state.scores)
             if (this.state.current_source == "Prepopulated") {
-               this.handleSourceChange();
+                this.handleSourceChange();
             }
-    
+
         })
 
     }
@@ -149,21 +138,28 @@ export default class ScoreEntry extends React.Component {
                 </Grid>
                 <Grid container spacing={8}>
                     <Grid xs item>
+                        <br />
                         <img src="static/scoutserver/rocket.png" width="42" />
                     </Grid>
-                    <Grid xs={4} item>
-                        <Button onClick={this.handleAdd.bind(this, "Rocket Level 3")}>Level 3</Button><br />
-                        <Button onClick={this.handleAdd.bind(this, "Rocket Level 2")}>Level 2</Button><br />
-                        <Button onClick={this.handleAdd.bind(this, "Rocket Level 1")}>Level 1</Button>
-                    </Grid>
-                    <Grid xs={4} item>
-                        <Button  onClick={this.handleAdd.bind(this, "Cargo Ship")}>Ship</Button><br/><br/><br/>
-                        <Button  onClick={this.handleAdd.bind(this, "Dropped")}>Dropped</Button>
-
+                    <Grid xs={7} item>
+                        <br />
+                        <table>
+                            <tr>
+                                <th><Button className={classes.margin} color="primary" fullWidth variant="contained" onClick={this.handleAdd.bind(this, "Rocket Level 3")}>Level 3</Button><br /></th>
+                                <th><Button className={classes.margin} color="primary" fullWidth variant="contained" onClick={this.handleAdd.bind(this, "Cargo Ship")}>Ship</Button></th>
+                            </tr>
+                            <tr>
+                                <Button className={classes.margin} color="primary" fullWidth variant="contained" onClick={this.handleAdd.bind(this, "Rocket Level 2")}>Level 2</Button><br />
+                            </tr>
+                            <tr>
+                                <th><Button className={classes.margin} color="primary" fullWidth variant="contained" onClick={this.handleAdd.bind(this, "Rocket Level 1")}>Level 1</Button></th>
+                                <th><Button className={classes.margin} color="primary" fullWidth variant="contained" onClick={this.handleAdd.bind(this, "Dropped")}>Dropped</Button></th>
+                            </tr>
+                        </table>
                     </Grid>
                     <Grid xs item>
+                        <br />
                         <img src="static/scoutserver/ship.png" width="42" />
-
                     </Grid>
                 </Grid>
                 <List>
@@ -192,3 +188,4 @@ export default class ScoreEntry extends React.Component {
         );
     }
 }
+export default withStyles(styles)(ScoreEntry);
