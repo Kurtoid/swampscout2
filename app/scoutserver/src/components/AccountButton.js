@@ -3,6 +3,13 @@ import Button from '@material-ui/core/Button';
 import { instanceOf } from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { withCookies, Cookies } from 'react-cookie';
+import { withStyles } from '@material-ui/core';
+
+const SignButton = withStyles({
+    label: {
+        color: '#000000',
+    },
+})(Button);
 class AccountButton extends React.Component {
     static propTypes = {
         cookies: instanceOf(Cookies).isRequired,
@@ -25,10 +32,10 @@ class AccountButton extends React.Component {
     render() {
         if (this.props.cookies.get('token') == null && this.props.cookies.get('token') != "")
             return (
-                <Button onClick={this.handleSignIn}>Sign In</Button>
+                <SignButton onClick={this.handleSignIn}>Sign In</SignButton>
             ); else
             return (
-                <Button onClick={this.handleSignOut}>Sign out</Button>
+                <SignButton onClick={this.handleSignOut}>Sign out</SignButton>
             );
     }
 }

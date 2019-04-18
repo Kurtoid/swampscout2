@@ -13,6 +13,9 @@ const styles = theme => ({
   },
   grow: {
     flexGrow: 1,
+  },
+  signout: {
+    color: "#000000",
   }
 });
 
@@ -24,9 +27,9 @@ function SimpleAppBar(props) {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" color="inherit" className={classes.grow}>
-            SwampScout V2
+            SwampScout V2.1
           </Typography>
-          <AccountButton />
+          <AccountButton  />
         </Toolbar>
       </AppBar>
     </div>

@@ -20,8 +20,8 @@ class MainMenu extends React.Component {
         const { classes } = this.props;
 
         return (
-            <Grid container spacing={8} alignItems="center" justify="center">
-                <Grid item>
+            <Grid container spacing={8} alignItems="center" justify="center" >
+                <Grid item xs={6} >
                     <ScoutScreen className={classes.bar} />
                 </Grid>
             </Grid>

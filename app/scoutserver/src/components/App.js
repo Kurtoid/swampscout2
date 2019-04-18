@@ -18,6 +18,7 @@ const theme = createMuiTheme({
         primary: green,
         secondary: purple, // Radio buttons selected
         error: red,
+        type: 'dark',
         // Used by `getContrastText()` to maximize the contrast between the background and
         // the text.
         contrastThreshold: 3,
@@ -26,7 +27,7 @@ const theme = createMuiTheme({
         // E.g., shift from Red 500 to Red 300 or Red 700.
         tonalOffset: 0.2,
     },
-}); 
+});
 const App = () => (
     <React.Fragment>
         <MuiThemeProvider theme={theme}>
