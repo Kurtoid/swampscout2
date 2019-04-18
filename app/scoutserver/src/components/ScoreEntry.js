@@ -145,14 +145,14 @@ class ScoreEntry extends React.Component {
                         <br />
                         <table>
                             <tr>
-                                <th><Button className={classes.margin} color="primary" fullWidth variant="contained" onClick={this.handleAdd.bind(this, "Rocket Level 3")}>Level 3</Button><br /></th>
+                                <th><Button className={classes.margin} color="primary" fullWidth variant="contained" onClick={this.handleAdd.bind(this, "Rocket Level 3")}>LVL 3</Button><br /></th>
                                 <th><Button className={classes.margin} color="primary" fullWidth variant="contained" onClick={this.handleAdd.bind(this, "Cargo Ship")}>Ship</Button></th>
                             </tr>
                             <tr>
-                                <Button className={classes.margin} color="primary" fullWidth variant="contained" onClick={this.handleAdd.bind(this, "Rocket Level 2")}>Level 2</Button><br />
+                                <Button className={classes.margin} color="primary" fullWidth variant="contained" onClick={this.handleAdd.bind(this, "Rocket Level 2")}>LVL 2</Button><br />
                             </tr>
                             <tr>
-                                <th><Button className={classes.margin} color="primary" fullWidth variant="contained" onClick={this.handleAdd.bind(this, "Rocket Level 1")}>Level 1</Button></th>
+                                <th><Button className={classes.margin} color="primary" fullWidth variant="contained" onClick={this.handleAdd.bind(this, "Rocket Level 1")}>LVL 1</Button></th>
                                 <th><Button className={classes.margin} color="primary" fullWidth variant="contained" onClick={this.handleAdd.bind(this, "Dropped")}>Dropped</Button></th>
                             </tr>
                         </table>
