@@ -21,7 +21,7 @@ class MainMenu extends React.Component {
 
         return (
             <Grid container spacing={8} alignItems="center" justify="center" >
-                <Grid item xs={6} >
+                <Grid item >
                     <ScoutScreen className={classes.bar} />
                 </Grid>
             </Grid>
