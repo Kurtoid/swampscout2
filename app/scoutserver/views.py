@@ -99,7 +99,7 @@ def scores(request, meaningless):
     return render(request, 'scoutserver/matches.html', {'table': table})
 
 def scores_limited(request, meaningless, begin, end):
-    cubeList = ScoredObject.objects.all().order_by("match__number")
+    cubeList = ScoredObject.objects.all().order_by("pk")
     output = []
     response = HttpResponse(content_type = 'text/csv')
     writer = csv.writer(response)
